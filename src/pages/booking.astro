@@ -1,0 +1,309 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { hl } from '../utils/text';
+import { passes, sessionTimes, site } from '../data/site';
+import { packages } from '../data/parties';
+
+// Bookings are requests, not instant confirmations: the form goes to the
+// park's inbox via Formspree and staff confirm by phone/WhatsApp/email. If the
+// park later adopts a booking system (e.g. with live availability), swap this
+// form for its embed.
+---
+
+<BaseLayout
+  title="Booking"
+  description="Book a jump session, a birthday party or a group visit at Springtide Adventure Park in Swakopmund."
+  image="/images/trampolines.jpg"
+>
+  <PageHero
+    eyebrow="Booking"
+    title="Save your spot on the courts"
+    accentWord="spot"
+    lede="Tell us when you’re coming and how many are jumping. We’ll confirm your booking by WhatsApp or email."
+    image="/images/girl-jump.jpg"
+    imageAlt="A girl mid-jump on a trampoline"
+    focus="center 30%"
+    compact
+  />
+
+  <section class="section booking">
+    <div class="container container--wide booking__grid">
+      <form
+        class="form booking__form"
+        action={`https://formspree.io/f/${site.formspreeId}`}
+        method="POST"
+        data-booking-form
+      >
+        <fieldset class="booking__types">
+          <legend>What are you booking?</legend>
+          <div class="seg">
+            <label><input type="radio" name="booking_type" value="Jump session" checked /><span>Jump session</span></label>
+            <label><input type="radio" name="booking_type" value="Birthday party" /><span>Birthday party</span></label>
+            <label><input type="radio" name="booking_type" value="Group or school" /><span>Group or school</span></label>
+          </div>
+        </fieldset>
+
+        <div class="form-row-group">
+          <div class="form-row">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required data-date />
+          </div>
+          <div class="form-row">
+            <label for="time">Start time</label>
+            <select id="time" name="time" required>
+              <option value="" disabled selected>Choose a time</option>
+              {sessionTimes.map((t) => <option value={t}>{t}</option>)}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row-group">
+          <div class="form-row">
+            <label for="jumpers">Number of jumpers</label>
+            <input type="number" id="jumpers" name="jumpers" min="1" max="200" step="1" required inputmode="numeric" />
+          </div>
+          <div class="form-row" data-show-for="Jump session">
+            <label for="pass">Pass</label>
+            <select id="pass" name="pass">
+              {passes.map((p) => <option value={p.name}>{p.name} · {p.length}</option>)}
+            </select>
+          </div>
+          <div class="form-row" data-show-for="Birthday party" hidden>
+            <label for="package">Party package</label>
+            <select id="package" name="package">
+              {packages.map((p) => <option value={p.name}>{p.name} · {p.guests.toLowerCase()}</option>)}
+              <option value="Not sure yet">Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-row" data-show-for="Group or school" hidden>
+            <label for="group">School or group name</label>
+            <input type="text" id="group" name="group_name" autocomplete="organization" />
+          </div>
+        </div>
+
+        <div class="form-row" data-show-for="Birthday party" hidden>
+          <label for="birthday">Birthday person’s name and age</label>
+          <input type="text" id="birthday" name="birthday_person" placeholder="e.g. Ndapewa, turning 8" />
+        </div>
+
+        <div class="form-row-group">
+          <div class="form-row">
+            <label for="name">Your name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required />
+          </div>
+          <div class="form-row">
+            <label for="phone">Phone / WhatsApp</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email" required />
+        </div>
+
+        <div class="form-row">
+          <label for="message">Anything else?</label>
+          <textarea id="message" name="message" placeholder="Ages of the jumpers, accessibility needs, questions…"></textarea>
+        </div>
+
+        <label class="check">
+          <input type="checkbox" name="rules_ok" value="yes" required />
+          <span>
+            I understand every jumper needs grip socks and a signed waiver (a parent or guardian signs for under-18s).
+          </span>
+        </label>
+
+        <!-- Honeypot: hidden from people, filled by bots; Formspree drops those. -->
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
+        <input type="hidden" name="_subject" value="New booking request — Springtide" data-subject />
+
+        <div>
+          <button type="submit" class="btn">Send booking request</button>
+          <p class="hint booking__hint">We usually reply within a few hours during opening times.</p>
+        </div>
+      </form>
+
+      <aside class="booking__aside">
+        <div class="booking__block">
+          <h2 set:html={hl('What happens next', 'next')} />
+          <ol class="booking__next">
+            <li>We check availability for your date and time.</li>
+            <li>We confirm by WhatsApp or email — your booking is only final once we do.</li>
+            <li>Arrive 15 minutes early to check in and grab grip socks.</li>
+          </ol>
+        </div>
+        <div class="booking__block booking__block--ink on-dark">
+          <h2 set:html={hl('Rather just call?', 'call')} />
+          <p>
+            <a href={site.contact.phoneHref}>{site.contact.phone}</a><br />
+            <a href={site.contact.whatsapp} rel="noopener">Message us on WhatsApp</a>
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-booking-form]');
+  if (form) {
+    // No past dates.
+    const date = form.querySelector<HTMLInputElement>('[data-date]');
+    if (date) {
+      const d = new Date();
+      const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+      date.min = local.toISOString().slice(0, 10);
+    }
+
+    const radios = Array.from(form.querySelectorAll<HTMLInputElement>('input[name="booking_type"]'));
+    const blocks = Array.from(form.querySelectorAll<HTMLElement>('[data-show-for]'));
+    const subject = form.querySelector<HTMLInputElement>('[data-subject]');
+
+    const apply = () => {
+      const type = radios.find((r) => r.checked)?.value ?? 'Jump session';
+      blocks.forEach((b) => {
+        const on = b.dataset.showFor === type;
+        b.hidden = !on;
+        b.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input, select').forEach((el) => {
+          el.disabled = !on;
+        });
+      });
+      if (subject) subject.value = `New ${type.toLowerCase()} request — Springtide`;
+    };
+    radios.forEach((r) => r.addEventListener('change', apply));
+
+    // Deep links: /booking?type=party&package=Swell%20Party
+    const params = new URLSearchParams(location.search);
+    const typeMap: Record<string, string> = { party: 'Birthday party', group: 'Group or school', jump: 'Jump session' };
+    const wanted = typeMap[params.get('type') ?? ''];
+    if (wanted) radios.forEach((r) => (r.checked = r.value === wanted));
+    const pkg = params.get('package');
+    const pkgSelect = form.querySelector<HTMLSelectElement>('#package');
+    if (pkg && pkgSelect && Array.from(pkgSelect.options).some((o) => o.value === pkg)) pkgSelect.value = pkg;
+    apply();
+  }
+</script>
+
+<style>
+  .booking__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  @media (min-width: 1100px) {
+    .booking__grid {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: clamp(3rem, 6vw, 6rem);
+      align-items: start;
+    }
+    .booking__aside {
+      position: sticky;
+      top: calc(var(--header-h) + var(--space-md));
+    }
+  }
+
+  .booking__types {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+
+  .booking__types legend {
+    margin-bottom: 0.6rem;
+  }
+
+  .seg {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  }
+
+  .seg label {
+    position: relative;
+    display: block;
+    cursor: pointer;
+  }
+
+  .seg input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    min-height: 0;
+  }
+
+  .seg span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 54px;
+    padding: 0.6rem 1rem;
+    border: 1.5px solid var(--color-sand-300);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    font-weight: 700;
+    text-align: center;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .seg input:checked + span {
+    border-color: var(--color-ink-900);
+    background: var(--color-ink-900);
+    color: var(--color-on-dark);
+  }
+
+  .seg input:focus-visible + span {
+    outline: 3px solid var(--color-sun-400);
+    outline-offset: 2px;
+  }
+
+  .booking__hint {
+    margin-top: var(--space-sm);
+  }
+
+  .booking__aside {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .booking__block {
+    display: grid;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+  }
+
+  .booking__block h2 {
+    font-size: var(--fs-xl);
+  }
+
+  .booking__block--ink {
+    background: var(--color-ink-900);
+    color: var(--color-on-dark);
+  }
+
+  .booking__block--ink a {
+    font-weight: 700;
+    font-size: var(--fs-lg);
+  }
+
+  .booking__next {
+    display: grid;
+    gap: var(--space-sm);
+    margin: 0;
+    padding-left: 1.2rem;
+    color: var(--color-text-muted);
+  }
+
+  .booking__next li::marker {
+    font-weight: 800;
+    color: var(--color-ink-900);
+  }
+</style>

@@ -1,0 +1,209 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { hl } from '../utils/text';
+import { hours, site } from '../data/site';
+
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.contact.mapQuery)}&output=embed`;
+---
+
+<BaseLayout
+  title="Contact"
+  description="Find Springtide Adventure Park in Swakopmund — address, opening hours, phone, WhatsApp and email."
+  image="/images/swakop-street.jpg"
+>
+  <PageHero
+    eyebrow="Contact"
+    title="Say hello, or just come over"
+    accentWord="hello"
+    lede="Questions about sessions, parties or group visits — we’re one message away."
+    image="/images/swakop-street.jpg"
+    imageAlt="Colourful German colonial buildings and palm trees in Swakopmund"
+    focus="center 35%"
+    compact
+  />
+
+  <section class="section contact">
+    <div class="container container--wide contact__grid">
+      <div class="contact__info">
+        <ul class="contact__ways" role="list">
+          <li data-reveal>
+            <span class="contact__label">Call</span>
+            <a href={site.contact.phoneHref}>{site.contact.phone}</a>
+          </li>
+          <li data-reveal>
+            <span class="contact__label">WhatsApp</span>
+            <a href={site.contact.whatsapp} rel="noopener">Send us a message</a>
+          </li>
+          <li data-reveal>
+            <span class="contact__label">Email</span>
+            <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+          </li>
+          <li data-reveal>
+            <span class="contact__label">Visit</span>
+            <span>{site.contact.street}<br />{site.contact.area}</span>
+          </li>
+        </ul>
+        {site.contact.placeholder && <p class="draft-note">Draft — contact details to be confirmed by the park</p>}
+
+        <div class="contact__hours" data-reveal>
+          <h2 set:html={hl('Opening hours', 'hours')} />
+          <dl>
+            {
+              hours.map((h) => (
+                <div>
+                  <dt>{h.day}</dt>
+                  <dd>{h.open ? `${h.open} – ${h.close}` : 'Closed'}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+
+      <div class="contact__form-wrap" data-reveal>
+        <h2 set:html={hl('Send us a message', 'message')} />
+        <form class="form" action={`https://formspree.io/f/${site.formspreeId}`} method="POST">
+          <div class="form-row-group">
+            <div class="form-row">
+              <label for="c-name">Name</label>
+              <input type="text" id="c-name" name="name" autocomplete="name" required />
+            </div>
+            <div class="form-row">
+              <label for="c-email">Email</label>
+              <input type="email" id="c-email" name="email" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="c-phone">Phone (optional)</label>
+            <input type="tel" id="c-phone" name="phone" autocomplete="tel" />
+          </div>
+          <div class="form-row">
+            <label for="c-message">Message</label>
+            <textarea id="c-message" name="message" required></textarea>
+          </div>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
+          <input type="hidden" name="_subject" value="New message — Springtide website" />
+          <div>
+            <button type="submit" class="btn">Send message</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="map" aria-label="Map">
+    <iframe
+      title={`Map of ${site.contact.mapQuery}`}
+      src={mapSrc}
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact__grid {
+    display: grid;
+    gap: var(--space-2xl) var(--space-xl);
+  }
+
+  @media (min-width: 1024px) {
+    .contact__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: clamp(3rem, 6vw, 6rem);
+      align-items: start;
+    }
+  }
+
+  .contact__info {
+    display: grid;
+    gap: var(--space-lg);
+    justify-items: start;
+  }
+
+  .contact__ways {
+    display: grid;
+    gap: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .contact__ways li {
+    display: grid;
+    gap: 0.2rem;
+    padding-block: var(--space-md);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .contact__label {
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .contact__ways a,
+  .contact__ways li > span:last-child {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 88%;
+    font-size: var(--fs-xl);
+    line-height: 1.2;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .contact__ways a:hover {
+    color: var(--color-coral-600);
+  }
+
+  .contact__hours {
+    width: 100%;
+  }
+
+  .contact__hours h2,
+  .contact__form-wrap h2 {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .contact__hours dl {
+    margin: 0;
+    max-width: 24rem;
+  }
+
+  .contact__hours dl div {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 0.45rem;
+    border-bottom: 1px dashed var(--color-line);
+  }
+
+  .contact__hours dt {
+    font-weight: 600;
+  }
+
+  .contact__hours dd {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .contact__form-wrap {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-alt);
+  }
+
+  .map iframe {
+    display: block;
+    width: 100%;
+    height: clamp(320px, 45vw, 520px);
+    border: 0;
+    filter: grayscale(0.35) contrast(1.05);
+  }
+</style>

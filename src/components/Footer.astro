@@ -1,0 +1,192 @@
+---
+import Logo from './Logo.astro';
+import TideLine from './TideLine.astro';
+import { hours, nav, site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer on-dark">
+  <TideLine color="var(--color-ink-900)" flip />
+  <div class="container container--wide site-footer__grid">
+    <div class="site-footer__brand">
+      <a href="/" class="site-footer__logo" aria-label={`${site.fullName} — home`}>
+        <Logo size={52} />
+        <span>{site.name}</span>
+      </a>
+      <p class="site-footer__tag">{site.tagline}</p>
+      <a href="/booking" class="btn">Book a jump</a>
+    </div>
+
+    <div>
+      <h2 class="site-footer__title">Explore</h2>
+      <ul class="site-footer__list">
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href="/booking">Booking</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="site-footer__title">Opening hours</h2>
+      <dl class="site-footer__hours">
+        {
+          hours.map((h) => (
+            <div>
+              <dt>{h.short}</dt>
+              <dd>{h.open ? `${h.open} – ${h.close}` : 'Closed'}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <div>
+      <h2 class="site-footer__title">Find us</h2>
+      <address class="site-footer__list">
+        <span>{site.contact.street}</span>
+        <span>{site.contact.area}</span>
+        <a href={site.contact.phoneHref}>{site.contact.phone}</a>
+        <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+        <a href={site.contact.whatsapp} rel="noopener">WhatsApp us</a>
+      </address>
+      <ul class="site-footer__social" aria-label="Social media">
+        <li><a href={site.social.instagram} rel="noopener">Instagram</a></li>
+        <li><a href={site.social.facebook} rel="noopener">Facebook</a></li>
+        <li><a href={site.social.tiktok} rel="noopener">TikTok</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container container--wide site-footer__base">
+    <p>© {year} {site.fullName}, {site.town}.</p>
+    <p>Grip socks on, shoes off, have fun.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    padding-block: var(--space-2xl) var(--space-lg);
+    background: var(--color-ink-900);
+    color: var(--color-on-dark);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-xl) var(--space-lg);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 700px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .site-footer__grid {
+      grid-template-columns: 1.5fr 1fr 1.1fr 1.3fr;
+    }
+  }
+
+  .site-footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 88%;
+    font-size: 2.2rem;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+  }
+
+  .site-footer__tag {
+    margin: var(--space-sm) 0 var(--space-lg);
+    color: var(--color-on-dark-muted);
+    font-size: var(--fs-lg);
+  }
+
+  .site-footer__title {
+    margin-bottom: var(--space-md);
+    font-family: var(--font-body);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    font-stretch: 100%;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-sand-200);
+  }
+
+  .site-footer__list {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-style: normal;
+    color: var(--color-on-dark-muted);
+  }
+
+  .site-footer a {
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .site-footer__list a:hover,
+  .site-footer__social a:hover {
+    color: var(--color-coral-500);
+  }
+
+  .site-footer__list a {
+    color: var(--color-on-dark);
+  }
+
+  .site-footer__hours {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+  }
+
+  .site-footer__hours div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-md);
+    max-width: 16rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px dashed rgba(246, 242, 234, 0.14);
+  }
+
+  .site-footer__hours dt {
+    font-weight: 700;
+  }
+
+  .site-footer__hours dd {
+    margin: 0;
+    color: var(--color-on-dark-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .site-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin: var(--space-md) 0 0;
+    padding: 0;
+    list-style: none;
+    font-weight: 700;
+    font-size: var(--fs-sm);
+  }
+
+  .site-footer__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(246, 242, 234, 0.12);
+    font-size: var(--fs-xs);
+    color: var(--color-on-dark-muted);
+  }
+</style>

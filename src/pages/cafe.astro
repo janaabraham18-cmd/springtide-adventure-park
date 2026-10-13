@@ -1,0 +1,224 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import TideLine from '../components/TideLine.astro';
+import { hl } from '../utils/text';
+import { menu, menuIsPlaceholder } from '../data/cafe';
+---
+
+<BaseLayout
+  title="Café"
+  description="Thick shakes, slushies, toasties, pizza and coffee at the Springtide café in Swakopmund."
+  image="/images/shake-strawberry.jpg"
+>
+  <PageHero
+    eyebrow="The café"
+    title="Land here between jumps"
+    accentWord="Land"
+    lede="Shakes, slushies, toasties and pizza for the jumpers. Proper coffee for whoever’s watching."
+    image="/images/shake-oreo.jpg"
+    imageAlt="A cookies and cream milkshake on a wooden table"
+    focus="center 40%"
+    compact
+  />
+
+  <section class="section cafe-intro">
+    <div class="container container--wide cafe-intro__grid">
+      <div class="cafe-intro__text" data-reveal>
+        <p class="eyebrow">Open whenever the park is</p>
+        <h2 set:html={hl('Fuel for the next session', 'Fuel')} />
+        <p class="lede">
+          Order at the counter, grab a table and keep an eye on the courts. Everything’s made to be eaten quickly and
+          shared easily, because nobody wants to sit out for long.
+        </p>
+      </div>
+      <div class="cafe-intro__photos" aria-hidden="true">
+        <img src="/images/pizza.jpg" alt="" loading="lazy" class="cafe-intro__a" data-reveal />
+        <img src="/images/coffee.jpg" alt="" loading="lazy" class="cafe-intro__b" data-reveal />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt menu">
+    <TideLine color="var(--color-bg-alt)" flip />
+    <div class="container container--wide">
+      <div class="menu__head" data-reveal>
+        <p class="eyebrow">Menu</p>
+        <h2 set:html={hl('What’s on the board', 'board')} />
+        {menuIsPlaceholder && <p class="draft-note">Draft menu — items and prices to be confirmed by the park</p>}
+      </div>
+
+      <div class="menu__grid">
+        {
+          menu.map((section) => (
+            <section class="menu__section" data-reveal aria-labelledby={`menu-${section.id}`}>
+              <h3 id={`menu-${section.id}`} set:html={hl(section.title, section.accentWord)} />
+              {section.note && <p class="menu__note">{section.note}</p>}
+              <ul>
+                {section.items.map((item) => (
+                  <li>
+                    <span class="menu__name">{item.name}</span>
+                    {item.price && (
+                      <>
+                        <span class="menu__leader" aria-hidden="true" />
+                        <span class="menu__price">{item.price}</span>
+                      </>
+                    )}
+                    {item.desc && <span class="menu__desc">{item.desc}</span>}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section cafe-cta">
+    <TideLine flip />
+    <div class="container container--wide cafe-cta__inner" data-reveal>
+      <h2 set:html={hl('Shakes taste better after a battle beam win', 'battle')} />
+      <a href="/booking" class="btn">Book a jump</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .cafe-intro__grid {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .cafe-intro__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(3rem, 6vw, 6rem);
+    }
+  }
+
+  .cafe-intro__text {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .cafe-intro__photos {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    align-items: start;
+  }
+
+  .cafe-intro__photos img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+  }
+
+  .cafe-intro__a {
+    grid-column: 1 / span 8;
+    grid-row: 1;
+  }
+
+  .cafe-intro__b {
+    grid-column: 6 / span 7;
+    grid-row: 1;
+    margin-top: 32%;
+    border: 6px solid var(--color-bg);
+    box-shadow: 0 20px 50px -20px rgba(10, 31, 46, 0.4);
+  }
+
+  .menu {
+    position: relative;
+  }
+
+  .menu__head {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+    margin-bottom: var(--space-xl);
+  }
+
+  .menu__grid {
+    columns: 1;
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  @media (min-width: 800px) {
+    .menu__grid {
+      columns: 2;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .menu__grid {
+      columns: 3;
+    }
+  }
+
+  .menu__section {
+    break-inside: avoid;
+    margin-bottom: var(--space-xl);
+    padding-top: var(--space-md);
+    border-top: 2px solid var(--color-ink-900);
+  }
+
+  .menu__note {
+    margin-top: var(--space-xs);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .menu__section ul {
+    display: grid;
+    gap: var(--space-sm);
+    margin: var(--space-md) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .menu__section li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    column-gap: 0.6rem;
+  }
+
+  .menu__name {
+    font-weight: 700;
+  }
+
+  .menu__leader {
+    border-bottom: 2px dotted var(--color-sand-300);
+    transform: translateY(-0.3em);
+  }
+
+  .menu__price {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .menu__desc {
+    grid-column: 1 / -1;
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .cafe-cta {
+    position: relative;
+  }
+
+  .cafe-cta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+  }
+
+  .cafe-cta h2 {
+    max-width: 18ch;
+  }
+</style>

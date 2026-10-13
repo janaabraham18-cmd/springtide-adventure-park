@@ -1,0 +1,791 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TideLine from '../components/TideLine.astro';
+import CourtPlan from '../components/CourtPlan.astro';
+import { hl } from '../utils/text';
+import { hours, hoursArePlaceholder, passes, site } from '../data/site';
+import { playZones, zones } from '../data/zones';
+
+const zoneNumber = (id: string) => String(zones.findIndex((z) => z.id === id) + 1).padStart(2, '0');
+
+const rules = [
+  {
+    title: 'Book your slot',
+    accentWord: 'slot',
+    body: 'Sessions are capped so the courts never get crowded. Book online and walk straight in.',
+  },
+  {
+    title: 'Grip socks on',
+    accentWord: 'Grip',
+    body: 'Everyone on the courts wears Springtide grip socks. Bring last visit’s pair or grab new ones at reception.',
+  },
+  {
+    title: 'Sign the waiver',
+    accentWord: 'waiver',
+    body: 'One waiver per jumper, signed by a parent or guardian for under-18s. It takes two minutes at check-in.',
+  },
+  {
+    title: 'Arrive 15 minutes early',
+    accentWord: 'early',
+    body: 'Time to check in, stash your shoes and hear the quick safety briefing from a marshal.',
+  },
+];
+---
+
+<BaseLayout>
+  <!-- HERO -->
+  <section class="hero on-dark">
+    <img
+      class="photo-bg"
+      src="/images/park-wide.jpg"
+      alt="Inside an indoor trampoline park, with slides, trampoline courts and orange benches"
+      data-parallax
+      fetchpriority="high"
+    />
+    <div class="hero__scrim" aria-hidden="true"></div>
+
+    <div class="container container--wide hero__content">
+      <p class="eyebrow">Trampoline &amp; adventure park · {site.town}</p>
+      <h1 data-bounce set:html={hl('Jump higher than the tide.', 'higher')} />
+      <p class="lede">
+        Wall-to-wall trampolines, dodgeball, slam dunk lanes, a battle beam over a foam pit, bumper balls and a
+        climbing wall — with milkshakes and pizza waiting when you land.
+      </p>
+      <div class="hero__actions">
+        <a href="/booking" class="btn">
+          Book a jump
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </a>
+        <a href="/court-layout" class="btn btn--ghost"><span>Explore the courts</span></a>
+      </div>
+    </div>
+
+    <p class="hero__today" data-today hidden></p>
+
+    <TideLine />
+  </section>
+
+  <!-- WHAT'S INSIDE -->
+  <section class="section inside">
+    <div class="container container--wide inside__grid">
+      <div class="inside__intro" data-reveal>
+        <p class="eyebrow">What’s inside</p>
+        <h2 set:html={hl('Six ways to leave the ground', 'ground')} />
+        <p class="lede">
+          Every zone has its own marshal and its own rules, so first-timers and flip fanatics can share the same
+          building.
+        </p>
+        <a href="/court-layout" class="text-link">See where everything is</a>
+      </div>
+
+      <ol class="inside__list">
+        {
+          playZones.map((z) => (
+            <li class="inside__item" data-reveal>
+              <a href={`/court-layout#${z.id}`} class="inside__link">
+                <span class="inside__num">{zoneNumber(z.id)}</span>
+                <span class="inside__text">
+                  <h3 set:html={hl(z.name, z.accentWord)} />
+                  <span class="inside__blurb">{z.blurb}</span>
+                </span>
+                <span class="inside__thumb" aria-hidden="true">
+                  <img src={z.image} alt="" loading="lazy" />
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- COURT LAYOUT TEASER -->
+  <section class="section section--ink plan-teaser">
+    <TideLine color="var(--color-ink-900)" flip />
+    <div class="container container--wide plan-teaser__grid">
+      <div class="plan-teaser__text" data-reveal>
+        <p class="eyebrow">Court layout</p>
+        <h2 set:html={hl('Know the park before you arrive', 'park')} />
+        <p class="lede">
+          Our floor plan shows every court, the café, the party rooms and where to check in. Tap a zone on the full
+          plan to read its rules and age limits.
+        </p>
+        <a href="/court-layout" class="btn">Open the floor plan</a>
+      </div>
+      <a href="/court-layout" class="plan-teaser__plan" data-reveal aria-label="Open the full court layout">
+        <CourtPlan />
+      </a>
+    </div>
+  </section>
+
+  <!-- CAFÉ + PARTIES -->
+  <section class="section duo">
+    <TideLine flip />
+    <div class="container container--wide duo__grid">
+      <a href="/cafe" class="duo__panel on-dark" data-reveal>
+        <img class="photo-bg" src="/images/shake-oreo.jpg" alt="A cookies and cream milkshake topped with cream" loading="lazy" />
+        <span class="duo__scrim" aria-hidden="true"></span>
+        <span class="duo__body">
+          <span class="eyebrow">The café</span>
+          <h2 set:html={hl('Refuel between sessions', 'Refuel')} />
+          <span class="duo__copy">Thick shakes, slushies, toasties, pizza and proper coffee for the grown-ups.</span>
+          <span class="duo__cta">See the menu →</span>
+        </span>
+      </a>
+
+      <a href="/party-rooms" class="duo__panel on-dark" data-reveal>
+        <img class="photo-bg" src="/images/party-candles.jpg" alt="Children blowing out candles on a birthday cake" loading="lazy" />
+        <span class="duo__scrim" aria-hidden="true"></span>
+        <span class="duo__body">
+          <span class="eyebrow">Party rooms</span>
+          <h2 set:html={hl('Birthdays that bounce', 'bounce')} />
+          <span class="duo__copy">A private room, a party host and court time for the whole crew. You bring the cake.</span>
+          <span class="duo__cta">Plan a party →</span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- TIDE TABLE: passes + hours -->
+  <section class="section section--alt tide">
+    <TideLine color="var(--color-bg-alt)" flip />
+    <div class="container container--wide">
+      <div class="tide__head" data-reveal>
+        <p class="eyebrow">Tide table</p>
+        <h2 set:html={hl('Passes and opening hours', 'hours')} />
+        {hoursArePlaceholder && <p class="draft-note">Draft — passes, prices and hours to be confirmed by the park</p>}
+      </div>
+
+      <div class="tide__grid">
+        <ul class="tide__passes" role="list">
+          {
+            passes.map((p) => (
+              <li class:list={['pass', { 'pass--featured': p.note }]} data-reveal>
+                {p.note && <span class="pass__note">{p.note}</span>}
+                <h3 set:html={hl(p.name, p.accentWord)} />
+                <p class="pass__length">{p.length}</p>
+                <p class="pass__who">{p.who}</p>
+                <p class="pass__price">{p.price ?? 'Price to be confirmed'}</p>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="tide__hours" data-reveal>
+          <h3 set:html={hl('When the tide is in', 'tide')} />
+          <dl>
+            {
+              hours.map((h, i) => (
+                <div data-day={i}>
+                  <dt>{h.day}</dt>
+                  <dd>{h.open ? `${h.open} – ${h.close}` : 'Closed'}</dd>
+                </div>
+              ))
+            }
+          </dl>
+          <p class="tide__small">Public holidays and school holidays may differ — check our socials.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEFORE YOU JUMP -->
+  <section class="section rules">
+    <TideLine flip />
+    <div class="container container--wide">
+      <div class="rules__head" data-reveal>
+        <p class="eyebrow">Before you jump</p>
+        <h2 set:html={hl('Four things for a smooth landing', 'landing')} />
+      </div>
+      <ol class="rules__list">
+        {
+          rules.map((r, i) => (
+            <li data-reveal>
+              <span class="rules__num">{i + 1}</span>
+              <h3 set:html={hl(r.title, r.accentWord)} />
+              <p>{r.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section class="visit on-dark">
+    <img class="photo-bg" src="/images/swakop-evening.jpg" alt="Swakopmund's coastline at sunset" loading="lazy" />
+    <div class="visit__scrim" aria-hidden="true"></div>
+    <TideLine hang />
+    <div class="container container--wide visit__content" data-reveal>
+      <p class="eyebrow">Find us in {site.town}</p>
+      <h2 set:html={hl('The next spring tide is yours', 'spring')} />
+      <p class="lede">{site.contact.street}, {site.contact.area}</p>
+      <div class="hero__actions">
+        <a href="/booking" class="btn">Book a jump</a>
+        <a href="/contact" class="btn btn--ghost"><span>Directions &amp; contact</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { hours } from '../data/site';
+
+  // "Open today" chip in the hero + highlight today's row in the hours table.
+  const jsDay = new Date().getDay(); // 0 = Sunday
+  const idx = (jsDay + 6) % 7; // Monday-first index into `hours`
+  const today = hours[idx];
+  const chip = document.querySelector<HTMLElement>('[data-today]');
+  if (chip && today) {
+    chip.innerHTML = today.open
+      ? `<span class="dot dot--open"></span>Open today ${today.open} – ${today.close}`
+      : `<span class="dot"></span>Closed today`;
+    chip.hidden = false;
+  }
+  document.querySelector(`[data-day="${idx}"]`)?.classList.add('is-today');
+</script>
+
+<style>
+  /* HERO */
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 100svh;
+    padding-block: calc(var(--header-h) + var(--space-xl)) clamp(4.5rem, 9vw, 8rem);
+    overflow: hidden;
+    color: var(--color-on-dark);
+    background: var(--color-ink-900);
+    isolation: isolate;
+  }
+
+  .hero .photo-bg {
+    z-index: -2;
+  }
+
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(0deg, rgba(10, 31, 46, 0.92) 0%, rgba(10, 31, 46, 0.6) 35%, rgba(10, 31, 46, 0) 78%),
+      linear-gradient(90deg, rgba(10, 31, 46, 0.45) 0%, rgba(10, 31, 46, 0) 55%);
+  }
+
+  .hero__content {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+  }
+
+  .hero h1 {
+    max-width: 11ch;
+    font-size: clamp(3.25rem, 1.2rem + 8.5vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+    text-shadow: 0 2px 30px rgba(10, 31, 46, 0.35);
+  }
+
+  .hero .lede {
+    max-width: 36em;
+    text-shadow: 0 1px 12px rgba(10, 31, 46, 0.5);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-xs);
+  }
+
+  .hero__today {
+    position: absolute;
+    right: var(--gutter);
+    top: calc(var(--header-h) + var(--space-md));
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    margin: 0;
+    padding: 0.5em 1em;
+    border: 1px solid rgba(246, 242, 234, 0.35);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--color-on-dark);
+    background: rgba(10, 31, 46, 0.35);
+    backdrop-filter: blur(6px);
+  }
+
+  .hero__today :global(.dot) {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-sand-300);
+  }
+
+  .hero__today :global(.dot--open) {
+    background: #5ee08f;
+    box-shadow: 0 0 0 4px rgba(94, 224, 143, 0.25);
+  }
+
+  @media (max-width: 600px) {
+    .hero__today {
+      left: var(--gutter);
+      right: auto;
+    }
+  }
+
+  /* WHAT'S INSIDE */
+  .inside__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  @media (min-width: 1024px) {
+    .inside__grid {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.4fr);
+      gap: clamp(3rem, 6vw, 7rem);
+      align-items: start;
+    }
+    .inside__intro {
+      position: sticky;
+      top: calc(var(--header-h) + var(--space-lg));
+    }
+  }
+
+  .inside__intro {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+  }
+
+  .inside__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .inside__item {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .inside__link {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-md);
+    align-items: start;
+    padding-block: var(--space-lg);
+    text-decoration: none;
+  }
+
+  @media (min-width: 640px) {
+    .inside__link {
+      grid-template-columns: 3.5rem minmax(0, 1fr) clamp(110px, 14vw, 170px);
+      gap: var(--space-lg);
+    }
+  }
+
+  .inside__num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 88%;
+    font-size: var(--fs-lg);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.2em;
+  }
+
+  .inside__text {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .inside__text h3 {
+    font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.4rem);
+    transition: transform 0.45s var(--ease-spring);
+  }
+
+  .inside__blurb {
+    color: var(--color-text-muted);
+    max-width: 40em;
+  }
+
+  .inside__thumb {
+    display: none;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  @media (min-width: 640px) {
+    .inside__thumb {
+      display: block;
+    }
+  }
+
+  .inside__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .inside__link:hover h3 {
+    transform: translateX(6px);
+  }
+
+  .inside__link:hover .inside__thumb img {
+    transform: scale(1.07);
+  }
+
+  /* PLAN TEASER */
+  .plan-teaser {
+    position: relative;
+  }
+
+  .plan-teaser__grid {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .plan-teaser__grid {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: clamp(3rem, 5vw, 6rem);
+    }
+  }
+
+  .plan-teaser__text {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+  }
+
+  .plan-teaser__plan {
+    display: block;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 0 1px rgba(246, 242, 234, 0.12), 0 30px 80px -30px rgba(0, 0, 0, 0.6);
+    transition: transform 0.5s var(--ease-spring);
+  }
+
+  .plan-teaser__plan:hover {
+    transform: translateY(-4px) rotate(-0.4deg);
+  }
+
+  /* DUO */
+  .duo {
+    position: relative;
+  }
+
+  .duo__grid {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  @media (min-width: 900px) {
+    .duo__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .duo__panel {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(420px, 60vw, 640px);
+    padding: clamp(1.5rem, 3vw, 2.75rem);
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    color: var(--color-on-dark);
+    text-decoration: none;
+    isolation: isolate;
+  }
+
+  @media (min-width: 900px) {
+    .duo__panel {
+      min-height: clamp(480px, 42vw, 640px);
+    }
+  }
+
+  .duo__panel .photo-bg {
+    z-index: -2;
+    transition: transform 0.9s var(--ease-out);
+  }
+
+  .duo__panel:hover .photo-bg {
+    transform: scale(1.05);
+  }
+
+  .duo__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(0deg, rgba(10, 31, 46, 0.9) 0%, rgba(10, 31, 46, 0.5) 40%, rgba(10, 31, 46, 0) 80%);
+  }
+
+  .duo__body {
+    display: grid;
+    gap: var(--space-sm);
+    justify-items: start;
+  }
+
+  .duo__body h2 {
+    max-width: 12ch;
+    text-shadow: 0 2px 20px rgba(10, 31, 46, 0.4);
+  }
+
+  .duo__copy {
+    max-width: 30em;
+    color: var(--color-on-dark-muted);
+    text-shadow: 0 1px 10px rgba(10, 31, 46, 0.5);
+  }
+
+  .duo__cta {
+    margin-top: var(--space-xs);
+    font-weight: 700;
+    border-bottom: 2px solid var(--color-coral-500);
+    padding-bottom: 2px;
+  }
+
+  /* TIDE TABLE */
+  .tide {
+    position: relative;
+  }
+
+  .tide__head {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+    margin-bottom: var(--space-xl);
+  }
+
+  .tide__grid {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  @media (min-width: 1100px) {
+    .tide__grid {
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  .tide__passes {
+    display: grid;
+    gap: var(--space-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 700px) {
+    .tide__passes {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .pass {
+    position: relative;
+    display: grid;
+    gap: 0.35rem;
+    align-content: start;
+    padding: var(--space-lg) var(--space-md) var(--space-md);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    border: 1px solid var(--color-line);
+  }
+
+  .pass--featured {
+    background: var(--color-ink-900);
+    color: var(--color-on-dark);
+    border-color: transparent;
+  }
+
+  .pass__note {
+    position: absolute;
+    top: -0.8em;
+    left: var(--space-md);
+    padding: 0.25em 0.8em;
+    border-radius: var(--radius-pill);
+    background: var(--color-sun-400);
+    color: var(--color-ink-900);
+    font-size: var(--fs-xs);
+    font-weight: 800;
+  }
+
+  .pass h3 {
+    margin-bottom: var(--space-xs);
+  }
+
+  .pass__length {
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-stretch: 88%;
+    font-size: var(--fs-2xl);
+    line-height: 1;
+  }
+
+  .pass__who,
+  .pass__price {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .pass--featured .pass__who,
+  .pass--featured .pass__price {
+    color: var(--color-on-dark-muted);
+  }
+
+  .pass__price {
+    margin-top: var(--space-sm);
+    padding-top: var(--space-sm);
+    border-top: 1px dashed currentColor;
+    font-weight: 700;
+  }
+
+  .tide__hours {
+    padding: var(--space-lg) var(--space-md);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    border: 1px solid var(--color-line);
+  }
+
+  .tide__hours h3 {
+    margin-bottom: var(--space-md);
+  }
+
+  .tide__hours dl {
+    margin: 0;
+  }
+
+  .tide__hours dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding: 0.55rem 0.6rem;
+    border-bottom: 1px dashed var(--color-line);
+    border-radius: var(--radius-sm);
+  }
+
+  .tide__hours dl div.is-today {
+    background: rgba(255, 90, 54, 0.1);
+    border-bottom-color: transparent;
+  }
+
+  .tide__hours dl div.is-today dt::after {
+    content: ' · today';
+    color: var(--color-coral-600);
+    font-weight: 700;
+  }
+
+  .tide__hours dt {
+    font-weight: 600;
+  }
+
+  .tide__hours dd {
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-muted);
+  }
+
+  .tide__small {
+    margin-top: var(--space-md);
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  /* RULES */
+  .rules {
+    position: relative;
+  }
+
+  .rules__head {
+    display: grid;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+
+  .rules__list {
+    display: grid;
+    gap: var(--space-lg) var(--space-lg);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 700px) {
+    .rules__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .rules__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .rules__list li {
+    display: grid;
+    gap: var(--space-sm);
+    align-content: start;
+    padding-top: var(--space-md);
+    border-top: 2px solid var(--color-ink-900);
+  }
+
+  .rules__num {
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background: var(--color-ink-900);
+    color: var(--color-on-dark);
+    font-family: var(--font-display);
+    font-weight: 800;
+  }
+
+  .rules__list p {
+    color: var(--color-text-muted);
+  }
+
+  /* VISIT */
+  .visit {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(460px, 70vh, 720px);
+    padding-block: var(--space-2xl);
+    overflow: hidden;
+    isolation: isolate;
+    color: var(--color-on-dark);
+    background: var(--color-ink-900);
+  }
+
+  .visit .photo-bg {
+    z-index: -2;
+  }
+
+  .visit__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(0deg, rgba(10, 31, 46, 0.92) 0%, rgba(10, 31, 46, 0.62) 50%, rgba(10, 31, 46, 0.15) 85%);
+  }
+
+  .visit__content {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+  }
+
+  .visit h2 {
+    max-width: 14ch;
+    font-size: var(--fs-3xl);
+    text-shadow: 0 2px 30px rgba(10, 31, 46, 0.4);
+  }
+</style>

@@ -1,0 +1,321 @@
+---
+import { zones, type Zone } from '../data/zones';
+
+// The park drawn as a chart: ink water, a faint sounding grid, every zone a
+// numbered plot. Interactive mode (Court Layout page) makes each zone a
+// focusable button wired up by that page's script; the static mode (home
+// teaser) is purely decorative.
+interface Props {
+  interactive?: boolean;
+  class?: string;
+}
+const { interactive = false, class: className } = Astro.props;
+
+const W = 1000;
+const H = 640;
+
+const num = (z: Zone) => String(zones.indexOf(z) + 1).padStart(2, '0');
+
+// Deterministic scatter (same output every build) for foam blocks and holds.
+const rand = (i: number, salt: number) => {
+  const v = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453;
+  return v - Math.floor(v);
+};
+
+// Per-zone line drawings, all derived from the zone's own rect so they move
+// with it if the plan is redrawn.
+function detail(z: Zone): string {
+  const r = z.plan.rects[0];
+  const out: string[] = [];
+  const line = (x1: number, y1: number, x2: number, y2: number, cls = 'pl-line') =>
+    out.push(`<line class="${cls}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`);
+  const circle = (cx: number, cy: number, rr: number, cls = 'pl-line') =>
+    out.push(`<circle class="${cls}" cx="${cx}" cy="${cy}" r="${rr}"/>`);
+  const rect = (x: number, y: number, w: number, h: number, cls = 'pl-line', rx = 4) =>
+    out.push(`<rect class="${cls}" x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}"/>`);
+
+  switch (z.id) {
+    case 'open-court': {
+      // Grid of trampoline beds.
+      const cols = 6;
+      const rows = 4;
+      const pad = 18;
+      const gap = 8;
+      const bw = (r.w - pad * 2 - gap * (cols - 1)) / cols;
+      const bh = (r.h - pad * 2 - gap * (rows - 1)) / rows;
+      for (let i = 0; i < cols; i++)
+        for (let j = 0; j < rows; j++)
+          rect(r.x + pad + i * (bw + gap), r.y + pad + j * (bh + gap), bw, bh, 'pl-bed', 5);
+      break;
+    }
+    case 'slam-dunk': {
+      const lanes = 4;
+      const lw = r.w / lanes;
+      for (let i = 1; i < lanes; i++) line(r.x + i * lw, r.y + 10, r.x + i * lw, r.y + r.h - 10);
+      for (let i = 0; i < lanes; i++) {
+        circle(r.x + lw * (i + 0.5), r.y + 20, 9, 'pl-hoop');
+        rect(r.x + lw * (i + 0.5) - 26, r.y + r.h - 46, 52, 34, 'pl-bed', 4);
+      }
+      break;
+    }
+    case 'dodgeball': {
+      line(r.x + 14, r.y + r.h / 2, r.x + r.w - 14, r.y + r.h / 2, 'pl-dash');
+      circle(r.x + r.w / 2, r.y + r.h / 2, 22);
+      [0.3, 0.5, 0.7].forEach((f) => circle(r.x + r.w * f, r.y + r.h / 2, 5, 'pl-dot'));
+      break;
+    }
+    case 'battle-beam': {
+      for (let i = 0; i < 46; i++) {
+        const fx = rand(i, 1);
+        const fy = rand(i, 2);
+        rect(r.x + 16 + fx * (r.w - 44), r.y + 18 + fy * (r.h - 44), 12, 12, 'pl-foam', 2);
+      }
+      rect(r.x + 24, r.y + r.h / 2 - 6, r.w - 48, 12, 'pl-beam', 6);
+      break;
+    }
+    case 'climbing-wall': {
+      for (let i = 0; i < 5; i++) line(r.x + 22 + i * 44, r.y + 6, r.x + 22 + i * 44, r.y + 16, 'pl-line');
+      for (let i = 0; i < 28; i++) {
+        const fx = rand(i, 3);
+        const fy = rand(i, 4);
+        circle(r.x + 16 + fx * (r.w - 32), r.y + 26 + fy * (r.h - 44), 3.2, 'pl-dot');
+      }
+      break;
+    }
+    case 'bumper-balls': {
+      circle(r.x + r.w / 2, r.y + r.h / 2, Math.min(r.w, r.h) / 2 - 22, 'pl-dash');
+      circle(r.x + r.w * 0.38, r.y + r.h * 0.42, 20);
+      circle(r.x + r.w * 0.62, r.y + r.h * 0.6, 20);
+      break;
+    }
+    case 'cafe': {
+      rect(r.x + r.w - 92, r.y + 16, 76, r.h - 32, 'pl-bed', 6);
+      for (let i = 0; i < 4; i++)
+        for (let j = 0; j < 2; j++) circle(r.x + 40 + i * 58, r.y + 42 + j * 56, 14);
+      break;
+    }
+    case 'party-rooms': {
+      z.plan.rects.forEach((pr) => {
+        rect(pr.x + 30, pr.y + pr.h / 2 - 16, pr.w - 60, 32, 'pl-bed', 6);
+        for (let i = 0; i < 4; i++) {
+          circle(pr.x + 44 + i * ((pr.w - 88) / 3), pr.y + pr.h / 2 - 30, 6, 'pl-dot');
+          circle(pr.x + 44 + i * ((pr.w - 88) / 3), pr.y + pr.h / 2 + 30, 6, 'pl-dot');
+        }
+      });
+      break;
+    }
+    case 'reception': {
+      out.push(
+        `<path class="pl-bed" d="M${r.x + 30} ${r.y + 30} h${r.w - 60} v26 h-${r.w - 110} v40 h-50 Z"/>`,
+      );
+      break;
+    }
+  }
+  return out.join('');
+}
+---
+
+<div class:list={['court-plan', { 'court-plan--interactive': interactive }, className]}>
+  <svg viewBox={`0 0 ${W} ${H + 60}`} role={interactive ? 'group' : 'img'} aria-label="Floor plan of Springtide Adventure Park">
+    <defs>
+      <pattern id="plan-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+        <circle cx="1" cy="1" r="1" fill="rgba(246,242,234,0.13)"></circle>
+      </pattern>
+    </defs>
+
+    <rect x="0" y="0" width={W} height={H + 60} fill="var(--color-ink-900)" rx="18"></rect>
+    <rect x="0" y="0" width={W} height={H + 60} fill="url(#plan-grid)" rx="18"></rect>
+    <rect class="pl-wall" x="12" y="12" width={W - 24} height={H - 16} rx="10"></rect>
+
+    {
+      zones.map((z) => (
+        <g
+          class:list={['zone', `zone--${z.kind}`]}
+          data-zone={z.id}
+          tabindex={interactive ? 0 : undefined}
+          role={interactive ? 'button' : undefined}
+          aria-label={interactive ? `${num(z)} ${z.name}` : undefined}
+          aria-controls={interactive ? 'zone-panel' : undefined}
+        >
+          {z.plan.rects.map((r) => (
+            <rect class="zone__area" x={r.x} y={r.y} width={r.w} height={r.h} rx="8" />
+          ))}
+          <g class="zone__detail" set:html={detail(z)} />
+          <g class="zone__tag" transform={`translate(${z.plan.label.x} ${z.plan.label.y})`}>
+            <circle r="17" class="zone__num-bg" />
+            <text class="zone__num" text-anchor="middle" dy="5.5">
+              {num(z)}
+            </text>
+          </g>
+        </g>
+      ))
+    }
+
+    <g class="pl-entrance" transform={`translate(495 ${H - 4})`}>
+      <path d="M-34 0h68" class="pl-door"></path>
+      <path d="M0 40V14m-9 9 9-9 9 9" class="pl-arrow"></path>
+    </g>
+    <text x="545" y={H + 42} class="pl-caption">Entrance</text>
+
+    <g transform={`translate(${W - 80} ${H + 30})`} class="pl-compass" aria-hidden="true">
+      <circle r="18"></circle>
+      <path d="M0-12 5 4 0 1-5 4Z"></path>
+      <text y="-24" text-anchor="middle">N</text>
+    </g>
+    <text x="28" y={H + 42} class="pl-caption">Draft plan · not to scale</text>
+  </svg>
+</div>
+
+<style>
+  .court-plan svg {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+  }
+
+  .court-plan :global(.pl-wall) {
+    fill: none;
+    stroke: rgba(246, 242, 234, 0.55);
+    stroke-width: 3;
+  }
+
+  .court-plan :global(.zone__area) {
+    fill: rgba(43, 120, 180, 0.2);
+    stroke: rgba(140, 192, 228, 0.55);
+    stroke-width: 1.5;
+    transition:
+      fill 0.3s ease,
+      stroke 0.3s ease;
+  }
+
+  .court-plan :global(.zone--facility .zone__area) {
+    fill: rgba(230, 220, 200, 0.08);
+    stroke: rgba(230, 220, 200, 0.4);
+    stroke-dasharray: 6 5;
+  }
+
+  .court-plan :global(.pl-line),
+  .court-plan :global(.pl-dash),
+  .court-plan :global(.pl-bed),
+  .court-plan :global(.pl-hoop) {
+    fill: none;
+    stroke: rgba(246, 242, 234, 0.42);
+    stroke-width: 1.5;
+  }
+
+  .court-plan :global(.pl-bed) {
+    fill: rgba(246, 242, 234, 0.05);
+  }
+
+  .court-plan :global(.pl-dash) {
+    stroke-dasharray: 5 6;
+  }
+
+  .court-plan :global(.pl-hoop) {
+    stroke: var(--color-coral-500);
+    stroke-width: 2.5;
+  }
+
+  .court-plan :global(.pl-dot) {
+    fill: rgba(246, 242, 234, 0.55);
+  }
+
+  .court-plan :global(.pl-foam) {
+    fill: rgba(140, 192, 228, 0.35);
+  }
+
+  .court-plan :global(.pl-beam) {
+    fill: var(--color-sun-400);
+  }
+
+  .court-plan :global(.pl-door) {
+    stroke: var(--color-ink-900);
+    stroke-width: 8;
+  }
+
+  .court-plan :global(.pl-arrow) {
+    fill: none;
+    stroke: var(--color-sun-400);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .court-plan :global(.pl-caption) {
+    fill: rgba(246, 242, 234, 0.6);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .court-plan :global(.pl-compass circle) {
+    fill: none;
+    stroke: rgba(246, 242, 234, 0.4);
+  }
+
+  .court-plan :global(.pl-compass path) {
+    fill: var(--color-coral-500);
+  }
+
+  .court-plan :global(.pl-compass text) {
+    fill: rgba(246, 242, 234, 0.7);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .court-plan :global(.zone__num-bg) {
+    fill: var(--color-foam-50);
+    transition:
+      fill 0.3s ease,
+      transform 0.4s var(--ease-spring);
+  }
+
+  .court-plan :global(.zone__num) {
+    fill: var(--color-ink-900);
+    font-size: 15px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Interactive states */
+  .court-plan--interactive :global(.zone) {
+    cursor: pointer;
+    outline: none;
+  }
+
+  .court-plan--interactive :global(.zone:hover .zone__area),
+  .court-plan--interactive :global(.zone:focus-visible .zone__area) {
+    fill: rgba(43, 120, 180, 0.42);
+    stroke: var(--color-foam-50);
+  }
+
+  .court-plan--interactive :global(.zone:focus-visible .zone__area) {
+    stroke: var(--color-sun-400);
+    stroke-width: 3;
+  }
+
+  .court-plan--interactive :global(.zone.is-active .zone__area) {
+    fill: rgba(255, 90, 54, 0.32);
+    stroke: var(--color-coral-500);
+    stroke-width: 3;
+    stroke-dasharray: none;
+  }
+
+  .court-plan--interactive :global(.zone.is-active .zone__num-bg) {
+    fill: var(--color-coral-500);
+  }
+
+  .court-plan--interactive :global(.zone.is-active .zone__num) {
+    fill: #fff;
+  }
+
+  .court-plan--interactive :global(.zone.is-dim) {
+    opacity: 0.55;
+  }
+
+  .court-plan :global(.zone) {
+    transition: opacity 0.3s ease;
+  }
+</style>

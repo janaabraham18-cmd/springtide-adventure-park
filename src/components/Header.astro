@@ -1,0 +1,359 @@
+---
+import Logo from './Logo.astro';
+import { nav, site } from '../data/site';
+
+// Every page opens on a full-bleed photo hero, so the header starts
+// transparent with light text over the photo and turns solid once the page
+// scrolls (see the script below).
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<header class="site-header" data-header>
+  <div class="site-header__inner container container--wide">
+    <a href="/" class="site-header__logo" aria-label={`${site.fullName} — home`}>
+      <Logo size={38} />
+      <span class="site-header__word">{site.name}</span>
+    </a>
+
+    <nav class="site-header__nav" aria-label="Main">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a href="/booking" class="btn site-header__cta">Book a jump</a>
+    </nav>
+
+    <button
+      class="site-header__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-menu-toggle
+    >
+      <span class="visually-hidden">Open menu</span>
+      <span class="site-header__bars" aria-hidden="true"><span></span><span></span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" data-menu hidden>
+    <nav aria-label="Mobile">
+      <ul>
+        {
+          nav.map((item, i) => (
+            <li style={`--i:${i}`}>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a href="/booking" class="btn mobile-menu__cta">Book a jump</a>
+      <p class="mobile-menu__meta">
+        <a href={site.contact.phoneHref}>{site.contact.phone}</a>
+        <span aria-hidden="true">·</span>
+        <a href={site.contact.whatsapp} rel="noopener">WhatsApp us</a>
+      </p>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    color: var(--color-on-dark);
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease,
+      box-shadow 0.35s ease,
+      transform 0.4s var(--ease-out);
+  }
+
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 -40px;
+    background: linear-gradient(180deg, rgba(10, 31, 46, 0.55), rgba(10, 31, 46, 0));
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  .site-header.is-solid {
+    background: rgba(251, 248, 242, 0.94);
+    color: var(--color-text);
+    box-shadow: 0 1px 0 var(--color-line);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .site-header.is-solid::before {
+    opacity: 0;
+  }
+
+  .site-header.is-hidden {
+    transform: translateY(-100%);
+  }
+
+  .site-header__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--header-h);
+    gap: var(--space-md);
+  }
+
+  .site-header__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 88%;
+    font-size: 1.6rem;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+  }
+
+  .site-header__nav {
+    display: none;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .site-header__nav ul {
+    display: flex;
+    gap: var(--space-lg);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-header__nav ul a {
+    position: relative;
+    padding-block: 0.4rem;
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .site-header__nav ul a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--color-coral-500);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .site-header__nav ul a:hover::after,
+  .site-header__nav ul a[aria-current='page']::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .site-header__cta {
+    min-height: 44px;
+    padding-inline: 1.25em;
+  }
+
+  .site-header__toggle {
+    position: relative;
+    z-index: 2;
+    display: inline-grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    margin-left: var(--space-sm);
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .site-header__bars {
+    display: grid;
+    gap: 7px;
+    width: 26px;
+  }
+
+  .site-header__bars span {
+    display: block;
+    height: 2.5px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .site-header__bars span:last-child {
+    width: 70%;
+    justify-self: end;
+  }
+
+  .menu-open .site-header__bars span:first-child {
+    transform: translateY(4.75px) rotate(45deg);
+  }
+
+  .menu-open .site-header__bars span:last-child {
+    width: 100%;
+    transform: translateY(-4.75px) rotate(-45deg);
+  }
+
+  .menu-open.site-header {
+    color: var(--color-on-dark);
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: calc(var(--header-h) + var(--space-lg)) var(--gutter) var(--space-xl);
+    background: var(--color-ink-900);
+    color: var(--color-on-dark);
+    overflow-y: auto;
+  }
+
+  .mobile-menu[hidden] {
+    display: none;
+  }
+
+  .mobile-menu nav {
+    width: 100%;
+  }
+
+  .mobile-menu ul {
+    margin: 0 0 var(--space-lg);
+    padding: 0;
+    list-style: none;
+  }
+
+  .mobile-menu li {
+    border-bottom: 1px solid rgba(246, 242, 234, 0.12);
+    animation: menu-in 0.5s var(--ease-out) both;
+    animation-delay: calc(var(--i) * 45ms + 60ms);
+  }
+
+  .mobile-menu ul a {
+    display: block;
+    padding: 0.55rem 0;
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-stretch: 88%;
+    font-size: clamp(2rem, 9vw, 3rem);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    text-decoration: none;
+  }
+
+  .mobile-menu ul a[aria-current='page'] {
+    color: var(--color-coral-500);
+  }
+
+  .mobile-menu__cta {
+    width: 100%;
+  }
+
+  .mobile-menu__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: var(--space-md);
+    color: var(--color-on-dark-muted);
+    font-size: var(--fs-sm);
+  }
+
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .site-header__logo {
+      font-size: clamp(1.3rem, 6vw, 1.6rem);
+    }
+    .site-header__logo :global(.logo-mark) {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  /* Desktop nav needs ~855px for logo (156) + links/CTA (597) + gutters,
+     measured with getBoundingClientRect; switch at 960px for margin.
+     Re-measure if links are added or the wordmark changes. */
+  @media (min-width: 960px) {
+    .site-header__nav {
+      display: flex;
+    }
+    .site-header__toggle,
+    .mobile-menu {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+
+  if (header) {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      header.classList.toggle('is-solid', y > 40);
+      // Hide on scroll down, show on scroll up — but never while the menu is open.
+      const hide = y > 400 && y > lastY && !header.classList.contains('menu-open');
+      header.classList.toggle('is-hidden', hide);
+      lastY = y;
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  if (header && toggle && menu) {
+    const label = toggle.querySelector('.visually-hidden');
+    const setOpen = (open: boolean) => {
+      menu.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      header.classList.toggle('menu-open', open);
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+      if (label) label.textContent = open ? 'Close menu' : 'Open menu';
+    };
+    toggle.addEventListener('click', () => setOpen(menu.hidden));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    window.matchMedia('(min-width: 960px)').addEventListener('change', (e) => {
+      if (e.matches) setOpen(false);
+    });
+  }
+</script>

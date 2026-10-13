@@ -1,0 +1,55 @@
+---
+// A wave-shaped edge between two sections. Three placements:
+//   default — inside the BOTTOM of a section (usually a photo hero), filled
+//             with the NEXT section's colour, so the next section rises into
+//             it as a tide line.
+//   flip    — on the TOP of a section, extending UP into the previous one,
+//             filled with THIS section's colour (same visual result, but the
+//             wave belongs to the section that owns the colour).
+//   hang    — inside the TOP of a section (a photo section), filled with the
+//             PREVIOUS section's colour, so the previous section appears to
+//             end in a wave over the photo.
+// The parent section must be position: relative.
+interface Props {
+  color?: string;
+  flip?: boolean;
+  hang?: boolean;
+  class?: string;
+}
+const { color = 'var(--color-bg)', flip = false, hang = false, class: className } = Astro.props;
+---
+
+<svg
+  class:list={['tide-line', { 'tide-line--top': flip, 'tide-line--hang': hang }, className]}
+  viewBox="0 0 1440 48"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path
+    d="M0 26c80-14 160-14 240 0s160 14 240 0 160-14 240 0 160 14 240 0 160-14 240 0 160 14 240 0v22H0Z"
+    fill={color}></path>
+</svg>
+
+<style>
+  .tide-line {
+    --tide-h: clamp(18px, 3vw, 42px);
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    width: 100%;
+    height: var(--tide-h);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .tide-line--top {
+    bottom: auto;
+    top: calc(-1 * var(--tide-h) + 1px);
+  }
+  .tide-line--hang {
+    bottom: auto;
+    top: -1px;
+    transform: scaleY(-1);
+  }
+</style>

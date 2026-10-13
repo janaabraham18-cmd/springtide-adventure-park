@@ -1,0 +1,40 @@
+---
+// The Springtide mark: a full moon (spring tides come with the full and new
+// moon) with a wave rolling across it — the same wave that runs through the
+// site as the tide-line divider.
+interface Props {
+  size?: number;
+  class?: string;
+}
+const { size = 40, class: className } = Astro.props;
+---
+
+<svg
+  class:list={['logo-mark', className]}
+  width={size}
+  height={size}
+  viewBox="0 0 48 48"
+  aria-hidden="true"
+  focusable="false"
+>
+  <circle cx="24" cy="24" r="22" fill="var(--color-coral-500)"></circle>
+  <path
+    d="M2.5 29c4.2-3.6 8.4-3.6 12.6 0s8.4 3.6 12.6 0 8.4-3.6 12.6 0 5.2 2.6 7.2 1.6V46H2.5Z"
+    fill="var(--color-ink-900)"
+    opacity="0.92"></path>
+  <path
+    d="M3 29c4.2-3.6 8.4-3.6 12.6 0s8.4 3.6 12.6 0 8.4-3.6 12.6 0"
+    fill="none"
+    stroke="var(--color-foam-50)"
+    stroke-width="2.6"
+    stroke-linecap="round"></path>
+</svg>
+
+<style>
+  .logo-mark {
+    flex-shrink: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    clip-path: circle(50%);
+  }
+</style>

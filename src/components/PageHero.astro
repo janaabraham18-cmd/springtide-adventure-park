@@ -1,0 +1,92 @@
+---
+import TideLine from './TideLine.astro';
+import { hl } from '../utils/text';
+
+// Full-bleed photo hero used by every inner page. Text sits bottom-left over
+// a 0deg gradient scrim (dark at the bottom, clearing by ~80%) — never a card
+// behind the text (CLAUDE.md).
+interface Props {
+  eyebrow: string;
+  title: string;
+  accentWord: string;
+  lede?: string;
+  image: string;
+  imageAlt?: string;
+  focus?: string;
+  nextColor?: string;
+  compact?: boolean;
+}
+
+const {
+  eyebrow,
+  title,
+  accentWord,
+  lede,
+  image,
+  imageAlt = '',
+  focus = 'center',
+  nextColor = 'var(--color-bg)',
+  compact = false,
+} = Astro.props;
+---
+
+<section class:list={['page-hero on-dark', { 'page-hero--compact': compact }]}>
+  <img class="photo-bg" src={image} alt={imageAlt} style={`object-position:${focus}`} data-parallax fetchpriority="high" />
+  <div class="page-hero__scrim" aria-hidden="true"></div>
+  <div class="container container--wide page-hero__content">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 data-bounce set:html={hl(title, accentWord)} />
+    {lede && <p class="lede">{lede}</p>}
+    <slot />
+  </div>
+  <TideLine color={nextColor} />
+</section>
+
+<style>
+  .page-hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(460px, 72svh, 760px);
+    padding-block: calc(var(--header-h) + var(--space-xl)) clamp(3.5rem, 7vw, 6rem);
+    overflow: hidden;
+    background: var(--color-ink-900);
+    color: var(--color-on-dark);
+    isolation: isolate;
+  }
+
+  .page-hero--compact {
+    min-height: clamp(400px, 58svh, 600px);
+  }
+
+  .page-hero .photo-bg {
+    z-index: -2;
+  }
+
+  .page-hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(0deg, rgba(10, 31, 46, 0.88) 0%, rgba(10, 31, 46, 0.55) 38%, rgba(10, 31, 46, 0) 80%),
+      linear-gradient(90deg, rgba(10, 31, 46, 0.35) 0%, rgba(10, 31, 46, 0) 60%);
+  }
+
+  .page-hero__content {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+  }
+
+  .page-hero h1 {
+    max-width: 14ch;
+    font-size: var(--fs-hero);
+    line-height: 0.95;
+    text-shadow: 0 2px 30px rgba(10, 31, 46, 0.35);
+  }
+
+  .page-hero .lede {
+    max-width: 34em;
+    text-shadow: 0 1px 12px rgba(10, 31, 46, 0.5);
+  }
+</style>

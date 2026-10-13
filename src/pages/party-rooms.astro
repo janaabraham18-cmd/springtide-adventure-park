@@ -1,0 +1,340 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import TideLine from '../components/TideLine.astro';
+import { hl } from '../utils/text';
+import { packages, partiesArePlaceholder, partySteps } from '../data/parties';
+---
+
+<BaseLayout
+  title="Party Rooms"
+  description="Birthday parties at Springtide Adventure Park in Swakopmund — private party rooms, a party host and court time for the whole group."
+  image="/images/party-candles.jpg"
+>
+  <PageHero
+    eyebrow="Party rooms"
+    title="The birthday they’ll talk about all year"
+    accentWord="birthday"
+    lede="A private room, a host who runs the show and the whole park to bounce around. You bring the birthday person — we’ll handle the rest."
+    image="/images/party-balloons.jpg"
+    imageAlt="A ceiling full of colourful helium balloons"
+    focus="center 30%"
+    compact
+  >
+    <a href="/booking?type=party" class="btn">Enquire about a party</a>
+  </PageHero>
+
+  <section class="section steps">
+    <div class="container container--wide">
+      <div class="steps__head" data-reveal>
+        <p class="eyebrow">How it works</p>
+        <h2 set:html={hl('Three steps to party day', 'party')} />
+      </div>
+      <ol class="steps__list">
+        {
+          partySteps.map((s, i) => (
+            <li data-reveal>
+              <span class="steps__num">0{i + 1}</span>
+              <h3 set:html={hl(s.title, s.accentWord)} />
+              <p>{s.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--ink packages">
+    <TideLine color="var(--color-ink-900)" flip />
+    <div class="container container--wide">
+      <div class="packages__head" data-reveal>
+        <p class="eyebrow">Packages</p>
+        <h2 set:html={hl('Pick the size of your wave', 'wave')} />
+        {partiesArePlaceholder && <p class="draft-note">Draft packages — contents, numbers and prices to be confirmed</p>}
+      </div>
+
+      <ul class="packages__list" role="list">
+        {
+          packages.map((p) => (
+            <li class:list={['pkg', { 'pkg--featured': p.featured }]} data-reveal>
+              {p.featured && <span class="pkg__badge">Most booked</span>}
+              <h3 set:html={hl(p.name, p.accentWord)} />
+              <p class="pkg__guests">{p.guests}</p>
+              <dl class="pkg__facts">
+                <div>
+                  <dt>Jump</dt>
+                  <dd>{p.jump}</dd>
+                </div>
+                <div>
+                  <dt>Room</dt>
+                  <dd>{p.room}</dd>
+                </div>
+              </dl>
+              <ul class="pkg__includes">
+                {p.includes.map((inc) => <li>{inc}</li>)}
+              </ul>
+              <p class="pkg__price">{p.price ?? 'Price to be confirmed'}</p>
+              <a href={`/booking?type=party&package=${encodeURIComponent(p.name)}`} class:list={['btn', { 'btn--ghost': !p.featured }]}>
+                <span>Enquire</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section rooms">
+    <TideLine flip />
+    <div class="container container--wide rooms__grid">
+      <div class="rooms__photo" data-reveal>
+        <img src="/images/party-cupcakes.jpg" alt="Pink birthday cupcakes with Happy Birthday toppers" loading="lazy" />
+      </div>
+      <div class="rooms__text" data-reveal>
+        <p class="eyebrow">Good to know</p>
+        <h2 set:html={hl('Party questions, answered', 'answered')} />
+        <dl class="rooms__faq">
+          <div>
+            <dt>Can we bring our own cake?</dt>
+            <dd>Yes — bring the cake and candles and we’ll have plates and a knife ready in your room.</dd>
+          </div>
+          <div>
+            <dt>Do parents need to jump?</dt>
+            <dd>Only if they want to. Grown-ups who are just watching don’t pay to jump and can wait in the café.</dd>
+          </div>
+          <div>
+            <dt>How far ahead should we book?</dt>
+            <dd>Two to three weeks for weekends. Weekday parties can often be arranged sooner.</dd>
+          </div>
+          <div>
+            <dt>Does every jumper need a waiver?</dt>
+            <dd>Yes. We’ll send you a link to share with your guests so they can sign before the day.</dd>
+          </div>
+        </dl>
+        <p class="draft-note">Draft answers — to be checked with the park</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .steps__head,
+  .packages__head {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+    margin-bottom: var(--space-xl);
+  }
+
+  .steps__list {
+    display: grid;
+    gap: var(--space-lg);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+
+  @media (min-width: 800px) {
+    .steps__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .steps__list li {
+    display: grid;
+    gap: var(--space-sm);
+    align-content: start;
+  }
+
+  .steps__num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 80%;
+    font-size: clamp(3.5rem, 2rem + 5vw, 6rem);
+    line-height: 0.85;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--color-ink-900);
+  }
+
+  .steps__list p {
+    color: var(--color-text-muted);
+  }
+
+  .packages {
+    position: relative;
+  }
+
+  .packages__list {
+    display: grid;
+    gap: var(--space-lg) var(--space-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 900px) {
+    .packages__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: stretch;
+    }
+  }
+
+  .pkg {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-lg) var(--space-md) var(--space-md);
+    border: 1px solid rgba(246, 242, 234, 0.18);
+    border-radius: var(--radius-md);
+  }
+
+  .pkg--featured {
+    background: var(--color-foam-50);
+    color: var(--color-text);
+    border-color: transparent;
+  }
+
+  .pkg__badge {
+    position: absolute;
+    top: -0.85em;
+    left: var(--space-md);
+    padding: 0.25em 0.8em;
+    border-radius: var(--radius-pill);
+    background: var(--color-sun-400);
+    color: var(--color-ink-900);
+    font-size: var(--fs-xs);
+    font-weight: 800;
+  }
+
+  .pkg__guests {
+    font-weight: 700;
+  }
+
+  .pkg__facts {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+    padding-block: var(--space-sm);
+    border-block: 1px dashed currentColor;
+    border-color: rgba(246, 242, 234, 0.25);
+  }
+
+  .pkg--featured .pkg__facts {
+    border-color: var(--color-line);
+  }
+
+  .pkg__facts div {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .pkg__facts dt {
+    min-width: 3.5rem;
+    font-weight: 700;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-top: 0.2em;
+    opacity: 0.7;
+  }
+
+  .pkg__facts dd {
+    margin: 0;
+  }
+
+  .pkg__includes {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    flex: 1;
+  }
+
+  .pkg__includes li {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .pkg__includes li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.8rem;
+    height: 0.4rem;
+    border-bottom: 2px solid var(--color-coral-500);
+    border-radius: 0 0 50% 50%;
+  }
+
+  .pkg__price {
+    font-weight: 700;
+    opacity: 0.8;
+  }
+
+  .pkg .btn {
+    align-self: flex-start;
+  }
+
+  .rooms {
+    position: relative;
+  }
+
+  .rooms__grid {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .rooms__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: clamp(3rem, 6vw, 6rem);
+    }
+  }
+
+  .rooms__photo img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+
+  @media (max-width: 1023px) {
+    .rooms__photo img {
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  .rooms__text {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+  }
+
+  .rooms__faq {
+    display: grid;
+    gap: var(--space-md);
+    margin: var(--space-sm) 0;
+  }
+
+  .rooms__faq div {
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .rooms__faq dt {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 88%;
+    font-size: var(--fs-lg);
+    margin-bottom: 0.3rem;
+  }
+
+  .rooms__faq dd {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+</style>
