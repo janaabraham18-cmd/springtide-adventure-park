@@ -35,38 +35,37 @@ export const site = {
   formspreeId: 'REPLACE_ME',
 } as const;
 
-// Opening hours, Monday-first. `null` = closed. Confirmed by the client
-// (Oct 2026): Mon closed, Tue–Thu 9–6, Fri–Sat 9–8, Sun 9–3.
+// Opening hours, Monday-first. `null` = closed. From the park's own price
+// board (Oct 2026): Mon closed, Tue–Thu 10–6, Fri–Sat 10–8, Sun 10–3.
+// Public holidays follow Sunday hours (`holidayNote`).
 export const hours: { day: string; short: string; open: string | null; close: string | null }[] = [
   { day: 'Monday', short: 'Mon', open: null, close: null },
-  { day: 'Tuesday', short: 'Tue', open: '09:00', close: '18:00' },
-  { day: 'Wednesday', short: 'Wed', open: '09:00', close: '18:00' },
-  { day: 'Thursday', short: 'Thu', open: '09:00', close: '18:00' },
-  { day: 'Friday', short: 'Fri', open: '09:00', close: '20:00' },
-  { day: 'Saturday', short: 'Sat', open: '09:00', close: '20:00' },
-  { day: 'Sunday', short: 'Sun', open: '09:00', close: '15:00' },
+  { day: 'Tuesday', short: 'Tue', open: '10:00', close: '18:00' },
+  { day: 'Wednesday', short: 'Wed', open: '10:00', close: '18:00' },
+  { day: 'Thursday', short: 'Thu', open: '10:00', close: '18:00' },
+  { day: 'Friday', short: 'Fri', open: '10:00', close: '20:00' },
+  { day: 'Saturday', short: 'Sat', open: '10:00', close: '20:00' },
+  { day: 'Sunday', short: 'Sun', open: '10:00', close: '15:00' },
 ];
 export const hoursArePlaceholder = false;
+export const holidayNote = 'Public holidays: 10:00 – 15:00, same as Sundays.';
 
-// Jump passes. Prices are deliberately left blank (`price: null`) until the
-// park confirms them — the UI shows "Price on request" instead of inventing one.
-export const passes: {
-  name: string;
-  accentWord: string;
-  length: string;
-  who: string;
-  price: string | null;
-  note?: string;
-}[] = [
-  { name: 'Quick Bounce', accentWord: 'Bounce', length: '60 min', who: 'Ages 5 and up', price: null },
-  { name: 'Full Tide', accentWord: 'Tide', length: '90 min', who: 'Ages 5 and up', price: null, note: 'Most popular' },
-  { name: 'Little Waves', accentWord: 'Waves', length: '45 min', who: 'Under 5s with a grown-up', price: null },
+// Jump rates, from the park's price board (Oct 2026). Weekday rates apply
+// Tue–Thu, weekend rates Fri–Sun. `minutes` drives the booking form (a
+// 2-hour jump must start at least two hours before closing).
+export type Rate = { id: string; name: string; minutes: number; weekday: number; weekend: number; note?: string };
+export const rates: Rate[] = [
+  { id: '1h', name: '1 hour', minutes: 60, weekday: 100, weekend: 120 },
+  { id: '2h', name: '2 hours', minutes: 120, weekday: 180, weekend: 200 },
+  { id: 'toddler', name: 'Adult & toddler (1 hour)', minutes: 60, weekday: 150, weekend: 180, note: 'One grown-up jumping with their little one' },
 ];
+export const gripSocksPrice = 45;
+export const isWeekendRate = (dayIndexMondayFirst: number) => dayIndexMondayFirst >= 4; // Fri, Sat, Sun
+export const money = (n: number) => `N$${n}`;
 
 // Session start times offered in the booking form (hourly). The form only
-// enables the ones that start at least an hour before that day's closing time.
-// TODO: confirm session length/start times with the park.
-export const sessionTimes = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
+// enables the ones that fit that day's hours for the chosen jump length.
+export const sessionTimes = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
 
 export const nav = [
   { href: '/', label: 'Home' },

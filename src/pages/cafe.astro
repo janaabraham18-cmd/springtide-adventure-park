@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import TideLine from '../components/TideLine.astro';
 import { hl } from '../utils/text';
-import { menu, menuIsPlaceholder } from '../data/cafe';
+import { menu, menuFootnote, menuIsPlaceholder } from '../data/cafe';
 ---
 
 <BaseLayout
@@ -72,6 +72,9 @@ import { menu, menuIsPlaceholder } from '../data/cafe';
           ))
         }
       </div>
+      <p class="menu__footnote" data-reveal>
+        {menuFootnote} <a href="/party-rooms" class="text-link">See our party rooms</a>
+      </p>
     </div>
   </section>
 
@@ -184,6 +187,13 @@ import { menu, menuIsPlaceholder } from '../data/cafe';
     grid-template-columns: auto 1fr auto;
     align-items: baseline;
     column-gap: 0.6rem;
+  }
+
+  .menu__footnote {
+    margin-top: var(--space-sm);
+    padding-top: var(--space-md);
+    border-top: 2px solid var(--color-ink-900);
+    font-weight: 600;
   }
 
   .menu__name {

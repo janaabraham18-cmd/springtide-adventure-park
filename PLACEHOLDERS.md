@@ -8,9 +8,11 @@ dashed "Draft —" notes disappear.
 - [ ] Street address and a Google Maps pin (`contact.street`, `contact.mapQuery`)
 - [ ] Phone, WhatsApp number, email (`contact.*`), then set `contact.placeholder: false`
 - [ ] Instagram / Facebook / TikTok links (`social.*`)
-- [x] Opening hours (Tue–Thu 9–6, Fri–Sat 9–8, Sun 9–3, Mon closed)
+- [x] Opening hours, from the park's price board: Tue–Thu 10–6, Fri–Sat 10–8, Sun + public
+      holidays 10–3, Mon closed. (The client first said 9am; the board says 10:00. Confirm.)
 - [x] Confirmed: "weekends" = Friday + Saturday, Monday closed
-- [ ] Pass names, lengths, age rules and prices (`passes`)
+- [x] Jump rates from the price board (`rates`, `gripSocksPrice`)
+- [ ] Any age rules for jumpers (e.g. the youngest age for a solo jump)
 - [ ] Bookable session start times (`sessionTimes`)
 - [ ] Domain (`astro.config.mjs` `site`, `public/robots.txt`)
 
@@ -26,7 +28,7 @@ dashed "Draft —" notes disappear.
 - [ ] Is there a toddler area, a ninja course or any other zone not listed on the home page?
 
 ## Café: `src/data/cafe.ts`
-- [ ] Real menu items and prices, then set `menuIsPlaceholder = false`
+- [x] Real menu and prices (from the park's Canva menu PDF)
 
 ## Parties: `src/data/parties.ts`
 - [ ] Package names, guest numbers, timings, what's included and prices

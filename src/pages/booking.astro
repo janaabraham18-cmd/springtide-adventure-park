@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { hl } from '../utils/text';
-import { passes, sessionTimes, site } from '../data/site';
+import { money, rates, sessionTimes, site } from '../data/site';
 import { packages, partyRooms } from '../data/parties';
 
 // Bookings are requests, not instant confirmations: the form goes to the
@@ -65,9 +65,15 @@ import { packages, partyRooms } from '../data/parties';
             <input type="number" id="jumpers" name="jumpers" min="1" max="200" step="1" required inputmode="numeric" />
           </div>
           <div class="form-row" data-show-for="Jump session">
-            <label for="pass">Pass</label>
-            <select id="pass" name="pass">
-              {passes.map((p) => <option value={p.name}>{p.name} · {p.length}</option>)}
+            <label for="pass">Jump</label>
+            <select id="pass" name="jump" data-pass>
+              {
+                rates.map((r) => (
+                  <option value={r.name} data-minutes={r.minutes} data-weekday={r.weekday} data-weekend={r.weekend}>
+                    {r.name} · {money(r.weekday)} Tue–Thu / {money(r.weekend)} Fri–Sun
+                  </option>
+                ))
+              }
             </select>
           </div>
           <div class="form-row" data-show-for="Birthday party" hidden>
@@ -156,7 +162,7 @@ import { packages, partyRooms } from '../data/parties';
 </BaseLayout>
 
 <script>
-  import { hours } from '../data/site';
+  import { hours, isWeekendRate, money } from '../data/site';
 
   const form = document.querySelector<HTMLFormElement>('[data-booking-form]');
   if (form) {
@@ -173,13 +179,31 @@ import { packages, partyRooms } from '../data/parties';
     // Only offer start times that fit the chosen day's opening hours, and
     // refuse days the park is closed.
     const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5));
+    const pass = form.querySelector<HTMLSelectElement>('[data-pass]');
+
+    // Show the price that applies on the chosen day (midweek vs weekend).
+    const labelPasses = (dayIdx: number | null) => {
+      if (!pass) return;
+      Array.from(pass.options).forEach((o) => {
+        const wd = Number(o.dataset.weekday);
+        const we = Number(o.dataset.weekend);
+        o.textContent =
+          dayIdx === null
+            ? `${o.value} · ${money(wd)} Tue–Thu / ${money(we)} Fri–Sun`
+            : `${o.value} · ${money(isWeekendRate(dayIdx) ? we : wd)}`;
+      });
+    };
+
     const fitTimes = () => {
       if (!date || !time) return;
       if (!date.value) {
         date.setCustomValidity('');
+        labelPasses(null);
         return;
       }
-      const day = hours[(new Date(date.value + 'T12:00').getDay() + 6) % 7];
+      const dayIdx = (new Date(date.value + 'T12:00').getDay() + 6) % 7;
+      const day = hours[dayIdx];
+      labelPasses(dayIdx);
       if (!day.open || !day.close) {
         date.setCustomValidity(`We’re closed on ${day.day}s — please pick another day.`);
         if (hint) hint.textContent = `Closed on ${day.day}s — please pick another day.`;
@@ -188,7 +212,9 @@ import { packages, partyRooms } from '../data/parties';
         date.setCustomValidity('');
         if (hint) hint.textContent = `Open ${day.open} – ${day.close} on ${day.day}s.`;
         const open = toMin(day.open);
-        const lastStart = toMin(day.close) - 60;
+        // A 2-hour jump has to finish by closing time too.
+        const minutes = Number(pass?.selectedOptions[0]?.dataset.minutes ?? 60);
+        const lastStart = toMin(day.close) - minutes;
         Array.from(time.options).forEach((o) => {
           if (!o.value) return;
           const t = toMin(o.value);
@@ -199,6 +225,7 @@ import { packages, partyRooms } from '../data/parties';
       date.reportValidity();
     };
     date?.addEventListener('change', fitTimes);
+    pass?.addEventListener('change', fitTimes);
 
     const radios = Array.from(form.querySelectorAll<HTMLInputElement>('input[name="booking_type"]'));
     const blocks = Array.from(form.querySelectorAll<HTMLElement>('[data-show-for]'));

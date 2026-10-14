@@ -2,12 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TideLine from '../components/TideLine.astro';
 import { hl } from '../utils/text';
-import { hours, hoursArePlaceholder, passes, site } from '../data/site';
+import { gripSocksPrice, holidayNote, hours, hoursArePlaceholder, money, rates, site } from '../data/site';
 import { zones } from '../data/zones';
 
 // Spelled out so the heading follows the zone list as zones are added or removed.
 const countWord = (n: number) =>
   ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'][n] ?? String(n);
+const rateCards = [
+  { title: 'Midweek jumps', days: 'Tuesday – Thursday', key: 'weekday' as const, dark: false },
+  { title: 'Weekend jumps', days: 'Friday – Sunday', key: 'weekend' as const, dark: true },
+];
+
 const zoneNumber = (i: number) => String(i + 1).padStart(2, '0');
 
 const rules = [
@@ -19,7 +24,7 @@ const rules = [
   {
     title: 'Grip socks on',
     accentWord: 'Grip',
-    body: 'Everyone on the courts wears Springtide grip socks. Bring last visit’s pair or grab new ones at reception.',
+    body: 'Everyone on the courts wears Springtide grip socks. Bring last visit’s pair, or grab a new one at reception for N$45.',
   },
   {
     title: 'Sign the waiver',
@@ -155,24 +160,36 @@ const rules = [
     <div class="container container--wide">
       <div class="tide__head" data-reveal>
         <p class="eyebrow">Tide table</p>
-        <h2 set:html={hl('Passes and opening hours', 'hours')} />
-        {hoursArePlaceholder && <p class="draft-note">Draft — passes, prices and hours to be confirmed by the park</p>}
+        <h2 set:html={hl('Jump rates and opening hours', 'rates')} />
+        {hoursArePlaceholder && <p class="draft-note">Draft — hours to be confirmed by the park</p>}
       </div>
 
       <div class="tide__grid">
-        <ul class="tide__passes" role="list">
-          {
-            passes.map((p) => (
-              <li class:list={['pass', { 'pass--featured': p.note }]} data-reveal>
-                {p.note && <span class="pass__note">{p.note}</span>}
-                <h3 set:html={hl(p.name, p.accentWord)} />
-                <p class="pass__length">{p.length}</p>
-                <p class="pass__who">{p.who}</p>
-                <p class="pass__price">{p.price ?? 'Price to be confirmed'}</p>
-              </li>
-            ))
-          }
-        </ul>
+        <div class="tide__rates">
+          <ul class="tide__passes" role="list">
+            {
+              rateCards.map((card) => (
+                <li class:list={['pass', { 'pass--featured': card.dark }]} data-reveal>
+                  <h3 set:html={hl(card.title, 'jumps')} />
+                  <p class="pass__days">{card.days}</p>
+                  <dl class="pass__rates">
+                    {rates.map((r) => (
+                      <div>
+                        <dt>{r.name}</dt>
+                        <dd>{money(r[card.key])}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="tide__socks" data-reveal>
+            <strong>Grip socks {money(gripSocksPrice)}</strong> — everyone on the courts wears them. Already have a
+            Springtide pair? Bring them along.
+          </p>
+          <a href="/booking" class="btn" data-reveal>Book a jump</a>
+        </div>
 
         <div class="tide__hours" data-reveal>
           <h3 set:html={hl('When the tide is in', 'tide')} />
@@ -186,7 +203,7 @@ const rules = [
               ))
             }
           </dl>
-          <p class="tide__small">Public holidays and school holidays may differ — check our socials.</p>
+          <p class="tide__small">{holidayNote}</p>
         </div>
       </div>
     </div>
@@ -582,9 +599,16 @@ const rules = [
     }
   }
 
+  .tide__rates {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+  }
+
   .tide__passes {
     display: grid;
     gap: var(--space-md);
+    width: 100%;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -592,16 +616,15 @@ const rules = [
 
   @media (min-width: 700px) {
     .tide__passes {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   .pass {
-    position: relative;
     display: grid;
     gap: 0.35rem;
     align-content: start;
-    padding: var(--space-lg) var(--space-md) var(--space-md);
+    padding: var(--space-lg);
     border-radius: var(--radius-md);
     background: var(--color-bg);
     border: 1px solid var(--color-line);
@@ -616,46 +639,62 @@ const rules = [
     border-color: transparent;
   }
 
-  .pass__note {
-    position: absolute;
-    top: -0.8em;
-    left: var(--space-md);
-    padding: 0.25em 0.8em;
-    border-radius: var(--radius-pill);
-    background: var(--color-yellow-400);
-    color: var(--color-ink-900);
-    font-size: var(--fs-xs);
-    font-weight: 800;
-  }
-
-  .pass h3 {
-    margin-bottom: var(--space-xs);
-  }
-
-  .pass__length {
-    font-family: var(--font-display);
-    font-weight: 750;
-    font-stretch: 88%;
-    font-size: var(--fs-2xl);
-    line-height: 1;
-  }
-
-  .pass__who,
-  .pass__price {
+  .pass__days {
     font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: 0.04em;
     color: var(--color-text-muted);
   }
 
-  .pass--featured .pass__who,
-  .pass--featured .pass__price {
+  .pass--featured .pass__days {
     color: var(--color-on-dark-muted);
   }
 
-  .pass__price {
-    margin-top: var(--space-sm);
-    padding-top: var(--space-sm);
-    border-top: 1px dashed currentColor;
-    font-weight: 700;
+  .pass__rates {
+    display: grid;
+    gap: 0.6rem;
+    margin: var(--space-md) 0 0;
+  }
+
+  .pass__rates div {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    column-gap: 0.6rem;
+  }
+
+  .pass__rates div::after {
+    content: '';
+    grid-column: 2;
+    grid-row: 1;
+    border-bottom: 2px dotted currentColor;
+    opacity: 0.3;
+    transform: translateY(-0.3em);
+  }
+
+  .pass__rates dt {
+    grid-column: 1;
+    font-weight: 600;
+  }
+
+  .pass__rates dd {
+    grid-column: 3;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-stretch: 88%;
+    font-size: var(--fs-xl);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tide__socks {
+    max-width: 40em;
+    color: var(--color-text-muted);
+  }
+
+  .tide__socks strong {
+    color: var(--color-text);
   }
 
   .tide__hours {
