@@ -28,7 +28,8 @@ dashed "Draft —" notes disappear.
 
 ## Parties: `src/data/parties.ts`
 - [ ] Package names, guest numbers, timings, what's included and prices
-- [ ] How many party rooms, and the answers on the party page FAQ
+- [x] Two party rooms (boys' and girls')
+- [ ] The answers on the party page FAQ
 
 ## Brand and photos
 - [x] Logo: in. We vector-traced it from the WhatsApp group icon (`public/brand/`) and the
