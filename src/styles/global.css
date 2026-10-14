@@ -20,8 +20,9 @@
   --color-teal-600: #1f8f9c;
   --color-yellow-400: #f2d36f;
   --color-yellow-500: #e8c24f;
-  --color-gold-700: #9a7400;
-  --color-teal-200: #a3e4ea;
+  --color-purple-500: #7b4fa1;
+  --color-lilac-300: #c4a5f2;
+  --color-lilac-200: #d9c6fa;
   --color-blue-100: #c9eefa;
   --color-stone-50: #f6f5f1;
   --color-stone-100: #ecebe5;
@@ -33,11 +34,14 @@
   --color-text: #141b2b;
   --color-text-muted: #586070;
   --color-line: rgba(10, 37, 64, 0.12);
-  /* Accent-word tones (CLAUDE.md): headings rotate through these in page
-     order. Light backgrounds use contrast-safe shades of the logo colours. */
-  --accent-1: var(--color-blue-500);
-  --accent-2: var(--color-teal-600);
-  --accent-3: var(--color-gold-700);
+  /* Accent-word tones (CLAUDE.md): headings rotate purple → blue → yellow in
+     page order. Purple is the park's cage/party-room purple. Yellow text is
+     unreadable on light backgrounds, so there tone 3 is ink text on a yellow
+     highlighter stroke instead. */
+  --accent-1: var(--color-purple-500);
+  --accent-2: var(--color-blue-500);
+  --accent-3: var(--color-ink-900);
+  --accent-3-mark: var(--color-yellow-400);
   --color-on-dark: #f6f5f1;
   --color-on-dark-muted: rgba(246, 245, 241, 0.72);
 
@@ -172,6 +176,15 @@ p {
 
 .accent-word[data-tone='2'] {
   color: var(--accent-3);
+  background: linear-gradient(
+    transparent 58%,
+    var(--accent-3-mark) 58%,
+    var(--accent-3-mark) 90%,
+    transparent 90%
+  );
+  padding-inline: 0.06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 /* Eyebrow labels stay neutral — colour belongs to the heading's accent word. */
@@ -238,15 +251,17 @@ p {
    switch to colours that hold up against blue/navy. */
 .on-dark,
 .section--ink {
-  --accent-1: var(--color-yellow-400);
-  --accent-2: var(--color-teal-400);
-  --accent-3: var(--color-blue-300);
+  --accent-1: var(--color-lilac-300);
+  --accent-2: var(--color-blue-300);
+  --accent-3: var(--color-yellow-400);
+  --accent-3-mark: transparent;
 }
 
 .section--brand {
-  --accent-1: var(--color-yellow-400);
-  --accent-2: var(--color-teal-200);
-  --accent-3: var(--color-blue-100);
+  --accent-1: var(--color-lilac-200);
+  --accent-2: var(--color-blue-100);
+  --accent-3: var(--color-yellow-400);
+  --accent-3-mark: transparent;
 }
 
 /* Royal blue is mid-dark, so secondary text stays at full strength there
