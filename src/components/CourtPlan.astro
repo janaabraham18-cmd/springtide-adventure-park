@@ -192,8 +192,8 @@ function detail(z: Zone): string {
   }
 
   .court-plan :global(.zone__area) {
-    fill: rgba(31, 158, 227, 0.2);
-    stroke: rgba(140, 207, 243, 0.55);
+    fill: rgba(122, 206, 232, 0.2);
+    stroke: rgba(122, 206, 232, 0.55);
     stroke-width: 1.5;
     transition:
       fill 0.3s ease,
@@ -224,7 +224,7 @@ function detail(z: Zone): string {
   }
 
   .court-plan :global(.pl-hoop) {
-    stroke: var(--color-orange-500);
+    stroke: var(--color-yellow-400);
     stroke-width: 2.5;
   }
 
@@ -233,11 +233,11 @@ function detail(z: Zone): string {
   }
 
   .court-plan :global(.pl-foam) {
-    fill: rgba(140, 207, 243, 0.35);
+    fill: rgba(122, 206, 232, 0.35);
   }
 
   .court-plan :global(.pl-screen) {
-    fill: rgba(140, 207, 243, 0.55);
+    fill: rgba(122, 206, 232, 0.55);
   }
 
   .court-plan :global(.pl-cube) {
@@ -277,7 +277,7 @@ function detail(z: Zone): string {
   }
 
   .court-plan :global(.pl-compass path) {
-    fill: var(--color-orange-500);
+    fill: var(--color-yellow-400);
   }
 
   .court-plan :global(.pl-compass text) {
@@ -308,7 +308,7 @@ function detail(z: Zone): string {
 
   .court-plan--interactive :global(.zone:hover .zone__area),
   .court-plan--interactive :global(.zone:focus-visible .zone__area) {
-    fill: rgba(31, 158, 227, 0.42);
+    fill: rgba(122, 206, 232, 0.42);
     stroke: var(--color-stone-50);
   }
 
@@ -318,18 +318,18 @@ function detail(z: Zone): string {
   }
 
   .court-plan--interactive :global(.zone.is-active .zone__area) {
-    fill: rgba(229, 86, 15, 0.32);
-    stroke: var(--color-orange-500);
+    fill: rgba(70, 188, 201, 0.34);
+    stroke: var(--color-teal-400);
     stroke-width: 3;
     stroke-dasharray: none;
   }
 
   .court-plan--interactive :global(.zone.is-active .zone__num-bg) {
-    fill: var(--color-orange-500);
+    fill: var(--color-yellow-400);
   }
 
   .court-plan--interactive :global(.zone.is-active .zone__num) {
-    fill: #fff;
+    fill: var(--color-ink-900);
   }
 
   .court-plan--interactive :global(.zone.is-dim) {

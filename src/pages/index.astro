@@ -104,8 +104,8 @@ const rules = [
   </section>
 
   <!-- COURT LAYOUT TEASER -->
-  <section class="section section--ink plan-teaser">
-    <TideLine color="var(--color-ink-900)" flip />
+  <section class="section section--brand plan-teaser">
+    <TideLine color="var(--color-blue-500)" flip />
     <div class="container container--wide plan-teaser__grid">
       <div class="plan-teaser__text" data-reveal>
         <p class="eyebrow">Court layout</p>
@@ -272,8 +272,8 @@ const rules = [
     inset: 0;
     z-index: -1;
     background:
-      linear-gradient(0deg, rgba(17, 27, 54, 0.92) 0%, rgba(17, 27, 54, 0.6) 35%, rgba(17, 27, 54, 0) 78%),
-      linear-gradient(90deg, rgba(17, 27, 54, 0.45) 0%, rgba(17, 27, 54, 0) 55%);
+      linear-gradient(0deg, rgba(10, 37, 64, 0.92) 0%, rgba(10, 37, 64, 0.6) 35%, rgba(10, 37, 64, 0) 78%),
+      linear-gradient(90deg, rgba(10, 37, 64, 0.45) 0%, rgba(10, 37, 64, 0) 55%);
   }
 
   .hero__content {
@@ -287,12 +287,12 @@ const rules = [
     font-size: clamp(3.25rem, 1.2rem + 8.5vw, 9rem);
     line-height: 0.9;
     letter-spacing: -0.035em;
-    text-shadow: 0 2px 30px rgba(17, 27, 54, 0.35);
+    text-shadow: 0 2px 30px rgba(10, 37, 64, 0.35);
   }
 
   .hero .lede {
     max-width: 36em;
-    text-shadow: 0 1px 12px rgba(17, 27, 54, 0.5);
+    text-shadow: 0 1px 12px rgba(10, 37, 64, 0.5);
   }
 
   .hero__actions {
@@ -317,7 +317,7 @@ const rules = [
     font-weight: 700;
     letter-spacing: 0.04em;
     color: var(--color-on-dark);
-    background: rgba(17, 27, 54, 0.35);
+    background: rgba(10, 37, 64, 0.35);
     backdrop-filter: blur(6px);
   }
 
@@ -527,7 +527,7 @@ const rules = [
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: linear-gradient(0deg, rgba(17, 27, 54, 0.9) 0%, rgba(17, 27, 54, 0.5) 40%, rgba(17, 27, 54, 0) 80%);
+    background: linear-gradient(0deg, rgba(10, 37, 64, 0.9) 0%, rgba(10, 37, 64, 0.5) 40%, rgba(10, 37, 64, 0) 80%);
   }
 
   .duo__body {
@@ -538,19 +538,19 @@ const rules = [
 
   .duo__body h2 {
     max-width: 12ch;
-    text-shadow: 0 2px 20px rgba(17, 27, 54, 0.4);
+    text-shadow: 0 2px 20px rgba(10, 37, 64, 0.4);
   }
 
   .duo__copy {
     max-width: 30em;
     color: var(--color-on-dark-muted);
-    text-shadow: 0 1px 10px rgba(17, 27, 54, 0.5);
+    text-shadow: 0 1px 10px rgba(10, 37, 64, 0.5);
   }
 
   .duo__cta {
     margin-top: var(--space-xs);
     font-weight: 700;
-    border-bottom: 2px solid var(--color-orange-500);
+    border-bottom: 2px solid var(--color-yellow-400);
     padding-bottom: 2px;
   }
 
@@ -604,6 +604,8 @@ const rules = [
   }
 
   .pass--featured {
+    /* Dark card inside a light section: yellow accent, as on other dark grounds. */
+    --color-heading-accent: var(--color-yellow-400);
     background: var(--color-ink-900);
     color: var(--color-on-dark);
     border-color: transparent;
@@ -676,13 +678,13 @@ const rules = [
   }
 
   .tide__hours dl div.is-today {
-    background: rgba(229, 86, 15, 0.1);
+    background: rgba(1, 113, 185, 0.1);
     border-bottom-color: transparent;
   }
 
   .tide__hours dl div.is-today dt::after {
     content: ' · today';
-    color: var(--color-orange-600);
+    color: var(--color-blue-600);
     font-weight: 700;
   }
 
@@ -778,7 +780,7 @@ const rules = [
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: linear-gradient(0deg, rgba(17, 27, 54, 0.92) 0%, rgba(17, 27, 54, 0.62) 50%, rgba(17, 27, 54, 0.15) 85%);
+    background: linear-gradient(0deg, rgba(10, 37, 64, 0.92) 0%, rgba(10, 37, 64, 0.62) 50%, rgba(10, 37, 64, 0.15) 85%);
   }
 
   .visit__content {
@@ -790,6 +792,6 @@ const rules = [
   .visit h2 {
     max-width: 14ch;
     font-size: var(--fs-3xl);
-    text-shadow: 0 2px 30px rgba(17, 27, 54, 0.4);
+    text-shadow: 0 2px 30px rgba(10, 37, 64, 0.4);
   }
 </style>

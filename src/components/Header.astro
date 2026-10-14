@@ -12,7 +12,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 <header class="site-header" data-header>
   <div class="site-header__inner container container--wide">
     <a href="/" class="site-header__logo" aria-label={`${site.fullName} — home`}>
-      <Logo size={38} />
+      <Logo size={46} />
       <span class="site-header__word">{site.name}</span>
     </a>
 
@@ -83,7 +83,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     content: '';
     position: absolute;
     inset: 0 0 -40px;
-    background: linear-gradient(180deg, rgba(17, 27, 54, 0.55), rgba(17, 27, 54, 0));
+    background: linear-gradient(180deg, rgba(10, 37, 64, 0.55), rgba(10, 37, 64, 0));
     pointer-events: none;
     transition: opacity 0.35s ease;
   }
@@ -94,6 +94,10 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     box-shadow: 0 1px 0 var(--color-line);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+  }
+
+  .site-header.is-solid .site-header__nav ul a::after {
+    background: var(--color-blue-500);
   }
 
   .site-header.is-solid::before {
@@ -157,7 +161,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     right: 0;
     bottom: 0;
     height: 2px;
-    background: var(--color-orange-500);
+    background: var(--color-yellow-400);
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.35s var(--ease-out);
@@ -270,7 +274,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   }
 
   .mobile-menu ul a[aria-current='page'] {
-    color: var(--color-orange-500);
+    color: var(--color-yellow-400);
   }
 
   .mobile-menu__cta {
@@ -298,8 +302,8 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
       font-size: clamp(1.3rem, 6vw, 1.6rem);
     }
     .site-header__logo :global(.logo-mark) {
-      width: 32px;
-      height: 32px;
+      width: 38px;
+      height: 38px;
     }
   }
 

@@ -61,14 +61,23 @@ cards (forms, pass/package tiles on plain backgrounds) are fine.
 
 ## Visual language
 
-- Palette: sampled from the park's own photos (k-means over the real images). Navy ink
-  from the climbing wall and Tap Tap cube for dark sections, pad blue for interactive
-  detail and focus (`--color-blue-600` for focus rings, which needs 3:1), beam yellow for
-  primary buttons (navy text), pad orange for the heading accent word, cage/party-room
-  purple for the party packages (`.section--purple`), and warm concrete greys for the
-  light backgrounds. All of it is in `src/styles/global.css`. Keep the contrast checks:
-  accent orange ≥3:1 on light (large text), link orange ≥4.5:1. If the park's Instagram
-  brand colours arrive, tune these tokens rather than adding new ones.
+- Palette: taken from the Springtide logo (`public/brand/`), the park's real brand.
+  Royal blue `#0171b9` (the badge) is the brand: the accent word on light backgrounds,
+  links, and `.section--brand` blocks (home floor-plan teaser, party packages, footer).
+  Sun yellow is the primary button (navy text) and the accent word on dark or photo
+  backgrounds. Teal and wave blue are supporting details; ink is a deep shade of the brand
+  blue for scrims and `.section--ink`. Light backgrounds are the warm concrete greys from
+  the park photos. Everything is in `src/styles/global.css`.
+- The accent colour is the CSS variable `--color-heading-accent`. It flips to yellow inside
+  `.on-dark`, `.section--ink` and `.section--brand`. A card whose background contrasts with
+  its section must set it back (see `.pkg--featured`, `.pass--featured`), or the accent
+  word disappears.
+- Contrast checks: the accent ≥3:1 (large text), links and body ≥4.5:1. Secondary text on
+  royal blue stays full white, because dimmed white drops under 4.5:1.
+- Logo: `public/brand/logo-badge.svg` (on its blue disc; header, icons) and `logo-art.svg`
+  (artwork only; footer on blue). Both are vector traces of the WhatsApp logo image. Swap in
+  the designer's original files if they turn up. Favicons/apple-touch icons are PNGs
+  rendered from the badge.
 - Type: Bricolage Grotesque (display, `font-stretch: 88%`) + Figtree (body), self-hosted
   via Fontsource. Load the Bricolage `standard.css` entry, which includes the width axis.
 - The tide line (`TideLine.astro`) is the section-edge motif. Default places it in the

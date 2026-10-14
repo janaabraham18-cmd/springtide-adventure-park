@@ -30,10 +30,10 @@ dashed "Draft —" notes disappear.
 - [ ] How many party rooms, and the answers on the party page FAQ
 
 ## Brand and photos
-- [ ] Logo: the moon-and-wave mark in `Logo.astro` and `public/favicon.svg` is ours. Swap
-      it in if the park has its own.
-- [ ] Brand colours from the park's Instagram (@springtide.swakop). We couldn't open it from
-      the build environment, so we need a screenshot or the hex values.
+- [x] Logo: in. We vector-traced it from the WhatsApp group icon (`public/brand/`) and the
+      site palette now comes from it.
+- [ ] The designer's original logo file (SVG/AI/PDF), if there is one. Our trace is clean,
+      but the original would match exactly.
 - [x] Real park photos (Oct 2026, via WhatsApp) are in for the hero, every play zone,
       reception/lockers, both party rooms and the court-layout/booking/404 heroes.
 - [ ] Original-resolution photos. The WhatsApp copies are 1080px, so the full-screen heroes

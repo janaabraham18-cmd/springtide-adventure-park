@@ -1,5 +1,4 @@
 ---
-import Logo from './Logo.astro';
 import TideLine from './TideLine.astro';
 import { hours, nav, site } from '../data/site';
 
@@ -7,12 +6,11 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer on-dark">
-  <TideLine color="var(--color-ink-900)" flip />
+  <TideLine color="var(--color-blue-500)" flip />
   <div class="container container--wide site-footer__grid">
     <div class="site-footer__brand">
       <a href="/" class="site-footer__logo" aria-label={`${site.fullName} — home`}>
-        <Logo size={52} />
-        <span>{site.name}</span>
+        <img src="/brand/logo-art.svg" alt="" width="129" height="150" decoding="async" loading="lazy" />
       </a>
       <p class="site-footer__tag">{site.tagline}</p>
       <a href="/booking" class="btn">Book a jump</a>
@@ -67,7 +65,8 @@ const year = new Date().getFullYear();
   .site-footer {
     position: relative;
     padding-block: var(--space-2xl) var(--space-lg);
-    background: var(--color-ink-900);
+    --color-on-dark-muted: var(--color-on-dark);
+    background: var(--color-blue-500);
     color: var(--color-on-dark);
   }
 
@@ -90,15 +89,12 @@ const year = new Date().getFullYear();
   }
 
   .site-footer__logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-stretch: 88%;
-    font-size: 2.2rem;
-    letter-spacing: -0.03em;
-    text-decoration: none;
+    display: inline-block;
+  }
+
+  .site-footer__logo img {
+    width: auto;
+    height: clamp(120px, 14vw, 160px);
   }
 
   .site-footer__tag {
@@ -115,7 +111,7 @@ const year = new Date().getFullYear();
     font-stretch: 100%;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-sand-200);
+    color: var(--color-on-dark);
   }
 
   .site-footer__list {
@@ -135,7 +131,7 @@ const year = new Date().getFullYear();
 
   .site-footer__list a:hover,
   .site-footer__social a:hover {
-    color: var(--color-orange-500);
+    color: var(--color-yellow-400);
   }
 
   .site-footer__list a {

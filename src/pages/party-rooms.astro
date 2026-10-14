@@ -73,8 +73,8 @@ import { packages, partiesArePlaceholder, partyRooms, partySteps } from '../data
     </div>
   </section>
 
-  <section class="section section--purple packages">
-    <TideLine color="var(--color-purple-800)" flip />
+  <section class="section section--brand packages">
+    <TideLine color="var(--color-blue-500)" flip />
     <div class="container container--wide">
       <div class="packages__head" data-reveal>
         <p class="eyebrow">Packages</p>
@@ -272,6 +272,8 @@ import { packages, partiesArePlaceholder, partyRooms, partySteps } from '../data
   }
 
   .pkg--featured {
+    /* Light card inside the blue section: switch the accent back to blue. */
+    --color-heading-accent: var(--color-blue-500);
     background: var(--color-stone-50);
     color: var(--color-text);
     border-color: transparent;
@@ -346,7 +348,7 @@ import { packages, partiesArePlaceholder, partyRooms, partySteps } from '../data
     top: 0.62em;
     width: 0.8rem;
     height: 0.4rem;
-    border-bottom: 2px solid var(--color-orange-500);
+    border-bottom: 2px solid currentColor;
     border-radius: 0 0 50% 50%;
   }
 

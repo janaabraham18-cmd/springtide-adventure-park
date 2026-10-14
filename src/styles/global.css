@@ -1,35 +1,36 @@
 /* Springtide — design tokens and base styles.
-   Palette taken from the park's own photos (see :root). Orange is the heading
-   accent word (see CLAUDE.md) and link colour; yellow is the primary button;
-   blue is focus and interactive detail; navy is the dark sections. */
+   Palette from the Springtide logo (see :root). Royal blue is the brand: the
+   heading accent word on light backgrounds (see CLAUDE.md), links and the
+   brand-blue sections. Sun yellow is the primary button and the accent word on
+   dark backgrounds and photos. Teal and wave blue are supporting details. */
 
 :root {
-  /* Every colour is sampled from the park itself (k-means over the real photos):
-     pad blue, the navy of the climbing wall and Tap Tap cube, beam/stripe yellow,
-     pad orange, cage/party-room purple, and the warm grey of the concrete. */
-  --color-ink-900: #111b36;
-  --color-ink-800: #17244a;
-  --color-ink-700: #20325f;
-  --color-blue-600: #1679b5;
-  --color-blue-500: #1f9ee3;
-  --color-blue-300: #8ccff3;
+  /* Brand palette, sampled from the Springtide logo: royal blue badge, teal
+     lettering, sun yellow rays, light-blue waves. Ink is a deep shade of the
+     same blue for dark sections and photo scrims; stone/sand are the warm
+     concrete greys from the park photos. */
+  --color-ink-900: #0a2540;
+  --color-ink-800: #0e3156;
+  --color-ink-700: #164270;
+  --color-blue-700: #014a7a;
+  --color-blue-600: #015a94;
+  --color-blue-500: #0171b9;
+  --color-blue-300: #7acee8;
+  --color-teal-400: #46bcc9;
+  --color-teal-600: #1f8f9c;
+  --color-yellow-400: #f2d36f;
+  --color-yellow-500: #e8c24f;
   --color-stone-50: #f6f5f1;
   --color-stone-100: #ecebe5;
   --color-sand-200: #e2e0d6;
   --color-sand-300: #cbc8bb;
-  --color-orange-500: #e5560f;
-  --color-orange-600: #b8420a;
-  --color-yellow-400: #ffc72c;
-  --color-yellow-500: #f2b400;
-  --color-purple-500: #7a4fb0;
-  --color-purple-800: #2e1d55;
 
   --color-bg: var(--color-stone-50);
   --color-bg-alt: var(--color-stone-100);
   --color-text: #141b2b;
   --color-text-muted: #586070;
-  --color-line: rgba(17, 27, 54, 0.12);
-  --color-heading-accent: var(--color-orange-500);
+  --color-line: rgba(10, 37, 64, 0.12);
+  --color-heading-accent: var(--color-blue-500);
   --color-on-dark: #f6f5f1;
   --color-on-dark-muted: rgba(246, 245, 241, 0.72);
 
@@ -157,7 +158,7 @@ p {
   color: var(--color-heading-accent);
 }
 
-/* Eyebrow labels stay neutral — orange belongs to the heading's accent word. */
+/* Eyebrow labels stay neutral — colour belongs to the heading's accent word. */
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -179,8 +180,13 @@ p {
 }
 
 .on-dark .eyebrow,
+.section--ink .eyebrow,
 .eyebrow--light {
   color: var(--color-sand-200);
+}
+
+.section--brand .eyebrow {
+  color: var(--color-on-dark);
 }
 
 .container {
@@ -207,9 +213,29 @@ p {
   color: var(--color-on-dark);
 }
 
-.section--purple {
-  background: var(--color-purple-800);
+.section--brand {
+  background: var(--color-blue-500);
   color: var(--color-on-dark);
+}
+
+/* On dark or photo backgrounds the accent word, focus ring and muted text
+   switch to colours that hold up against blue/navy. */
+.on-dark,
+.section--ink,
+.section--brand {
+  --color-heading-accent: var(--color-yellow-400);
+}
+
+/* Royal blue is mid-dark, so secondary text stays at full strength there
+   (dimmed white drops below 4.5:1). */
+.section--brand {
+  --color-on-dark-muted: var(--color-on-dark);
+}
+
+.on-dark :focus-visible,
+.section--ink :focus-visible,
+.section--brand :focus-visible {
+  outline-color: var(--color-yellow-400);
 }
 
 .lede {
@@ -221,7 +247,7 @@ p {
 
 .on-dark .lede,
 .section--ink .lede,
-.section--purple .lede {
+.section--brand .lede {
   color: var(--color-on-dark-muted);
 }
 
@@ -269,7 +295,7 @@ p {
 a:focus-visible,
 button:focus-visible,
 [tabindex]:focus-visible {
-  outline: 3px solid var(--color-blue-600);
+  outline: 3px solid var(--color-blue-500);
   outline-offset: 3px;
 }
 
@@ -308,7 +334,7 @@ button:focus-visible,
 
 .text-link {
   font-weight: 700;
-  color: var(--color-orange-600);
+  color: var(--color-blue-600);
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 0.25em;
@@ -341,7 +367,7 @@ button:focus-visible,
 }
 
 .section--ink .draft-note,
-.section--purple .draft-note,
+.section--brand .draft-note,
 .on-dark .draft-note {
   border-color: rgba(246, 245, 241, 0.35);
   color: var(--color-on-dark-muted);
@@ -398,7 +424,7 @@ button:focus-visible,
 .form textarea:focus {
   outline: none;
   border-color: var(--color-blue-500);
-  box-shadow: 0 0 0 4px rgba(31, 158, 227, 0.18);
+  box-shadow: 0 0 0 4px rgba(122, 206, 232, 0.18);
 }
 
 .form .check {
@@ -416,7 +442,7 @@ button:focus-visible,
   min-height: 0;
   margin-top: 0.1em;
   flex-shrink: 0;
-  accent-color: var(--color-orange-500);
+  accent-color: var(--color-blue-500);
 }
 
 .form .hint {
