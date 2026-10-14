@@ -20,6 +20,9 @@
   --color-teal-600: #1f8f9c;
   --color-yellow-400: #f2d36f;
   --color-yellow-500: #e8c24f;
+  --color-gold-700: #9a7400;
+  --color-teal-200: #a3e4ea;
+  --color-blue-100: #c9eefa;
   --color-stone-50: #f6f5f1;
   --color-stone-100: #ecebe5;
   --color-sand-200: #e2e0d6;
@@ -30,7 +33,11 @@
   --color-text: #141b2b;
   --color-text-muted: #586070;
   --color-line: rgba(10, 37, 64, 0.12);
-  --color-heading-accent: var(--color-blue-500);
+  /* Accent-word tones (CLAUDE.md): headings rotate through these in page
+     order. Light backgrounds use contrast-safe shades of the logo colours. */
+  --accent-1: var(--color-blue-500);
+  --accent-2: var(--color-teal-600);
+  --accent-3: var(--color-gold-700);
   --color-on-dark: #f6f5f1;
   --color-on-dark-muted: rgba(246, 245, 241, 0.72);
 
@@ -153,9 +160,18 @@ p {
   text-wrap: pretty;
 }
 
-/* The one-accent-word-per-heading device (see CLAUDE.md). */
+/* The one-accent-word-per-heading device (see CLAUDE.md). The tone rotates
+   through the logo palette in page order (data-tone is set by BaseLayout). */
 .accent-word {
-  color: var(--color-heading-accent);
+  color: var(--accent-1);
+}
+
+.accent-word[data-tone='1'] {
+  color: var(--accent-2);
+}
+
+.accent-word[data-tone='2'] {
+  color: var(--accent-3);
 }
 
 /* Eyebrow labels stay neutral — colour belongs to the heading's accent word. */
@@ -221,9 +237,16 @@ p {
 /* On dark or photo backgrounds the accent word, focus ring and muted text
    switch to colours that hold up against blue/navy. */
 .on-dark,
-.section--ink,
+.section--ink {
+  --accent-1: var(--color-yellow-400);
+  --accent-2: var(--color-teal-400);
+  --accent-3: var(--color-blue-300);
+}
+
 .section--brand {
-  --color-heading-accent: var(--color-yellow-400);
+  --accent-1: var(--color-yellow-400);
+  --accent-2: var(--color-teal-200);
+  --accent-3: var(--color-blue-100);
 }
 
 /* Royal blue is mid-dark, so secondary text stays at full strength there

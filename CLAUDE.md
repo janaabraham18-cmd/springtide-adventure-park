@@ -37,8 +37,9 @@ a spread of widths (375, 768, 1024, 1280, 1440, 1920) and check
 
 ## The one-accent-word-per-heading device
 
-Every real heading (h1–h4, including data-driven ones) gets exactly one word in orange
-(`--color-heading-accent`, `.accent-word`) via `hl(text, word)` from `src/utils/text.ts`:
+Every real heading (h1–h4, including data-driven ones) gets exactly one word in an accent
+colour (`.accent-word`, whose tone rotates through the logo palette — see Visual language)
+via `hl(text, word)` from `src/utils/text.ts`:
 
 - Exactly 2 words → the last word.
 - Otherwise → the most distinctive or evocative word, never a filler word.
@@ -46,9 +47,9 @@ Every real heading (h1–h4, including data-driven ones) gets exactly one word i
 - `hl()` matches the first exact-case occurrence and is used with `set:html` (only ever on
   our own copy, never user input).
 
-**Orange is reserved for that accent word** plus links and active states.
+**The accent colours belong to that one word** (plus links, buttons and active states).
 Eyebrow labels (`.eyebrow`) stay neutral: `--color-text-muted` on light,
-`--color-sand-200` on dark or photo.
+`--color-sand-200` on navy or photo, white on royal blue.
 
 ## Never put a heading in a card/bubble over a photo
 
@@ -68,10 +69,12 @@ cards (forms, pass/package tiles on plain backgrounds) are fine.
   backgrounds. Teal and wave blue are supporting details; ink is a deep shade of the brand
   blue for scrims and `.section--ink`. Light backgrounds are the warm concrete greys from
   the park photos. Everything is in `src/styles/global.css`.
-- The accent colour is the CSS variable `--color-heading-accent`. It flips to yellow inside
-  `.on-dark`, `.section--ink` and `.section--brand`. A card whose background contrasts with
-  its section must set it back (see `.pkg--featured`, `.pass--featured`), or the accent
-  word disappears.
+- Accent words rotate through three tones in page order: blue → teal → gold on light
+  backgrounds, yellow → teal → wave blue on dark/photo, and yellow → light teal → light wave
+  on royal blue. Each context sets `--accent-1/2/3` and BaseLayout's inline script stamps
+  `data-tone` = index % 3. A card whose background contrasts with its section must set all
+  three back (see `.pkg--featured`, `.pass--featured`). New tones need ≥3:1 against their
+  background.
 - Contrast checks: the accent ≥3:1 (large text), links and body ≥4.5:1. Secondary text on
   royal blue stays full white, because dimmed white drops under 4.5:1.
 - Logo: `public/brand/logo-badge.svg` (on its blue disc; header, icons) and `logo-art.svg`
