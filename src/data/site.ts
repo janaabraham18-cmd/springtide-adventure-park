@@ -35,9 +35,8 @@ export const site = {
   formspreeId: 'REPLACE_ME',
 } as const;
 
-// Opening hours, Monday-first. `null` = closed. From the client (Oct 2026):
-// Tue–Thu 9–6, "weekends" 9–8, Sun 9–3. We've read "weekends" as Fri + Sat
-// (Sunday has its own hours) and Monday as closed — confirm both.
+// Opening hours, Monday-first. `null` = closed. Confirmed by the client
+// (Oct 2026): Mon closed, Tue–Thu 9–6, Fri–Sat 9–8, Sun 9–3.
 export const hours: { day: string; short: string; open: string | null; close: string | null }[] = [
   { day: 'Monday', short: 'Mon', open: null, close: null },
   { day: 'Tuesday', short: 'Tue', open: '09:00', close: '18:00' },

@@ -57,9 +57,9 @@ export const packages: Package[] = [
   },
 ];
 
-// The two party rooms, from the park's own photos. The park runs a boys' room
-// and a girls' room; we've matched them to the blue starburst wall and the
-// purple jungle wall respectively (confirm with the park).
+// The two party rooms, from the park's own photos (confirmed by the client):
+// the boys' room has the blue starburst wall, the girls' room the purple
+// jungle wall.
 export const partyRooms = [
   {
     name: 'The Boys’ Party Room',
