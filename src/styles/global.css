@@ -198,7 +198,8 @@ p {
   color: var(--color-sand-200);
 }
 
-.section--brand .eyebrow {
+.section--brand .eyebrow,
+.section--purple .eyebrow {
   color: var(--color-on-dark);
 }
 
@@ -231,6 +232,13 @@ p {
   color: var(--color-on-dark);
 }
 
+/* The park's purple (cage, girls' party room, price board) — the purple
+   counterpart to the royal-blue brand sections. */
+.section--purple {
+  background: var(--color-purple-500);
+  color: var(--color-on-dark);
+}
+
 /* On dark or photo backgrounds the accent word, focus ring and muted text
    switch to colours that hold up against blue/navy. */
 .on-dark,
@@ -239,20 +247,23 @@ p {
   --accent-2: var(--color-blue-300);
 }
 
-.section--brand {
+.section--brand,
+.section--purple {
   --accent-1: var(--color-lilac-200);
   --accent-2: var(--color-blue-100);
 }
 
 /* Royal blue is mid-dark, so secondary text stays at full strength there
    (dimmed white drops below 4.5:1). */
-.section--brand {
+.section--brand,
+.section--purple {
   --color-on-dark-muted: var(--color-on-dark);
 }
 
 .on-dark :focus-visible,
 .section--ink :focus-visible,
-.section--brand :focus-visible {
+.section--brand :focus-visible,
+.section--purple :focus-visible {
   outline-color: var(--color-yellow-400);
 }
 
@@ -265,7 +276,8 @@ p {
 
 .on-dark .lede,
 .section--ink .lede,
-.section--brand .lede {
+.section--brand .lede,
+.section--purple .lede {
   color: var(--color-on-dark-muted);
 }
 
@@ -386,6 +398,7 @@ button:focus-visible,
 
 .section--ink .draft-note,
 .section--brand .draft-note,
+.section--purple .draft-note,
 .on-dark .draft-note {
   border-color: rgba(246, 245, 241, 0.35);
   color: var(--color-on-dark-muted);
