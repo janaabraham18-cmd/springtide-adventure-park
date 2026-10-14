@@ -48,10 +48,10 @@ const ogImage = new URL(image, Astro.site);
     </main>
     <Footer />
     <script is:inline>
-      // Rotate accent-word tones through the palette in page order (before
-      // first paint). Without JS every accent word just uses tone 0.
+      // Alternate accent-word tones (purple/blue) in page order before first
+      // paint. Without JS every accent word just uses tone 0.
       document.querySelectorAll('.accent-word').forEach(function (el, i) {
-        el.dataset.tone = String(i % 3);
+        el.dataset.tone = String(i % 2);
       });
     </script>
     <script>

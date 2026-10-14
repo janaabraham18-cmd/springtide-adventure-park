@@ -34,14 +34,10 @@
   --color-text: #141b2b;
   --color-text-muted: #586070;
   --color-line: rgba(10, 37, 64, 0.12);
-  /* Accent-word tones (CLAUDE.md): headings rotate purple → blue → yellow in
-     page order. Purple is the park's cage/party-room purple. Yellow text is
-     unreadable on light backgrounds, so there tone 3 is ink text on a yellow
-     highlighter stroke instead. */
+  /* Accent-word tones (CLAUDE.md): headings alternate purple and blue in
+     page order. Purple is the park's cage/party-room purple. */
   --accent-1: var(--color-purple-500);
   --accent-2: var(--color-blue-500);
-  --accent-3: var(--color-ink-900);
-  --accent-3-mark: var(--color-yellow-400);
   --color-on-dark: #f6f5f1;
   --color-on-dark-muted: rgba(246, 245, 241, 0.72);
 
@@ -164,8 +160,8 @@ p {
   text-wrap: pretty;
 }
 
-/* The one-accent-word-per-heading device (see CLAUDE.md). The tone rotates
-   through the logo palette in page order (data-tone is set by BaseLayout). */
+/* The one-accent-word-per-heading device (see CLAUDE.md). The tone alternates
+   purple/blue in page order (data-tone is set by BaseLayout). */
 .accent-word {
   color: var(--accent-1);
 }
@@ -174,18 +170,6 @@ p {
   color: var(--accent-2);
 }
 
-.accent-word[data-tone='2'] {
-  color: var(--accent-3);
-  background: linear-gradient(
-    transparent 58%,
-    var(--accent-3-mark) 58%,
-    var(--accent-3-mark) 90%,
-    transparent 90%
-  );
-  padding-inline: 0.06em;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-}
 
 /* Eyebrow labels stay neutral — colour belongs to the heading's accent word. */
 .eyebrow {
@@ -253,15 +237,11 @@ p {
 .section--ink {
   --accent-1: var(--color-lilac-300);
   --accent-2: var(--color-blue-300);
-  --accent-3: var(--color-yellow-400);
-  --accent-3-mark: transparent;
 }
 
 .section--brand {
   --accent-1: var(--color-lilac-200);
   --accent-2: var(--color-blue-100);
-  --accent-3: var(--color-yellow-400);
-  --accent-3-mark: transparent;
 }
 
 /* Royal blue is mid-dark, so secondary text stays at full strength there

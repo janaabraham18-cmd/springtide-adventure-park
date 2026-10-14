@@ -69,13 +69,13 @@ cards (forms, pass/package tiles on plain backgrounds) are fine.
   backgrounds. Teal and wave blue are supporting details; ink is a deep shade of the brand
   blue for scrims and `.section--ink`. Light backgrounds are the warm concrete greys from
   the park photos. Everything is in `src/styles/global.css`.
-- Accent words rotate purple → blue → yellow in page order. On light backgrounds: the
-  park's purple `#7b4fa1`, royal blue, and yellow as a highlighter stroke behind ink text
-  (yellow text would be unreadable there). On navy/photo: lilac, wave blue, yellow text.
-  On royal blue: pale lilac, pale wave, yellow. Each context sets `--accent-1/2/3` and
-  `--accent-3-mark`, and BaseLayout's inline script stamps `data-tone` = index % 3. A card
-  whose background contrasts with its section must set all four back (see
-  `.pkg--featured`, `.pass--featured`). New tones need ≥3:1 against their background.
+- Accent words alternate purple → blue in page order: the park's purple `#7b4fa1` and
+  royal blue on light backgrounds, lilac and wave blue on navy/photo, pale lilac and pale
+  wave on royal blue. (Yellow was tried and removed at the client's request; it stays the
+  button colour only.) Each context sets `--accent-1/2`, and BaseLayout's inline script
+  stamps `data-tone` = index % 2. A card whose background contrasts with its section must
+  set both back (see `.pkg--featured`, `.pass--featured`). New tones need ≥3:1 against
+  their background.
 - Contrast checks: the accent ≥3:1 (large text), links and body ≥4.5:1. Secondary text on
   royal blue stays full white, because dimmed white drops under 4.5:1.
 - Logo: `public/brand/logo-badge.svg` (on its blue disc; header, icons) and `logo-art.svg`
