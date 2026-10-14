@@ -35,18 +35,19 @@ export const site = {
   formspreeId: 'REPLACE_ME',
 } as const;
 
-// Opening hours, Monday-first. `null` = closed.
-// TODO: placeholder hours — confirm with the park.
+// Opening hours, Monday-first. `null` = closed. From the client (Oct 2026):
+// Tue–Thu 9–6, "weekends" 9–8, Sun 9–3. We've read "weekends" as Fri + Sat
+// (Sunday has its own hours) and Monday as closed — confirm both.
 export const hours: { day: string; short: string; open: string | null; close: string | null }[] = [
   { day: 'Monday', short: 'Mon', open: null, close: null },
-  { day: 'Tuesday', short: 'Tue', open: '14:00', close: '19:00' },
-  { day: 'Wednesday', short: 'Wed', open: '14:00', close: '19:00' },
-  { day: 'Thursday', short: 'Thu', open: '14:00', close: '19:00' },
-  { day: 'Friday', short: 'Fri', open: '14:00', close: '21:00' },
-  { day: 'Saturday', short: 'Sat', open: '09:00', close: '21:00' },
-  { day: 'Sunday', short: 'Sun', open: '10:00', close: '18:00' },
+  { day: 'Tuesday', short: 'Tue', open: '09:00', close: '18:00' },
+  { day: 'Wednesday', short: 'Wed', open: '09:00', close: '18:00' },
+  { day: 'Thursday', short: 'Thu', open: '09:00', close: '18:00' },
+  { day: 'Friday', short: 'Fri', open: '09:00', close: '20:00' },
+  { day: 'Saturday', short: 'Sat', open: '09:00', close: '20:00' },
+  { day: 'Sunday', short: 'Sun', open: '09:00', close: '15:00' },
 ];
-export const hoursArePlaceholder = true;
+export const hoursArePlaceholder = false;
 
 // Jump passes. Prices are deliberately left blank (`price: null`) until the
 // park confirms them — the UI shows "Price on request" instead of inventing one.
@@ -63,8 +64,10 @@ export const passes: {
   { name: 'Little Waves', accentWord: 'Waves', length: '45 min', who: 'Under 5s with a grown-up', price: null },
 ];
 
-// Session start times offered in the booking form. TODO: confirm.
-export const sessionTimes = ['09:00', '10:30', '12:00', '14:00', '15:30', '17:00', '18:30'];
+// Session start times offered in the booking form (hourly). The form only
+// enables the ones that start at least an hour before that day's closing time.
+// TODO: confirm session length/start times with the park.
+export const sessionTimes = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
 
 export const nav = [
   { href: '/', label: 'Home' },

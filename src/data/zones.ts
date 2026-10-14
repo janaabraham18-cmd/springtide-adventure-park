@@ -126,10 +126,10 @@ export const zones: Zone[] = [
     accentWord: 'Rooms',
     kind: 'facility',
     blurb:
-      'Two private party rooms right beside the courts — one with a starburst wall, one with a jungle wall — each with a long wooden table for the whole crew.',
+      'Two private party rooms right beside the courts — a boys’ room and a girls’ room — each with a long wooden table for the whole crew.',
     details: ['A private room for your group', 'Jump time included in every party'],
     image: '/images/party-starburst.jpg',
-    imageAlt: 'The starburst party room with a long wooden table and benches',
+    imageAlt: 'The boys’ party room, with a long wooden table in front of a blue starburst wall',
     link: { href: '/party-rooms', label: 'Plan a party' },
     plan: {
       rects: [

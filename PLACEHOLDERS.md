@@ -8,7 +8,8 @@ dashed "Draft —" notes disappear.
 - [ ] Street address and a Google Maps pin (`contact.street`, `contact.mapQuery`)
 - [ ] Phone, WhatsApp number, email (`contact.*`), then set `contact.placeholder: false`
 - [ ] Instagram / Facebook / TikTok links (`social.*`)
-- [ ] Opening hours, then set `hoursArePlaceholder = false`
+- [x] Opening hours (Tue–Thu 9–6, Fri–Sat 9–8, Sun 9–3, Mon closed)
+- [ ] Confirm "weekends" means Friday + Saturday, and that Monday is closed
 - [ ] Pass names, lengths, age rules and prices (`passes`)
 - [ ] Bookable session start times (`sessionTimes`)
 - [ ] Domain (`astro.config.mjs` `site`, `public/robots.txt`)
@@ -41,7 +42,7 @@ dashed "Draft —" notes disappear.
       soft on big screens.
 - [ ] Still stock: café/food (`shake-*`, `pizza`, `coffee`) and the Swakopmund shots
       (`swakop-*`). We still need café counter/seating and building-front photos.
-- [ ] Party room names. "The Starburst Room" / "The Jungle Room" are ours, taken from each
-      room's feature wall (`partyRooms` in `parties.ts`).
+- [ ] Party rooms are a boys' room and a girls' room. We matched boys → blue starburst wall
+      and girls → purple jungle wall; confirm (`partyRooms` in `parties.ts`).
 - [ ] Interactive Game Zone: we added it from the photos (game screens + Tap Tap Fun cube).
       Confirm the name and the rules.

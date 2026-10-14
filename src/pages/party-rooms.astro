@@ -17,7 +17,7 @@ import { packages, partiesArePlaceholder, partyRooms, partySteps } from '../data
     accentWord="birthday"
     lede="A private room, a host who runs the show and the whole park to bounce around. You bring the birthday person — we’ll handle the rest."
     image="/images/party-jungle-wide.jpg"
-    imageAlt="The jungle party room at Springtide: a long wooden table and benches in front of a tropical leaf wall"
+    imageAlt="The girls’ party room at Springtide: a long wooden table and benches in front of a tropical leaf wall"
     focus="center 45%"
     compact
   >
@@ -49,10 +49,10 @@ import { packages, partiesArePlaceholder, partyRooms, partySteps } from '../data
     <div class="container container--wide">
       <div class="rooms-show__head" data-reveal>
         <p class="eyebrow">The rooms</p>
-        <h2 set:html={hl('Two rooms, two moods', 'moods')} />
+        <h2 set:html={hl('A room for the boys, a room for the girls', 'boys')} />
         <p class="lede">
-          Both rooms sit right beside the courts and fit the whole crew around one long wooden table. Pick the wall
-          that suits the birthday person.
+          Book the boys’ room or the girls’ room. Both sit right beside the courts and fit the whole crew around one
+          long wooden table.
         </p>
       </div>
       <div class="rooms-show__grid">
@@ -63,7 +63,7 @@ import { packages, partiesArePlaceholder, partyRooms, partySteps } from '../data
                 <img src={room.image} alt={room.imageAlt} loading="lazy" />
               </div>
               <figcaption>
-                <h3 set:html={hl(room.name, room.accentWord)} />
+                <h3 set:html={hl(room.name, room.accentWord).replace('class="accent-word"', `class="accent-word" data-tone="${room.tone}"`)} />
                 <p>{room.body}</p>
               </figcaption>
             </figure>

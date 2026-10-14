@@ -49,9 +49,10 @@ const ogImage = new URL(image, Astro.site);
     <Footer />
     <script is:inline>
       // Alternate accent-word tones (purple/blue) in page order before first
-      // paint. Without JS every accent word just uses tone 0.
+      // paint. Words that already carry a data-tone (e.g. the boys'/girls'
+      // party rooms) keep it. Without JS every accent word uses tone 0.
       document.querySelectorAll('.accent-word').forEach(function (el, i) {
-        el.dataset.tone = String(i % 2);
+        if (!el.dataset.tone) el.dataset.tone = String(i % 2);
       });
     </script>
     <script>

@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { hl } from '../utils/text';
 import { passes, sessionTimes, site } from '../data/site';
-import { packages } from '../data/parties';
+import { packages, partyRooms } from '../data/parties';
 
 // Bookings are requests, not instant confirmations: the form goes to the
 // park's inbox via Formspree and staff confirm by phone/WhatsApp/email. If the
@@ -47,11 +47,12 @@ import { packages } from '../data/parties';
         <div class="form-row-group">
           <div class="form-row">
             <label for="date">Date</label>
-            <input type="date" id="date" name="date" required data-date />
+            <input type="date" id="date" name="date" required data-date aria-describedby="date-hint" />
+            <p class="hint" id="date-hint" data-date-hint>Closed on Mondays.</p>
           </div>
           <div class="form-row">
             <label for="time">Start time</label>
-            <select id="time" name="time" required>
+            <select id="time" name="time" required data-time>
               <option value="" disabled selected>Choose a time</option>
               {sessionTimes.map((t) => <option value={t}>{t}</option>)}
             </select>
@@ -80,6 +81,14 @@ import { packages } from '../data/parties';
             <label for="group">School or group name</label>
             <input type="text" id="group" name="group_name" autocomplete="organization" />
           </div>
+        </div>
+
+        <div class="form-row" data-show-for="Birthday party" hidden>
+          <label for="room">Party room</label>
+          <select id="room" name="party_room">
+            {partyRooms.map((r) => <option value={r.name}>{r.name.replace('The ', '')}</option>)}
+            <option value="No preference">No preference</option>
+          </select>
         </div>
 
         <div class="form-row" data-show-for="Birthday party" hidden>
@@ -147,15 +156,49 @@ import { packages } from '../data/parties';
 </BaseLayout>
 
 <script>
+  import { hours } from '../data/site';
+
   const form = document.querySelector<HTMLFormElement>('[data-booking-form]');
   if (form) {
     // No past dates.
     const date = form.querySelector<HTMLInputElement>('[data-date]');
+    const time = form.querySelector<HTMLSelectElement>('[data-time]');
+    const hint = form.querySelector<HTMLElement>('[data-date-hint]');
     if (date) {
       const d = new Date();
       const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
       date.min = local.toISOString().slice(0, 10);
     }
+
+    // Only offer start times that fit the chosen day's opening hours, and
+    // refuse days the park is closed.
+    const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5));
+    const fitTimes = () => {
+      if (!date || !time) return;
+      if (!date.value) {
+        date.setCustomValidity('');
+        return;
+      }
+      const day = hours[(new Date(date.value + 'T12:00').getDay() + 6) % 7];
+      if (!day.open || !day.close) {
+        date.setCustomValidity(`We’re closed on ${day.day}s — please pick another day.`);
+        if (hint) hint.textContent = `Closed on ${day.day}s — please pick another day.`;
+        Array.from(time.options).forEach((o) => (o.disabled = o.value !== ''));
+      } else {
+        date.setCustomValidity('');
+        if (hint) hint.textContent = `Open ${day.open} – ${day.close} on ${day.day}s.`;
+        const open = toMin(day.open);
+        const lastStart = toMin(day.close) - 60;
+        Array.from(time.options).forEach((o) => {
+          if (!o.value) return;
+          const t = toMin(o.value);
+          o.disabled = t < open || t > lastStart;
+        });
+      }
+      if (time.selectedOptions[0]?.disabled) time.value = '';
+      date.reportValidity();
+    };
+    date?.addEventListener('change', fitTimes);
 
     const radios = Array.from(form.querySelectorAll<HTMLInputElement>('input[name="booking_type"]'));
     const blocks = Array.from(form.querySelectorAll<HTMLElement>('[data-show-for]'));

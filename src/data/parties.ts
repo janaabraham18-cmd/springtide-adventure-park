@@ -57,22 +57,25 @@ export const packages: Package[] = [
   },
 ];
 
-// The two party rooms, from the park's own photos. The names are ours
-// (taken from each room's feature wall) — swap in the park's names if it has them.
+// The two party rooms, from the park's own photos. The park runs a boys' room
+// and a girls' room; we've matched them to the blue starburst wall and the
+// purple jungle wall respectively (confirm with the park).
 export const partyRooms = [
   {
-    name: 'The Starburst Room',
-    accentWord: 'Starburst',
+    name: 'The Boys’ Party Room',
+    accentWord: 'Boys’',
+    tone: 1, // blue accent, matching the room's blue wall
     image: '/images/party-starburst.jpg',
-    imageAlt: 'The starburst party room: a long wooden table and benches in front of a bold blue starburst wall',
-    body: 'A bold, electric starburst wall in blues and neons — loud in all the right ways.',
+    imageAlt: 'The boys’ party room: a long wooden table and benches in front of a bold blue starburst wall',
+    body: 'A bold, electric starburst wall in blues and neons, and one long table for the whole squad.',
   },
   {
-    name: 'The Jungle Room',
-    accentWord: 'Jungle',
+    name: 'The Girls’ Party Room',
+    accentWord: 'Girls’',
+    tone: 0, // purple accent, matching the room's purple wall
     image: '/images/party-jungle.jpg',
-    imageAlt: 'The jungle party room: a long wooden table and benches in front of a purple tropical leaf wall',
-    body: 'Purple and pink tropical leaves wall to wall — a little bit wild, a lot of fun.',
+    imageAlt: 'The girls’ party room: a long wooden table and benches in front of a purple and pink tropical leaf wall',
+    body: 'Purple and pink tropical leaves wall to wall, and one long table for the whole crew.',
   },
 ];
 
