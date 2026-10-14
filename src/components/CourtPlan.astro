@@ -130,7 +130,7 @@ function detail(z: Zone): string {
   <svg viewBox={`0 0 ${W} ${H + 60}`} role={interactive ? 'group' : 'img'} aria-label="Floor plan of Springtide Adventure Park">
     <defs>
       <pattern id="plan-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-        <circle cx="1" cy="1" r="1" fill="rgba(246,242,234,0.13)"></circle>
+        <circle cx="1" cy="1" r="1" fill="rgba(246,245,241,0.13)"></circle>
       </pattern>
     </defs>
 
@@ -187,13 +187,13 @@ function detail(z: Zone): string {
 
   .court-plan :global(.pl-wall) {
     fill: none;
-    stroke: rgba(246, 242, 234, 0.55);
+    stroke: rgba(246, 245, 241, 0.55);
     stroke-width: 3;
   }
 
   .court-plan :global(.zone__area) {
-    fill: rgba(43, 120, 180, 0.2);
-    stroke: rgba(140, 192, 228, 0.55);
+    fill: rgba(31, 158, 227, 0.2);
+    stroke: rgba(140, 207, 243, 0.55);
     stroke-width: 1.5;
     transition:
       fill 0.3s ease,
@@ -201,8 +201,8 @@ function detail(z: Zone): string {
   }
 
   .court-plan :global(.zone--facility .zone__area) {
-    fill: rgba(230, 220, 200, 0.08);
-    stroke: rgba(230, 220, 200, 0.4);
+    fill: rgba(226, 224, 214, 0.08);
+    stroke: rgba(226, 224, 214, 0.4);
     stroke-dasharray: 6 5;
   }
 
@@ -211,12 +211,12 @@ function detail(z: Zone): string {
   .court-plan :global(.pl-bed),
   .court-plan :global(.pl-hoop) {
     fill: none;
-    stroke: rgba(246, 242, 234, 0.42);
+    stroke: rgba(246, 245, 241, 0.42);
     stroke-width: 1.5;
   }
 
   .court-plan :global(.pl-bed) {
-    fill: rgba(246, 242, 234, 0.05);
+    fill: rgba(246, 245, 241, 0.05);
   }
 
   .court-plan :global(.pl-dash) {
@@ -224,30 +224,30 @@ function detail(z: Zone): string {
   }
 
   .court-plan :global(.pl-hoop) {
-    stroke: var(--color-coral-500);
+    stroke: var(--color-orange-500);
     stroke-width: 2.5;
   }
 
   .court-plan :global(.pl-dot) {
-    fill: rgba(246, 242, 234, 0.55);
+    fill: rgba(246, 245, 241, 0.55);
   }
 
   .court-plan :global(.pl-foam) {
-    fill: rgba(140, 192, 228, 0.35);
+    fill: rgba(140, 207, 243, 0.35);
   }
 
   .court-plan :global(.pl-screen) {
-    fill: rgba(140, 192, 228, 0.55);
+    fill: rgba(140, 207, 243, 0.55);
   }
 
   .court-plan :global(.pl-cube) {
     fill: none;
-    stroke: var(--color-sun-400);
+    stroke: var(--color-yellow-400);
     stroke-width: 2;
   }
 
   .court-plan :global(.pl-beam) {
-    fill: var(--color-sun-400);
+    fill: var(--color-yellow-400);
   }
 
   .court-plan :global(.pl-door) {
@@ -257,14 +257,14 @@ function detail(z: Zone): string {
 
   .court-plan :global(.pl-arrow) {
     fill: none;
-    stroke: var(--color-sun-400);
+    stroke: var(--color-yellow-400);
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
   .court-plan :global(.pl-caption) {
-    fill: rgba(246, 242, 234, 0.6);
+    fill: rgba(246, 245, 241, 0.6);
     font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.08em;
@@ -273,21 +273,21 @@ function detail(z: Zone): string {
 
   .court-plan :global(.pl-compass circle) {
     fill: none;
-    stroke: rgba(246, 242, 234, 0.4);
+    stroke: rgba(246, 245, 241, 0.4);
   }
 
   .court-plan :global(.pl-compass path) {
-    fill: var(--color-coral-500);
+    fill: var(--color-orange-500);
   }
 
   .court-plan :global(.pl-compass text) {
-    fill: rgba(246, 242, 234, 0.7);
+    fill: rgba(246, 245, 241, 0.7);
     font-size: 13px;
     font-weight: 700;
   }
 
   .court-plan :global(.zone__num-bg) {
-    fill: var(--color-foam-50);
+    fill: var(--color-stone-50);
     transition:
       fill 0.3s ease,
       transform 0.4s var(--ease-spring);
@@ -308,24 +308,24 @@ function detail(z: Zone): string {
 
   .court-plan--interactive :global(.zone:hover .zone__area),
   .court-plan--interactive :global(.zone:focus-visible .zone__area) {
-    fill: rgba(43, 120, 180, 0.42);
-    stroke: var(--color-foam-50);
+    fill: rgba(31, 158, 227, 0.42);
+    stroke: var(--color-stone-50);
   }
 
   .court-plan--interactive :global(.zone:focus-visible .zone__area) {
-    stroke: var(--color-sun-400);
+    stroke: var(--color-yellow-400);
     stroke-width: 3;
   }
 
   .court-plan--interactive :global(.zone.is-active .zone__area) {
-    fill: rgba(255, 90, 54, 0.32);
-    stroke: var(--color-coral-500);
+    fill: rgba(229, 86, 15, 0.32);
+    stroke: var(--color-orange-500);
     stroke-width: 3;
     stroke-dasharray: none;
   }
 
   .court-plan--interactive :global(.zone.is-active .zone__num-bg) {
-    fill: var(--color-coral-500);
+    fill: var(--color-orange-500);
   }
 
   .court-plan--interactive :global(.zone.is-active .zone__num) {

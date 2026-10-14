@@ -37,7 +37,7 @@ a spread of widths (375, 768, 1024, 1280, 1440, 1920) and check
 
 ## The one-accent-word-per-heading device
 
-Every real heading (h1–h4, including data-driven ones) gets exactly one word in coral
+Every real heading (h1–h4, including data-driven ones) gets exactly one word in orange
 (`--color-heading-accent`, `.accent-word`) via `hl(text, word)` from `src/utils/text.ts`:
 
 - Exactly 2 words → the last word.
@@ -46,7 +46,7 @@ Every real heading (h1–h4, including data-driven ones) gets exactly one word i
 - `hl()` matches the first exact-case occurrence and is used with `set:html` (only ever on
   our own copy, never user input).
 
-**Coral is reserved for that accent word** plus links, buttons and active states.
+**Orange is reserved for that accent word** plus links and active states.
 Eyebrow labels (`.eyebrow`) stay neutral: `--color-text-muted` on light,
 `--color-sand-200` on dark or photo.
 
@@ -61,8 +61,14 @@ cards (forms, pass/package tiles on plain backgrounds) are fine.
 
 ## Visual language
 
-- Palette: Atlantic ink (`--color-ink-*`), sea blue, foam/sand creams, coral accent and
-  sun yellow, all defined in `src/styles/global.css`. No new colours without a reason.
+- Palette: sampled from the park's own photos (k-means over the real images). Navy ink
+  from the climbing wall and Tap Tap cube for dark sections, pad blue for interactive
+  detail and focus (`--color-blue-600` for focus rings, which needs 3:1), beam yellow for
+  primary buttons (navy text), pad orange for the heading accent word, cage/party-room
+  purple for the party packages (`.section--purple`), and warm concrete greys for the
+  light backgrounds. All of it is in `src/styles/global.css`. Keep the contrast checks:
+  accent orange ≥3:1 on light (large text), link orange ≥4.5:1. If the park's Instagram
+  brand colours arrive, tune these tokens rather than adding new ones.
 - Type: Bricolage Grotesque (display, `font-stretch: 88%`) + Figtree (body), self-hosted
   via Fontsource. Load the Bricolage `standard.css` entry, which includes the width axis.
 - The tide line (`TideLine.astro`) is the section-edge motif. Default places it in the

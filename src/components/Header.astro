@@ -83,13 +83,13 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     content: '';
     position: absolute;
     inset: 0 0 -40px;
-    background: linear-gradient(180deg, rgba(10, 31, 46, 0.55), rgba(10, 31, 46, 0));
+    background: linear-gradient(180deg, rgba(17, 27, 54, 0.55), rgba(17, 27, 54, 0));
     pointer-events: none;
     transition: opacity 0.35s ease;
   }
 
   .site-header.is-solid {
-    background: rgba(251, 248, 242, 0.94);
+    background: rgba(246, 245, 241, 0.94);
     color: var(--color-text);
     box-shadow: 0 1px 0 var(--color-line);
     backdrop-filter: blur(12px);
@@ -157,7 +157,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     right: 0;
     bottom: 0;
     height: 2px;
-    background: var(--color-coral-500);
+    background: var(--color-orange-500);
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.35s var(--ease-out);
@@ -252,7 +252,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   }
 
   .mobile-menu li {
-    border-bottom: 1px solid rgba(246, 242, 234, 0.12);
+    border-bottom: 1px solid rgba(246, 245, 241, 0.12);
     animation: menu-in 0.5s var(--ease-out) both;
     animation-delay: calc(var(--i) * 45ms + 60ms);
   }
@@ -270,7 +270,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   }
 
   .mobile-menu ul a[aria-current='page'] {
-    color: var(--color-coral-500);
+    color: var(--color-orange-500);
   }
 
   .mobile-menu__cta {

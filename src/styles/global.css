@@ -1,30 +1,37 @@
 /* Springtide — design tokens and base styles.
-   Palette: the Atlantic off Swakopmund (deep ink + sea), the fog-washed
-   cream of the town, and the coral/sun of the park's mats. Coral is reserved
-   for the one accent word per heading (see CLAUDE.md) plus links/buttons. */
+   Palette taken from the park's own photos (see :root). Orange is the heading
+   accent word (see CLAUDE.md) and link colour; yellow is the primary button;
+   blue is focus and interactive detail; navy is the dark sections. */
 
 :root {
-  --color-ink-900: #0a1f2e;
-  --color-ink-800: #0f2c40;
-  --color-ink-700: #163a52;
-  --color-sea-500: #2b78b4;
-  --color-sea-300: #8cc0e4;
-  --color-foam-50: #fbf8f2;
-  --color-foam-100: #f4efe4;
-  --color-sand-200: #e6dcc8;
-  --color-sand-300: #d6c8ad;
-  --color-coral-500: #ff5a36;
-  --color-coral-600: #e8431f;
-  --color-sun-400: #ffc23d;
+  /* Every colour is sampled from the park itself (k-means over the real photos):
+     pad blue, the navy of the climbing wall and Tap Tap cube, beam/stripe yellow,
+     pad orange, cage/party-room purple, and the warm grey of the concrete. */
+  --color-ink-900: #111b36;
+  --color-ink-800: #17244a;
+  --color-ink-700: #20325f;
+  --color-blue-600: #1679b5;
+  --color-blue-500: #1f9ee3;
+  --color-blue-300: #8ccff3;
+  --color-stone-50: #f6f5f1;
+  --color-stone-100: #ecebe5;
+  --color-sand-200: #e2e0d6;
+  --color-sand-300: #cbc8bb;
+  --color-orange-500: #e5560f;
+  --color-orange-600: #b8420a;
+  --color-yellow-400: #ffc72c;
+  --color-yellow-500: #f2b400;
+  --color-purple-500: #7a4fb0;
+  --color-purple-800: #2e1d55;
 
-  --color-bg: var(--color-foam-50);
-  --color-bg-alt: var(--color-foam-100);
-  --color-text: #13212b;
-  --color-text-muted: #56656f;
-  --color-line: rgba(10, 31, 46, 0.12);
-  --color-heading-accent: var(--color-coral-500);
-  --color-on-dark: #f6f2ea;
-  --color-on-dark-muted: rgba(246, 242, 234, 0.72);
+  --color-bg: var(--color-stone-50);
+  --color-bg-alt: var(--color-stone-100);
+  --color-text: #141b2b;
+  --color-text-muted: #586070;
+  --color-line: rgba(17, 27, 54, 0.12);
+  --color-heading-accent: var(--color-orange-500);
+  --color-on-dark: #f6f5f1;
+  --color-on-dark-muted: rgba(246, 245, 241, 0.72);
 
   --font-display: 'Bricolage Grotesque Variable', 'Arial Black', system-ui, sans-serif;
   --font-body: 'Figtree Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -200,6 +207,11 @@ p {
   color: var(--color-on-dark);
 }
 
+.section--purple {
+  background: var(--color-purple-800);
+  color: var(--color-on-dark);
+}
+
 .lede {
   font-size: var(--fs-lg);
   line-height: 1.55;
@@ -208,7 +220,8 @@ p {
 }
 
 .on-dark .lede,
-.section--ink .lede {
+.section--ink .lede,
+.section--purple .lede {
   color: var(--color-on-dark-muted);
 }
 
@@ -218,8 +231,8 @@ p {
 
 /* Buttons */
 .btn {
-  --btn-bg: var(--color-coral-500);
-  --btn-fg: #fff;
+  --btn-bg: var(--color-yellow-400);
+  --btn-fg: var(--color-ink-900);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -245,7 +258,7 @@ p {
 
 .btn:hover {
   transform: translateY(-2px);
-  background: var(--color-coral-600);
+  background: var(--color-yellow-500);
 }
 
 .btn:active {
@@ -256,7 +269,7 @@ p {
 a:focus-visible,
 button:focus-visible,
 [tabindex]:focus-visible {
-  outline: 3px solid var(--color-sun-400);
+  outline: 3px solid var(--color-blue-600);
   outline-offset: 3px;
 }
 
@@ -276,6 +289,7 @@ button:focus-visible,
 
 .btn--ink {
   --btn-bg: var(--color-ink-900);
+  --btn-fg: #fff;
 }
 
 .btn--ink:hover {
@@ -294,7 +308,7 @@ button:focus-visible,
 
 .text-link {
   font-weight: 700;
-  color: var(--color-coral-600);
+  color: var(--color-orange-600);
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 0.25em;
@@ -327,8 +341,9 @@ button:focus-visible,
 }
 
 .section--ink .draft-note,
+.section--purple .draft-note,
 .on-dark .draft-note {
-  border-color: rgba(246, 242, 234, 0.35);
+  border-color: rgba(246, 245, 241, 0.35);
   color: var(--color-on-dark-muted);
   background: transparent;
 }
@@ -382,8 +397,8 @@ button:focus-visible,
 .form select:focus,
 .form textarea:focus {
   outline: none;
-  border-color: var(--color-sea-500);
-  box-shadow: 0 0 0 4px rgba(43, 120, 180, 0.18);
+  border-color: var(--color-blue-500);
+  box-shadow: 0 0 0 4px rgba(31, 158, 227, 0.18);
 }
 
 .form .check {
@@ -401,7 +416,7 @@ button:focus-visible,
   min-height: 0;
   margin-top: 0.1em;
   flex-shrink: 0;
-  accent-color: var(--color-coral-500);
+  accent-color: var(--color-orange-500);
 }
 
 .form .hint {
