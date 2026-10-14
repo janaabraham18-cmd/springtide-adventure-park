@@ -1,9 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
 import TideLine from '../components/TideLine.astro';
 import { hl } from '../utils/text';
 import { aboutIsPlaceholder, founders, pullQuote, story, values } from '../data/about';
+
+// Polaroid layout: position (% of the scrapbook box), width, tilt, stacking.
+const snapshots = [
+  { src: '/images/climbing-wall.jpg', alt: 'The climbing wall rising out of the foam pit', caption: 'Climb high, drop soft', x: 1, y: 1, w: 45, r: -6, z: 2 },
+  { src: '/images/party-starburst.jpg', alt: 'The boys’ party room with its starburst wall', caption: 'The boys’ room', x: 53, y: 0, w: 44, r: 5, z: 1 },
+  { src: '/images/game-zone.jpg', alt: 'The Tap Tap Fun cube beside a game screen', caption: 'Tap Tap Fun', x: 27, y: 37, w: 46, r: -2, z: 5 },
+  { src: '/images/party-jungle.jpg', alt: 'The girls’ party room with its jungle wall', caption: 'The girls’ room', x: 0, y: 63, w: 42, r: 4, z: 3 },
+  { src: '/images/battle-beam.jpg', alt: 'The battle beam over the foam pit', caption: 'Last one standing', x: 56, y: 62, w: 42, r: -5, z: 4 },
+];
 ---
 
 <BaseLayout
@@ -11,16 +19,36 @@ import { aboutIsPlaceholder, founders, pullQuote, story, values } from '../data/
   description="The story behind Springtide Adventure Park in Swakopmund — built by Anna and Milena, two mothers who wanted the children of our town to have somewhere to fly."
   image="/images/court-main.jpg"
 >
-  <PageHero
-    eyebrow="About us"
-    title="Two mothers, one big leap"
-    accentWord="leap"
-    lede="We’re Anna and Milena — two mothers who built the place we wanted for our own children. Springtide is our love letter to every child in Swakopmund — and to every grown-up who still remembers how it felt to fly."
-    image="/images/court-main.jpg"
-    imageAlt="The main trampoline court at Springtide, ready for the day"
-    focus="center 60%"
-    compact
-  />
+  <!-- Scrapbook hero: the park's real photos as pinned polaroids on the logo's
+       royal blue, with the logo's sun rays fanning out behind them. -->
+  <section class="about-hero on-dark section--brand">
+    <div class="about-hero__rays" aria-hidden="true"></div>
+    <div class="container container--wide about-hero__grid">
+      <div class="about-hero__text">
+        <p class="eyebrow">About us</p>
+        <h1 data-bounce set:html={hl('Two mothers, one big leap', 'leap')} />
+        <p class="lede">
+          We’re Anna and Milena — two mothers who built the place we wanted for our own children. Springtide is our
+          love letter to every child in Swakopmund — and to every grown-up who still remembers how it felt to fly.
+        </p>
+      </div>
+
+      <div class="scrapbook" aria-label="Snapshots from Springtide">
+        {
+          snapshots.map((s, i) => (
+            <figure class="polaroid" data-drop style={`--x:${s.x}%;--y:${s.y}%;--w:${s.w}%;--r:${s.r}deg;--z:${s.z}`}>
+              <div class="polaroid__card">
+                <span class="polaroid__tape" aria-hidden="true" />
+                <img src={s.src} alt={s.alt} loading={i < 3 ? 'eager' : 'lazy'} />
+                <figcaption>{s.caption}</figcaption>
+              </div>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+    <TideLine />
+  </section>
 
   <section class="section story">
     <div class="container container--wide story__grid">
@@ -83,6 +111,138 @@ import { aboutIsPlaceholder, founders, pullQuote, story, values } from '../data/
 </BaseLayout>
 
 <style>
+  /* SCRAPBOOK HERO */
+  .about-hero {
+    position: relative;
+    padding-block: calc(var(--header-h) + var(--space-xl)) clamp(4.5rem, 9vw, 7rem);
+    overflow: hidden;
+    background: var(--color-blue-500);
+    color: var(--color-on-dark);
+    isolation: isolate;
+  }
+
+  /* The logo's sun: soft yellow glow plus rays fanning out from behind the
+     photos. */
+  .about-hero__rays {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(circle at 74% 52%, rgba(242, 211, 111, 0.38) 0, rgba(242, 211, 111, 0) 32%),
+      repeating-conic-gradient(from 0deg at 74% 52%, rgba(255, 255, 255, 0.07) 0deg 5deg, transparent 5deg 15deg);
+  }
+
+  @media (max-width: 1023px) {
+    .about-hero__rays {
+      background:
+        radial-gradient(circle at 50% 72%, rgba(242, 211, 111, 0.38) 0, rgba(242, 211, 111, 0) 40%),
+        repeating-conic-gradient(from 0deg at 50% 72%, rgba(255, 255, 255, 0.07) 0deg 5deg, transparent 5deg 15deg);
+    }
+  }
+
+  .about-hero__grid {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .about-hero__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      gap: clamp(2rem, 4vw, 4rem);
+      min-height: clamp(560px, 70svh, 760px);
+    }
+  }
+
+  .about-hero__text {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+  }
+
+  .about-hero h1 {
+    max-width: 11ch;
+    font-size: var(--fs-hero);
+    line-height: 0.95;
+  }
+
+  .about-hero .lede {
+    max-width: 32em;
+  }
+
+  .scrapbook {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 1 / 1.08;
+    justify-self: center;
+  }
+
+  .polaroid {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--w);
+    z-index: var(--z);
+    margin: 0;
+    transform: rotate(var(--r));
+  }
+
+  .polaroid__card {
+    position: relative;
+    padding: 4% 4% 0;
+    background: #fdfcf8;
+    border-radius: 3px;
+    box-shadow:
+      0 1px 2px rgba(10, 37, 64, 0.25),
+      0 18px 40px -12px rgba(10, 37, 64, 0.55);
+    transition:
+      transform 0.45s var(--ease-spring),
+      box-shadow 0.45s ease;
+  }
+
+  .polaroid:hover {
+    z-index: 10;
+  }
+
+  .polaroid:hover .polaroid__card {
+    transform: scale(1.06) rotate(calc(var(--r) * -1));
+    box-shadow:
+      0 1px 2px rgba(10, 37, 64, 0.25),
+      0 30px 60px -14px rgba(10, 37, 64, 0.6);
+  }
+
+  .polaroid img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .polaroid figcaption {
+    padding: 0.55em 0.2em 0.75em;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 88%;
+    font-size: clamp(0.72rem, 0.55rem + 0.6vw, 1rem);
+    color: var(--color-ink-900);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .polaroid__tape {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    width: 34%;
+    height: 18px;
+    transform: translateX(-50%) rotate(-3deg);
+    background: rgba(242, 211, 111, 0.75);
+    box-shadow: 0 1px 2px rgba(10, 37, 64, 0.15);
+  }
+
   .story__grid {
     display: grid;
     gap: var(--space-xl);

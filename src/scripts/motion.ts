@@ -69,6 +69,21 @@ document.querySelectorAll<HTMLElement>('[data-bounce]').forEach((el) => {
   );
 });
 
+// Scrapbook polaroids (About Us): drop in from above and land with a bounce.
+// Only y/opacity are animated, so each card keeps its CSS tilt.
+const drops = gsap.utils.toArray<HTMLElement>('[data-drop]');
+if (drops.length && !reduce) {
+  gsap.from(drops, {
+    y: -140,
+    opacity: 0,
+    duration: 1.1,
+    ease: 'bounce.out',
+    stagger: 0.12,
+    delay: 0.25,
+    clearProps: 'opacity',
+  });
+}
+
 // Gentle parallax on hero photos.
 if (!reduce) {
   gsap.utils.toArray<HTMLElement>('[data-parallax]').forEach((img) => {
