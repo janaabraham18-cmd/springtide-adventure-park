@@ -28,12 +28,12 @@ const snapshots = [
         <p class="eyebrow">About us</p>
         <h1 data-bounce set:html={hl('Two mothers, one big leap', 'leap')} />
         <p class="lede">
-          We’re Anna and Milena — two mothers who built the place we wanted for our own children. Springtide is our
+          We’re Anna and Milena — two mothers who built the place we wanted for our own children. Springtide Adventure Park is our
           love letter to every child in Swakopmund — and to every grown-up who still remembers how it felt to fly.
         </p>
       </div>
 
-      <div class="scrapbook" aria-label="Snapshots from Springtide">
+      <div class="scrapbook" aria-label="Snapshots from Springtide Adventure Park">
         {
           snapshots.map((s, i) => (
             <figure class="polaroid" data-drop style={`--x:${s.x}%;--y:${s.y}%;--w:${s.w}%;--r:${s.r}deg;--z:${s.z}`}>
@@ -54,7 +54,7 @@ const snapshots = [
     <div class="container container--wide story__grid">
       <div class="story__aside" data-reveal>
         <p class="eyebrow">Our story</p>
-        <h2 set:html={hl('Why we built Springtide', 'Springtide')} />
+        <h2 set:html={hl('Why we built Springtide Adventure Park', 'Springtide')} />
         <blockquote class="story__quote">
           <p>“{pullQuote}”</p>
         </blockquote>
@@ -65,7 +65,7 @@ const snapshots = [
         {story.map((para, i) => <p data-reveal class:list={{ 'story__lead': i === 0 }}>{para}</p>)}
 
         <figure class="story__photo" data-reveal>
-          <img src="/images/lockers.jpg" alt="Colourful lockers and beanbags in the waiting corner at Springtide" loading="lazy" />
+          <img src="/images/lockers.jpg" alt="Colourful lockers and beanbags in the waiting corner at Springtide Adventure Park" loading="lazy" />
           <figcaption>The little corner where the waiting happens — and the coffee gets drunk.</figcaption>
         </figure>
 

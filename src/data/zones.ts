@@ -19,7 +19,7 @@ export const zones: Zone[] = [
     blurb:
       'The heart of the park: a big grid of linked trampoline beds running right up to the foam pit. Bounce from bed to bed, practise flips, or just see how high you can get.',
     image: '/images/court-main.jpg',
-    imageAlt: 'The main trampoline court at Springtide, with blue padded frames and a foam pit',
+    imageAlt: 'The main trampoline court at Springtide Adventure Park, with blue padded frames and a foam pit',
   },
   {
     id: 'game-trampolines',

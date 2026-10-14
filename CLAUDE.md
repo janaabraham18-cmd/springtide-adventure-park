@@ -18,6 +18,17 @@ Astro (static) + GSAP and is meant to be hosted on Vercel. Run it with `npm run 
 - `src/data/zones.ts` lists the play zones shown on the home page. (The site used to have an
   interactive Court Layout page; the client replaced it with About Us.)
 
+## The company name is "Springtide Adventure Park"
+
+Always the full name (client, Oct 2026): page titles, footer, form subjects, alt
+text and prose. Use `site.fullName` from `src/data/site.ts` wherever code can.
+The one exception is the header wordmark, which stacks it as "Springtide" over
+a small "ADVENTURE PARK" (`site.name` + `site.nameLine2`) so it still fits the
+nav. The logo artwork itself says "Spring Tide" and stays as drawn. Product
+names ("Springtide Party", "Springtide grip socks") and the line explaining
+where the name comes from ("We named it Springtide after the highest tides")
+keep the short word on purpose.
+
 ## Test the full device range, not just mobile + one desktop size
 
 Check mobile (~375–430px), tablet (~768–900px), laptop (~1024–1440px) and a TV-size

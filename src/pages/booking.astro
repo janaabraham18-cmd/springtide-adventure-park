@@ -22,7 +22,7 @@ import { packages, partyRooms } from '../data/parties';
     accentWord="spot"
     lede="Tell us when you’re coming and how many are jumping. We’ll confirm your booking by WhatsApp or email."
     image="/images/court-wide.jpg"
-    imageAlt="Rows of empty trampoline beds at Springtide, ready for the next session"
+    imageAlt="Rows of empty trampoline beds at Springtide Adventure Park, ready for the next session"
     focus="center 60%"
     compact
   />
@@ -132,7 +132,7 @@ import { packages, partyRooms } from '../data/parties';
 
         <!-- Honeypot: hidden from people, filled by bots; Formspree drops those. -->
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
-        <input type="hidden" name="_subject" value="New booking request — Springtide" data-subject />
+        <input type="hidden" name="_subject" value="New booking request — Springtide Adventure Park" data-subject />
 
         <div>
           <button type="submit" class="btn">Send booking request</button>
@@ -240,7 +240,7 @@ import { packages, partyRooms } from '../data/parties';
           el.disabled = !on;
         });
       });
-      if (subject) subject.value = `New ${type.toLowerCase()} request — Springtide`;
+      if (subject) subject.value = `New ${type.toLowerCase()} request — Springtide Adventure Park`;
     };
     radios.forEach((r) => r.addEventListener('change', apply));
 

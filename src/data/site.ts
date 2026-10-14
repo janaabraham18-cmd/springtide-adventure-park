@@ -4,7 +4,10 @@
 // Springtide and must be replaced before launch. See PLACEHOLDERS.md.
 
 export const site = {
+  // The company name is always the full "Springtide Adventure Park" (client,
+  // Oct 2026). `name` is only the first line of the header's stacked wordmark.
   name: 'Springtide',
+  nameLine2: 'Adventure Park',
   fullName: 'Springtide Adventure Park',
   town: 'Swakopmund',
   tagline: 'Jump higher than the tide.',
