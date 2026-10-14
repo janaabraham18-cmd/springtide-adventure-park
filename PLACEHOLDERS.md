@@ -41,7 +41,7 @@ dashed "Draft —" notes disappear.
 - [x] Real park photos (Oct 2026, via WhatsApp) are in for the hero, every play zone,
       reception/lockers, both party rooms and the about/booking/404 heroes.
 - [ ] Original-resolution photos. The WhatsApp copies are 1080px, so the full-screen heroes
-      (`park-hall`, `court-foam`, `court-wide`, `party-jungle-wide`) are upscaled and a bit
+      (`park-hall`, `court-wide`, `party-jungle-wide`) are upscaled and a bit
       soft on big screens.
 - [ ] Still stock: café/food (`shake-*`, `pizza`, `coffee`) and the Swakopmund shots
       (`swakop-*`). We still need café counter/seating and building-front photos.
