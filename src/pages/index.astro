@@ -284,16 +284,13 @@ const rules = [
     z-index: -2;
   }
 
-  /* Centred text over the park photo: a light brand-blue tint so the hall
-     reads clearly, with a soft darker patch just behind the text (plus text
-     shadows) to keep it legible. */
+  /* A light brand-blue tint on the photo only. The text sits above it in pure
+     white with a tight neutral shadow, so the words carry no blue cast. */
   .hero__scrim {
     position: absolute;
     inset: 0;
     z-index: -1;
-    background:
-      radial-gradient(ellipse 60% 50% at 50% 52%, rgba(10, 37, 64, 0.58), transparent 75%),
-      linear-gradient(180deg, rgba(1, 113, 185, 0.55) 0%, rgba(1, 113, 185, 0.32) 55%, rgba(1, 113, 185, 0.45) 100%);
+    background: linear-gradient(180deg, rgba(1, 113, 185, 0.55) 0%, rgba(1, 113, 185, 0.32) 55%, rgba(1, 113, 185, 0.45) 100%);
   }
 
   .hero__content {
@@ -301,10 +298,18 @@ const rules = [
     gap: var(--space-md);
     justify-items: center;
     text-align: center;
+    --color-on-dark: #ffffff;
+    --color-on-dark-muted: #ffffff;
+    color: #ffffff;
+  }
+
+  .hero__content .eyebrow {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 14px rgba(0, 0, 0, 0.35);
   }
 
   .hero h1 {
-    text-shadow: 0 2px 30px rgba(10, 37, 64, 0.5);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 0 24px rgba(0, 0, 0, 0.25);
     max-width: 12ch;
     font-size: clamp(3rem, 1rem + 6vw, 9.5rem);
     line-height: 0.9;
@@ -313,7 +318,7 @@ const rules = [
 
   .hero .lede {
     max-width: 36em;
-    text-shadow: 0 1px 12px rgba(10, 37, 64, 0.7);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 16px rgba(0, 0, 0, 0.45);
   }
 
   /* The eyebrow's leading rule reads oddly once the centred label wraps. */
