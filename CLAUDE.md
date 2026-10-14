@@ -13,7 +13,7 @@ Astro (static) + GSAP and is meant to be hosted on Vercel. Run it with `npm run 
   something, update the data file, flip its `placeholder`/`...IsPlaceholder` flag, and
   tick it off in that file. The dashed "Draft —" notes on the pages read those flags.
 - `src/data/about.ts` holds the About Us story, values and founders' names. It's a
-  first-person ("we"/"us") placeholder draft for the two women who run Springtide. Keep that
+  first-person ("we"/"us") placeholder draft for the two mothers who built and run Springtide. Keep that
   voice when editing, and swap in their real words as they arrive.
 - `src/data/zones.ts` lists the play zones shown on the home page. (The site used to have an
   interactive Court Layout page; the client replaced it with About Us.)

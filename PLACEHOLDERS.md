@@ -21,7 +21,7 @@ dashed "Draft —" notes disappear.
 ## About Us: `src/data/about.ts`
 - [ ] The founders' first names (`founders`), currently shown as "[Name] & [Name]"
 - [ ] Their real story, in their own words. The current text is a heartfelt placeholder
-      draft written as "we"/"us"; then set `aboutIsPlaceholder = false`
+      draft written as "we"/"us" (two mothers, per the client); then set `aboutIsPlaceholder = false`
 - [ ] A photo of the two founders (it would replace the lockers photo in the story)
 - [ ] Is there a toddler area, a ninja course or any other zone not listed on the home page?
 
