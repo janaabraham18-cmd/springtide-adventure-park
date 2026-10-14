@@ -37,7 +37,7 @@ function detail(z: Zone): string {
   switch (z.id) {
     case 'open-court': {
       // Grid of trampoline beds.
-      const cols = 6;
+      const cols = 4;
       const rows = 4;
       const pad = 18;
       const gap = 8;
@@ -46,6 +46,17 @@ function detail(z: Zone): string {
       for (let i = 0; i < cols; i++)
         for (let j = 0; j < rows; j++)
           rect(r.x + pad + i * (bw + gap), r.y + pad + j * (bh + gap), bw, bh, 'pl-bed', 5);
+      break;
+    }
+    case 'game-trampolines': {
+      // Two game screens over their beds, plus the Tap Tap Fun cube.
+      [0.18, 0.5].forEach((f) => {
+        rect(r.x + 18, r.y + r.h * f, r.w - 36, 18, 'pl-screen', 3);
+        rect(r.x + 18, r.y + r.h * f + 26, r.w - 36, 56, 'pl-bed', 5);
+      });
+      out.push(
+        `<path class="pl-cube" d="M${r.x + r.w / 2} ${r.y + r.h - 70}l26 14v28l-26 14-26-14v-28Z"/>`,
+      );
       break;
     }
     case 'slam-dunk': {
@@ -223,6 +234,16 @@ function detail(z: Zone): string {
 
   .court-plan :global(.pl-foam) {
     fill: rgba(140, 192, 228, 0.35);
+  }
+
+  .court-plan :global(.pl-screen) {
+    fill: rgba(140, 192, 228, 0.55);
+  }
+
+  .court-plan :global(.pl-cube) {
+    fill: none;
+    stroke: var(--color-sun-400);
+    stroke-width: 2;
   }
 
   .court-plan :global(.pl-beam) {

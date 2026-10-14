@@ -32,6 +32,18 @@ dashed "Draft —" notes disappear.
 ## Brand and photos
 - [ ] Logo: the moon-and-wave mark in `Logo.astro` and `public/favicon.svg` is ours. Swap
       it in if the park has its own.
-- [ ] Photos: every image in `public/images/` is an Unsplash stand-in. `park-ready.jpg` and
-      `trampolines.jpg` show another park's branding on the mats and **must** be replaced.
-      Ideal: real photos of each zone, the café, a party room and the building front.
+- [ ] Brand colours from the park's Instagram (@springtide.swakop). We couldn't open it from
+      the build environment, so we need a screenshot or the hex values.
+- [x] Real park photos (Oct 2026, via WhatsApp) are in for the hero, every play zone,
+      reception/lockers, both party rooms and the court-layout/booking/404 heroes.
+- [ ] Original-resolution photos. The WhatsApp copies are 1080px, so the full-screen heroes
+      (`park-hall`, `court-foam`, `court-wide`, `party-jungle-wide`) are upscaled and a bit
+      soft on big screens.
+- [ ] Still stock: café/food (`shake-*`, `pizza`, `coffee`) and the Swakopmund shots
+      (`swakop-*`). We still need café counter/seating and building-front photos, plus a
+      close-up of the climbing wall (the current one is cropped from the background of a
+      wide shot).
+- [ ] Party room names. "The Starburst Room" / "The Jungle Room" are ours, taken from each
+      room's feature wall (`partyRooms` in `parties.ts`).
+- [ ] Interactive Game Zone: we added it from the photos (game screens + Tap Tap Fun cube).
+      Confirm the name and the rules.

@@ -6,6 +6,9 @@ import { hl } from '../utils/text';
 import { hours, hoursArePlaceholder, passes, site } from '../data/site';
 import { playZones, zones } from '../data/zones';
 
+// Spelled out so the heading follows the zone list as zones are added or removed.
+const countWord = (n: number) =>
+  ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'][n] ?? String(n);
 const zoneNumber = (id: string) => String(zones.findIndex((z) => z.id === id) + 1).padStart(2, '0');
 
 const rules = [
@@ -37,8 +40,9 @@ const rules = [
   <section class="hero on-dark">
     <img
       class="photo-bg"
-      src="/images/park-wide.jpg"
-      alt="Inside an indoor trampoline park, with slides, trampoline courts and orange benches"
+      src="/images/park-hall.jpg"
+      style="object-position: center 78%"
+      alt="Inside Springtide: trampoline courts and the foam pit, with the party rooms and mezzanine behind"
       data-parallax
       fetchpriority="high"
     />
@@ -70,7 +74,7 @@ const rules = [
     <div class="container container--wide inside__grid">
       <div class="inside__intro" data-reveal>
         <p class="eyebrow">What’s inside</p>
-        <h2 set:html={hl('Six ways to leave the ground', 'ground')} />
+        <h2 set:html={hl(`${countWord(playZones.length)} ways to leave the ground`, 'ground')} />
         <p class="lede">
           Every zone has its own marshal and its own rules, so first-timers and flip fanatics can share the same
           building.
@@ -134,7 +138,7 @@ const rules = [
       </a>
 
       <a href="/party-rooms" class="duo__panel on-dark" data-reveal>
-        <img class="photo-bg" src="/images/party-candles.jpg" alt="Children blowing out candles on a birthday cake" loading="lazy" />
+        <img class="photo-bg" src="/images/party-jungle.jpg" alt="The jungle party room, with a long wooden table in front of a tropical leaf wall" loading="lazy" />
         <span class="duo__scrim" aria-hidden="true"></span>
         <span class="duo__body">
           <span class="eyebrow">Party rooms</span>

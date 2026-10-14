@@ -12,7 +12,7 @@ interface Props {
   image?: string;
 }
 
-const { title, description = site.description, image = '/images/park-wide.jpg' } = Astro.props;
+const { title, description = site.description, image = '/images/park-hall.jpg' } = Astro.props;
 const fullTitle = title ? `${title} · ${site.fullName}` : `${site.fullName} · Trampoline park in ${site.town}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);

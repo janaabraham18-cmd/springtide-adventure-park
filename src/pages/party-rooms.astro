@@ -3,22 +3,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import TideLine from '../components/TideLine.astro';
 import { hl } from '../utils/text';
-import { packages, partiesArePlaceholder, partySteps } from '../data/parties';
+import { packages, partiesArePlaceholder, partyRooms, partySteps } from '../data/parties';
 ---
 
 <BaseLayout
   title="Party Rooms"
   description="Birthday parties at Springtide Adventure Park in Swakopmund — private party rooms, a party host and court time for the whole group."
-  image="/images/party-candles.jpg"
+  image="/images/party-jungle-wide.jpg"
 >
   <PageHero
     eyebrow="Party rooms"
     title="The birthday they’ll talk about all year"
     accentWord="birthday"
     lede="A private room, a host who runs the show and the whole park to bounce around. You bring the birthday person — we’ll handle the rest."
-    image="/images/party-balloons.jpg"
-    imageAlt="A ceiling full of colourful helium balloons"
-    focus="center 30%"
+    image="/images/party-jungle-wide.jpg"
+    imageAlt="The jungle party room at Springtide: a long wooden table and benches in front of a tropical leaf wall"
+    focus="center 45%"
     compact
   >
     <a href="/booking?type=party" class="btn">Enquire about a party</a>
@@ -41,6 +41,35 @@ import { packages, partiesArePlaceholder, partySteps } from '../data/parties';
           ))
         }
       </ol>
+    </div>
+  </section>
+
+  <section class="section section--alt rooms-show">
+    <TideLine color="var(--color-bg-alt)" flip />
+    <div class="container container--wide">
+      <div class="rooms-show__head" data-reveal>
+        <p class="eyebrow">The rooms</p>
+        <h2 set:html={hl('Two rooms, two moods', 'moods')} />
+        <p class="lede">
+          Both rooms sit right beside the courts and fit the whole crew around one long wooden table. Pick the wall
+          that suits the birthday person.
+        </p>
+      </div>
+      <div class="rooms-show__grid">
+        {
+          partyRooms.map((room) => (
+            <figure class="room" data-reveal>
+              <div class="room__media">
+                <img src={room.image} alt={room.imageAlt} loading="lazy" />
+              </div>
+              <figcaption>
+                <h3 set:html={hl(room.name, room.accentWord)} />
+                <p>{room.body}</p>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
     </div>
   </section>
 
@@ -88,7 +117,7 @@ import { packages, partiesArePlaceholder, partySteps } from '../data/parties';
     <TideLine flip />
     <div class="container container--wide rooms__grid">
       <div class="rooms__photo" data-reveal>
-        <img src="/images/party-cupcakes.jpg" alt="Pink birthday cupcakes with Happy Birthday toppers" loading="lazy" />
+        <img src="/images/tap-cube.jpg" alt="The Tap Tap Fun reaction cube beside the trampoline lanes" loading="lazy" />
       </div>
       <div class="rooms__text" data-reveal>
         <p class="eyebrow">Good to know</p>
@@ -161,8 +190,60 @@ import { packages, partiesArePlaceholder, partySteps } from '../data/parties';
     color: var(--color-text-muted);
   }
 
+  .rooms-show,
   .packages {
     position: relative;
+  }
+
+  .rooms-show__head {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+    margin-bottom: var(--space-xl);
+  }
+
+  .rooms-show__grid {
+    display: grid;
+    gap: var(--space-xl) var(--space-lg);
+  }
+
+  @media (min-width: 800px) {
+    .rooms-show__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .room {
+    margin: 0;
+  }
+
+  .room__media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--color-sand-200);
+  }
+
+  .room__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s var(--ease-out);
+  }
+
+  .room:hover .room__media img {
+    transform: scale(1.04);
+  }
+
+  .room figcaption {
+    display: grid;
+    gap: var(--space-xs);
+    padding-top: var(--space-md);
+  }
+
+  .room figcaption p {
+    color: var(--color-text-muted);
+    max-width: 34em;
   }
 
   .packages__list {
