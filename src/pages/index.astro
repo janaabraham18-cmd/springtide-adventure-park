@@ -15,6 +15,23 @@ const rateCards = [
 
 const zoneNumber = (i: number) => String(i + 1).padStart(2, '0');
 
+// Hero jumpers: each zone photo bounces with its own height, tempo and phase,
+// so the row never moves in lockstep. Fixed values (not random) so the page
+// renders the same every time.
+const bounce = [
+  { k: 0.85, dur: 1.7, delay: -0.2, tilt: -3 },
+  { k: 1, dur: 1.95, delay: -1.1, tilt: 2 },
+  { k: 0.7, dur: 1.6, delay: -0.6, tilt: -1.5 },
+  { k: 0.95, dur: 2.05, delay: -1.5, tilt: 3 },
+  { k: 0.75, dur: 1.75, delay: -0.9, tilt: -2.5 },
+  { k: 1, dur: 1.85, delay: -0.3, tilt: 1.5 },
+  { k: 0.8, dur: 1.65, delay: -1.3, tilt: -2 },
+];
+const jumperStyle = (i: number) => {
+  const b = bounce[i % bounce.length];
+  return `--k:${b.k};--dur:${b.dur}s;--delay:${b.delay}s;--tilt:${b.tilt}deg`;
+};
+
 const rules = [
   {
     title: 'Book your slot',
@@ -40,17 +57,9 @@ const rules = [
 ---
 
 <BaseLayout>
-  <!-- HERO -->
-  <section class="hero on-dark">
-    <img
-      class="photo-bg"
-      src="/images/park-hall.jpg"
-      style="object-position: center 78%"
-      alt="Inside Springtide Adventure Park: trampoline courts and the foam pit, with the party rooms and mezzanine behind"
-      data-parallax
-      fetchpriority="high"
-    />
-    <div class="hero__scrim" aria-hidden="true"></div>
+  <!-- HERO: the play zones bounce on a line like jumpers on a bed, each on its own rhythm -->
+  <section class="hero on-dark section--brand">
+    <div class="hero__glow" aria-hidden="true"></div>
 
     <div class="container container--wide hero__content">
       <p class="eyebrow">Trampoline &amp; adventure park · {site.town}</p>
@@ -67,6 +76,20 @@ const rules = [
         <a href="/about" class="btn btn--ghost"><span>Our story</span></a>
       </div>
     </div>
+
+    <ul class="jumpers" aria-label="Our play zones">
+      {
+        zones.map((z, i) => (
+          <li class="jumper" style={jumperStyle(i)}>
+            <a href={`#${z.id}`} class="jumper__card">
+              <img src={z.image} alt="" fetchpriority={i < 3 ? 'high' : undefined} />
+              <span class="jumper__label">{z.name}</span>
+            </a>
+            <span class="jumper__shadow" aria-hidden="true" />
+          </li>
+        ))
+      }
+    </ul>
 
     <p class="hero__today" data-today hidden></p>
 
@@ -270,57 +293,219 @@ const rules = [
   .hero {
     position: relative;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(2rem, 6vh, 4.5rem);
     min-height: 100svh;
-    padding-block: calc(var(--header-h) + var(--space-xl)) clamp(4.5rem, 9vw, 8rem);
+    padding-block: calc(var(--header-h) + clamp(1.5rem, 4vh, 3rem)) clamp(4.5rem, 8vw, 7rem);
     overflow: hidden;
     color: var(--color-on-dark);
-    background: var(--color-ink-900);
     isolation: isolate;
   }
 
-  .hero .photo-bg {
-    z-index: -2;
-  }
-
-  .hero__scrim {
+  /* A low sun behind the headline and faint tide marks across the blue. */
+  .hero__glow {
     position: absolute;
     inset: 0;
     z-index: -1;
     background:
-      linear-gradient(0deg, rgba(10, 37, 64, 0.92) 0%, rgba(10, 37, 64, 0.6) 35%, rgba(10, 37, 64, 0) 78%),
-      linear-gradient(90deg, rgba(10, 37, 64, 0.45) 0%, rgba(10, 37, 64, 0) 55%);
+      radial-gradient(ellipse 55% 45% at 50% 8%, rgba(242, 211, 111, 0.28), transparent 70%),
+      radial-gradient(ellipse 70% 40% at 50% 100%, rgba(70, 188, 201, 0.35), transparent 70%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='36' viewBox='0 0 240 36'%3E%3Cpath d='M0 18c30-10 60-10 90 0s60 10 90 0 45-10 60-6' fill='none' stroke='%23ffffff' stroke-opacity='0.07' stroke-width='2'/%3E%3C/svg%3E");
+    background-size: auto, auto, 240px 36px;
   }
 
   .hero__content {
     display: grid;
     gap: var(--space-md);
-    justify-items: start;
+    justify-items: center;
+    text-align: center;
   }
 
   .hero h1 {
-    max-width: 11ch;
-    font-size: clamp(3.25rem, 1.2rem + 8.5vw, 9rem);
+    max-width: 12ch;
+    font-size: clamp(3rem, 1rem + 6vw, 9.5rem);
     line-height: 0.9;
     letter-spacing: -0.035em;
-    text-shadow: 0 2px 30px rgba(10, 37, 64, 0.35);
   }
 
   .hero .lede {
     max-width: 36em;
-    text-shadow: 0 1px 12px rgba(10, 37, 64, 0.5);
+  }
+
+  /* The eyebrow's leading rule reads oddly once the centred label wraps. */
+  @media (max-width: 600px) {
+    .hero .eyebrow::before {
+      display: none;
+    }
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--space-sm);
     margin-top: var(--space-xs);
   }
 
+  /* The jumpers. --n cards show per row (3 on phones, 5 on tablets, all 7 from
+     laptop up); --amp is the tallest bounce, scaled per card by --k. */
+  .jumpers {
+    --n: 3;
+    --gap: clamp(0.75rem, 2vw, 1.75rem);
+    --amp: clamp(22px, 4vw, 56px);
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: var(--gap);
+    /* Cards grow with the screen up to TV size, but never past the gutters. */
+    width: min(100% - 2 * var(--gutter), calc(var(--n) * clamp(150px, 10vw, 260px) + (var(--n) - 1) * var(--gap)));
+    margin: 0 auto;
+    padding: calc(var(--amp) + 0.5rem) 0 0;
+    list-style: none;
+  }
+
+  .jumper:nth-child(n + 4) {
+    display: none;
+  }
+
+  @media (min-width: 700px) {
+    .jumpers {
+      --n: 5;
+    }
+    .jumper:nth-child(-n + 5) {
+      display: block;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .jumpers {
+      --n: 7;
+    }
+    .jumper:nth-child(n) {
+      display: block;
+    }
+  }
+
+  .jumper {
+    position: relative;
+    display: grid;
+    justify-items: center;
+  }
+
+  .jumper__card {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transform-origin: 50% 100%;
+    rotate: var(--tilt);
+    animation: jump var(--dur) var(--delay) infinite;
+  }
+
+  .jumper__card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border: 4px solid var(--color-bg);
+    border-radius: var(--radius-md);
+    box-shadow: 0 18px 30px -18px rgba(10, 37, 64, 0.7);
+  }
+
+  .jumper__label {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    translate: -50% 45%;
+    max-width: calc(100% + 1rem);
+    width: max-content;
+    padding: 0.3em 0.75em;
+    border-radius: var(--radius-pill);
+    font-size: clamp(0.62rem, 0.55rem + 0.25vw, 0.78rem);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--color-ink-900);
+    background: var(--color-yellow-400);
+  }
+
+  /* Hovering or tabbing to a jumper catches it mid-air. */
+  .jumper__card:hover,
+  .jumper__card:focus-visible,
+  .jumper__card:hover + .jumper__shadow,
+  .jumper__card:focus-visible + .jumper__shadow {
+    animation-play-state: paused;
+  }
+
+  .jumper__shadow {
+    width: 80%;
+    height: 12px;
+    margin-top: 1.1rem;
+    border-radius: 50%;
+    background: rgba(10, 37, 64, 0.45);
+    filter: blur(3px);
+    animation: jump-shadow var(--dur) var(--delay) infinite;
+  }
+
+  /* Land (squash), push off (stretch), rise slowing to the top, fall speeding
+     up, land again. Timing functions are per segment, like real gravity. */
+  @keyframes jump {
+    0% {
+      transform: translateY(0) scale(1.08, 0.88);
+      animation-timing-function: cubic-bezier(0.3, 0, 0.5, 1);
+    }
+    12% {
+      transform: translateY(0) scale(0.95, 1.06);
+      animation-timing-function: cubic-bezier(0.2, 0.6, 0.35, 1);
+    }
+    52% {
+      transform: translateY(calc(var(--amp) * var(--k) * -1)) scale(1, 1);
+      animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4);
+    }
+    92% {
+      transform: translateY(0) scale(0.98, 1.03);
+      animation-timing-function: ease-out;
+    }
+    100% {
+      transform: translateY(0) scale(1.08, 0.88);
+    }
+  }
+
+  @keyframes jump-shadow {
+    0%,
+    12% {
+      transform: scaleX(1.05);
+      opacity: 1;
+      animation-timing-function: cubic-bezier(0.2, 0.6, 0.35, 1);
+    }
+    52% {
+      transform: scaleX(0.6);
+      opacity: 0.45;
+      animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4);
+    }
+    92%,
+    100% {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+
+  /* Reduced motion: no bouncing, just a still, staggered row. */
+  @media (prefers-reduced-motion: reduce) {
+    .jumper__card,
+    .jumper__shadow {
+      animation: none;
+    }
+    .jumper:nth-child(even) .jumper__card {
+      transform: translateY(calc(var(--amp) * -0.5));
+    }
+  }
+
   .hero__today {
     position: absolute;
-    right: var(--gutter);
+    /* Line up with the header's right edge (the wide container), not the viewport. */
+    right: max(var(--gutter), (100% - var(--container-wide)) / 2 + var(--gutter));
     top: calc(var(--header-h) + var(--space-md));
     display: inline-flex;
     align-items: center;
@@ -333,8 +518,7 @@ const rules = [
     font-weight: 700;
     letter-spacing: 0.04em;
     color: var(--color-on-dark);
-    background: rgba(10, 37, 64, 0.35);
-    backdrop-filter: blur(6px);
+    background: rgba(10, 37, 64, 0.25);
   }
 
   .hero__today :global(.dot) {
@@ -349,10 +533,20 @@ const rules = [
     box-shadow: 0 0 0 4px rgba(94, 224, 143, 0.25);
   }
 
-  @media (max-width: 600px) {
+  /* Below the laptop range the chip would sit on the headline: move it into
+     the flow, under the buttons. */
+  @media (max-width: 1279px) {
     .hero__today {
-      left: var(--gutter);
-      right: auto;
+      position: static;
+      align-self: center;
+      order: 1;
+      margin-top: calc(var(--space-md) - clamp(2rem, 6vh, 4.5rem));
+    }
+    .hero__content {
+      order: 0;
+    }
+    .jumpers {
+      order: 2;
     }
   }
 
@@ -392,6 +586,7 @@ const rules = [
   }
 
   .inside__link {
+    scroll-margin-top: calc(var(--header-h) + var(--space-md));
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     gap: var(--space-md);
