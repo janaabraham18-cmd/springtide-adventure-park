@@ -8,8 +8,8 @@ dashed "Draft —" notes disappear.
 - [ ] Street address and a Google Maps pin (`contact.street`, `contact.mapQuery`)
 - [ ] Phone, WhatsApp number, email (`contact.*`), then set `contact.placeholder: false`
 - [ ] Instagram / Facebook / TikTok links (`social.*`)
-- [x] Opening hours, from the park's price board: Tue–Thu 10–6, Fri–Sat 10–8, Sun + public
-      holidays 10–3, Mon closed. (The client first said 9am; the board says 10:00. Confirm.)
+- [x] Opening hours, confirmed: Tue–Thu 10–6, Fri–Sat 10–8, Sun + public holidays 10–3,
+      Mon closed
 - [x] Confirmed: "weekends" = Friday + Saturday, Monday closed
 - [x] Jump rates from the price board (`rates`, `gripSocksPrice`)
 - [ ] Any age rules for jumpers (e.g. the youngest age for a solo jump)

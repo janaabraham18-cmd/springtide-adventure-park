@@ -36,7 +36,8 @@ export const site = {
 } as const;
 
 // Opening hours, Monday-first. `null` = closed. From the park's own price
-// board (Oct 2026): Mon closed, Tue–Thu 10–6, Fri–Sat 10–8, Sun 10–3.
+// board, confirmed by the client (Oct 2026): Mon closed, Tue–Thu 10–6,
+// Fri–Sat 10–8, Sun 10–3.
 // Public holidays follow Sunday hours (`holidayNote`).
 export const hours: { day: string; short: string; open: string | null; close: string | null }[] = [
   { day: 'Monday', short: 'Mon', open: null, close: null },
