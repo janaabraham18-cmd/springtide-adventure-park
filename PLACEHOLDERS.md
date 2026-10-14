@@ -18,10 +18,12 @@ dashed "Draft —" notes disappear.
 - [ ] Create a Formspree form for the park's inbox and paste its id into `site.formspreeId`.
       Until then, the booking and contact forms show but don't deliver.
 
-## Court layout: `src/data/zones.ts`
-- [ ] The real floor plan. Zone positions (`plan.rects`) are our draft.
-- [ ] Rules and age limits per zone (`details`)
-- [ ] Is there a toddler area, a ninja course or anything else not listed?
+## About Us: `src/data/about.ts`
+- [ ] The founders' first names (`founders`), currently shown as "[Name] & [Name]"
+- [ ] Their real story, in their own words. The current text is a heartfelt placeholder
+      draft written as "we"/"us"; then set `aboutIsPlaceholder = false`
+- [ ] A photo of the two founders (it would replace the lockers photo in the story)
+- [ ] Is there a toddler area, a ninja course or any other zone not listed on the home page?
 
 ## Café: `src/data/cafe.ts`
 - [ ] Real menu items and prices, then set `menuIsPlaceholder = false`
@@ -37,7 +39,7 @@ dashed "Draft —" notes disappear.
 - [ ] The designer's original logo file (SVG/AI/PDF), if there is one. Our trace is clean,
       but the original would match exactly.
 - [x] Real park photos (Oct 2026, via WhatsApp) are in for the hero, every play zone,
-      reception/lockers, both party rooms and the court-layout/booking/404 heroes.
+      reception/lockers, both party rooms and the about/booking/404 heroes.
 - [ ] Original-resolution photos. The WhatsApp copies are 1080px, so the full-screen heroes
       (`park-hall`, `court-foam`, `court-wide`, `party-jungle-wide`) are upscaled and a bit
       soft on big screens.

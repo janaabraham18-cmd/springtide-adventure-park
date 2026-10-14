@@ -1,15 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TideLine from '../components/TideLine.astro';
-import CourtPlan from '../components/CourtPlan.astro';
 import { hl } from '../utils/text';
 import { hours, hoursArePlaceholder, passes, site } from '../data/site';
-import { playZones, zones } from '../data/zones';
+import { zones } from '../data/zones';
 
 // Spelled out so the heading follows the zone list as zones are added or removed.
 const countWord = (n: number) =>
   ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'][n] ?? String(n);
-const zoneNumber = (id: string) => String(zones.findIndex((z) => z.id === id) + 1).padStart(2, '0');
+const zoneNumber = (i: number) => String(i + 1).padStart(2, '0');
 
 const rules = [
   {
@@ -60,7 +59,7 @@ const rules = [
           Book a jump
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </a>
-        <a href="/court-layout" class="btn btn--ghost"><span>Explore the courts</span></a>
+        <a href="/about" class="btn btn--ghost"><span>Our story</span></a>
       </div>
     </div>
 
@@ -74,28 +73,28 @@ const rules = [
     <div class="container container--wide inside__grid">
       <div class="inside__intro" data-reveal>
         <p class="eyebrow">What’s inside</p>
-        <h2 set:html={hl(`${countWord(playZones.length)} ways to leave the ground`, 'ground')} />
+        <h2 set:html={hl(`${countWord(zones.length)} ways to leave the ground`, 'ground')} />
         <p class="lede">
           Every zone has its own marshal and its own rules, so first-timers and flip fanatics can share the same
           building.
         </p>
-        <a href="/court-layout" class="text-link">See where everything is</a>
+        <a href="/booking" class="text-link">Book your session</a>
       </div>
 
       <ol class="inside__list">
         {
-          playZones.map((z) => (
+          zones.map((z, i) => (
             <li class="inside__item" data-reveal>
-              <a href={`/court-layout#${z.id}`} class="inside__link">
-                <span class="inside__num">{zoneNumber(z.id)}</span>
+              <div class="inside__link" id={z.id}>
+                <span class="inside__num">{zoneNumber(i)}</span>
                 <span class="inside__text">
                   <h3 set:html={hl(z.name, z.accentWord)} />
                   <span class="inside__blurb">{z.blurb}</span>
                 </span>
-                <span class="inside__thumb" aria-hidden="true">
-                  <img src={z.image} alt="" loading="lazy" />
+                <span class="inside__thumb">
+                  <img src={z.image} alt={z.imageAlt} loading="lazy" />
                 </span>
-              </a>
+              </div>
             </li>
           ))
         }
@@ -103,22 +102,22 @@ const rules = [
     </div>
   </section>
 
-  <!-- COURT LAYOUT TEASER -->
-  <section class="section section--brand plan-teaser">
+  <!-- OUR STORY TEASER -->
+  <section class="section section--brand story-teaser">
     <TideLine color="var(--color-blue-500)" flip />
-    <div class="container container--wide plan-teaser__grid">
-      <div class="plan-teaser__text" data-reveal>
-        <p class="eyebrow">Court layout</p>
-        <h2 set:html={hl('Know the park before you arrive', 'park')} />
+    <div class="container container--wide story-teaser__grid">
+      <div class="story-teaser__text" data-reveal>
+        <p class="eyebrow">Our story</p>
+        <h2 set:html={hl('Made with love, right here in Swakopmund', 'love')} />
         <p class="lede">
-          Our floor plan shows every court, the café, the party rooms and where to check in. Tap a zone on the full
-          plan to read its rules and age limits.
+          Springtide was built by two women with one simple wish: that the children of our town would always have
+          somewhere to be wild, loud and gloriously free — fog or no fog.
         </p>
-        <a href="/court-layout" class="btn">Open the floor plan</a>
+        <a href="/about" class="btn">Read our story</a>
       </div>
-      <a href="/court-layout" class="plan-teaser__plan" data-reveal aria-label="Open the full court layout">
-        <CourtPlan />
-      </a>
+      <figure class="story-teaser__photo" data-reveal>
+        <img src="/images/climbing-wall.jpg" alt="The colourful climbing wall rising out of the foam pit" loading="lazy" />
+      </figure>
     </div>
   </section>
 
@@ -444,39 +443,44 @@ const rules = [
     transform: scale(1.07);
   }
 
-  /* PLAN TEASER */
-  .plan-teaser {
+  /* STORY TEASER */
+  .story-teaser {
     position: relative;
   }
 
-  .plan-teaser__grid {
+  .story-teaser__grid {
     display: grid;
     gap: var(--space-xl);
     align-items: center;
   }
 
   @media (min-width: 1024px) {
-    .plan-teaser__grid {
-      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-      gap: clamp(3rem, 5vw, 6rem);
+    .story-teaser__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(3rem, 6vw, 6rem);
     }
   }
 
-  .plan-teaser__text {
+  .story-teaser__text {
     display: grid;
     gap: var(--space-md);
     justify-items: start;
   }
 
-  .plan-teaser__plan {
-    display: block;
-    border-radius: var(--radius-md);
-    box-shadow: 0 0 0 1px rgba(246, 245, 241, 0.12), 0 30px 80px -30px rgba(0, 0, 0, 0.6);
-    transition: transform 0.5s var(--ease-spring);
+  .story-teaser__text h2 {
+    max-width: 16ch;
   }
 
-  .plan-teaser__plan:hover {
-    transform: translateY(-4px) rotate(-0.4deg);
+  .story-teaser__photo {
+    margin: 0;
+  }
+
+  .story-teaser__photo img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 30px 80px -30px rgba(10, 37, 64, 0.6);
   }
 
   /* DUO */

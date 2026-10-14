@@ -70,7 +70,7 @@ export const sessionTimes = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00
 
 export const nav = [
   { href: '/', label: 'Home' },
-  { href: '/court-layout', label: 'Court Layout' },
+  { href: '/about', label: 'About Us' },
   { href: '/cafe', label: 'Café' },
   { href: '/party-rooms', label: 'Party Rooms' },
   { href: '/contact', label: 'Contact' },

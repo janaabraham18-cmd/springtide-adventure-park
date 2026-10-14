@@ -3,7 +3,7 @@
 The website for Springtide Adventure Park, a trampoline and adventure park in Swakopmund,
 Namibia. It is built with [Astro](https://astro.build) and GSAP.
 
-Pages: Home, Court Layout (interactive floor plan), Café, Party Rooms, Contact, Booking.
+Pages: Home, About Us, Café, Party Rooms, Contact, Booking.
 
 ```sh
 npm install

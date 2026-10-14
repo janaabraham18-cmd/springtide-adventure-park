@@ -1,0 +1,247 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import TideLine from '../components/TideLine.astro';
+import { hl } from '../utils/text';
+import { aboutIsPlaceholder, founders, pullQuote, story, values } from '../data/about';
+---
+
+<BaseLayout
+  title="About Us"
+  description="The story behind Springtide Adventure Park in Swakopmund — built by two women who wanted the children of our town to have somewhere to fly."
+  image="/images/court-main.jpg"
+>
+  <PageHero
+    eyebrow="About us"
+    title="Two women, one big leap"
+    accentWord="leap"
+    lede="Springtide is our love letter to the children of Swakopmund — and to every grown-up who still remembers how it felt to fly."
+    image="/images/court-main.jpg"
+    imageAlt="The main trampoline court at Springtide, ready for the day"
+    focus="center 60%"
+    compact
+  />
+
+  <section class="section story">
+    <div class="container container--wide story__grid">
+      <div class="story__aside" data-reveal>
+        <p class="eyebrow">Our story</p>
+        <h2 set:html={hl('Why we built Springtide', 'Springtide')} />
+        <blockquote class="story__quote">
+          <p>“{pullQuote}”</p>
+        </blockquote>
+        {aboutIsPlaceholder && <p class="draft-note">Draft — to be replaced with the founders’ own words</p>}
+      </div>
+
+      <div class="story__body">
+        {story.map((para, i) => <p data-reveal class:list={{ 'story__lead': i === 0 }}>{para}</p>)}
+
+        <figure class="story__photo" data-reveal>
+          <img src="/images/lockers.jpg" alt="Colourful lockers and beanbags in the waiting corner at Springtide" loading="lazy" />
+          <figcaption>The little corner where the waiting happens — and the coffee gets drunk.</figcaption>
+        </figure>
+
+        <div class="story__sign" data-reveal>
+          <p class="story__sign-with">With love,</p>
+          <p class="story__sign-names">{founders.join(' & ')}</p>
+          <p class="story__sign-role">Founders, Springtide Adventure Park</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--brand values">
+    <TideLine color="var(--color-blue-500)" flip />
+    <div class="container container--wide">
+      <div class="values__head" data-reveal>
+        <p class="eyebrow">What we believe</p>
+        <h2 set:html={hl('The promises we make to every family', 'promises')} />
+      </div>
+      <ul class="values__list" role="list">
+        {
+          values.map((v) => (
+            <li data-reveal>
+              <h3 set:html={hl(v.title, v.accentWord)} />
+              <p>{v.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section about-cta">
+    <TideLine flip />
+    <div class="container container--wide about-cta__inner" data-reveal>
+      <h2 set:html={hl('Come and jump with us', 'jump')} />
+      <div class="about-cta__actions">
+        <a href="/booking" class="btn">Book a jump</a>
+        <a href="/party-rooms" class="btn btn--ink">Plan a party</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .story__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  @media (min-width: 1024px) {
+    .story__grid {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: clamp(3rem, 7vw, 8rem);
+      align-items: start;
+    }
+    .story__aside {
+      position: sticky;
+      top: calc(var(--header-h) + var(--space-lg));
+    }
+  }
+
+  .story__aside {
+    display: grid;
+    gap: var(--space-md);
+    justify-items: start;
+  }
+
+  .story__quote {
+    margin: var(--space-md) 0 0;
+    padding-left: var(--space-md);
+    border-left: 4px solid var(--color-purple-500);
+  }
+
+  .story__quote p {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 88%;
+    font-size: var(--fs-xl);
+    line-height: 1.25;
+    color: var(--color-ink-900);
+  }
+
+  .story__body {
+    display: grid;
+    gap: var(--space-md);
+    max-width: 40rem;
+  }
+
+  .story__body > p {
+    font-size: var(--fs-lg);
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+
+  .story__lead::first-letter {
+    float: left;
+    margin: 0.06em 0.12em 0 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 4.2em;
+    line-height: 0.8;
+    color: var(--color-blue-500);
+  }
+
+  .story__photo {
+    margin: var(--space-md) 0;
+  }
+
+  .story__photo img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+
+  .story__photo figcaption {
+    margin-top: var(--space-xs);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .story__sign {
+    margin-top: var(--space-md);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .story__sign-with {
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .story__sign-names {
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-stretch: 88%;
+    font-size: var(--fs-2xl);
+    line-height: 1.1;
+    color: var(--color-purple-500);
+  }
+
+  .story__sign-role {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .values {
+    position: relative;
+  }
+
+  .values__head {
+    display: grid;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+
+  .values__head h2 {
+    max-width: 18ch;
+  }
+
+  .values__list {
+    display: grid;
+    gap: var(--space-lg);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 700px) {
+    .values__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .values__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .values__list li {
+    display: grid;
+    gap: var(--space-sm);
+    align-content: start;
+    padding-top: var(--space-md);
+    border-top: 2px solid rgba(246, 245, 241, 0.6);
+  }
+
+  .about-cta {
+    position: relative;
+  }
+
+  .about-cta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+  }
+
+  .about-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+</style>
