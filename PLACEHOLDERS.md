@@ -40,9 +40,7 @@ dashed "Draft —" notes disappear.
       (`park-hall`, `court-foam`, `court-wide`, `party-jungle-wide`) are upscaled and a bit
       soft on big screens.
 - [ ] Still stock: café/food (`shake-*`, `pizza`, `coffee`) and the Swakopmund shots
-      (`swakop-*`). We still need café counter/seating and building-front photos, plus a
-      close-up of the climbing wall (the current one is cropped from the background of a
-      wide shot).
+      (`swakop-*`). We still need café counter/seating and building-front photos.
 - [ ] Party room names. "The Starburst Room" / "The Jungle Room" are ours, taken from each
       room's feature wall (`partyRooms` in `parties.ts`).
 - [ ] Interactive Game Zone: we added it from the photos (game screens + Tap Tap Fun cube).

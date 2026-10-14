@@ -43,8 +43,8 @@ export const zones: Zone[] = [
     blurb:
       'Trampolines wired up to big screens, so every bounce plays the game. Dance, dodge and hit the targets for a high score, then race the lights on the Tap Tap Fun cube.',
     details: ['Scores show up on the screen', 'Take turns, then try to beat your friends'],
-    image: '/images/game-screens.jpg',
-    imageAlt: 'Interactive trampoline game screens beside a trampoline',
+    image: '/images/game-zone.jpg',
+    imageAlt: 'The Tap Tap Fun light-up cube beside an interactive trampoline game screen',
     plan: { rects: [{ x: 570, y: 140, w: 130, h: 320 }], label: { x: 635, y: 300 } },
   },
   {
@@ -68,8 +68,8 @@ export const zones: Zone[] = [
       'Dodgeball, but every dodge is a bounce. Team up against your friends inside the netted cage, where the angled trampoline walls send the ball (and you) flying.',
     details: ['Games run by a marshal', 'Soft foam balls', 'Throws below the shoulders'],
     image: '/images/dodgeball-cage.jpg',
-    imageAlt: 'The netted dodgeball cage with angled purple trampoline walls',
-    plan: { rects: [{ x: 720, y: 20, w: 260, h: 230 }], label: { x: 850, y: 135 } },
+    imageAlt: 'Inside the dodgeball cage: angled purple trampoline walls, dodgeballs and bumper balls',
+    plan: { rects: [{ x: 20, y: 20, w: 220, h: 180 }], label: { x: 130, y: 110 } },
   },
   {
     id: 'battle-beam',
@@ -89,11 +89,11 @@ export const zones: Zone[] = [
     accentWord: 'Wall',
     kind: 'play',
     blurb:
-      'A bright, chunky wall to climb and traverse. Pick a route, see how far you get, and try to beat it next time.',
-    details: ['One climber per route', 'Ask a marshal before you start'],
+      'A bright, chunky wall that rises straight out of the foam pit. Climb as high as you dare, then let go and drop into the soft foam blocks below.',
+    details: ['One climber at a time', 'Ask a marshal before you start'],
     image: '/images/climbing-wall.jpg',
-    imageAlt: 'The colourful climbing wall at the far end of the park',
-    plan: { rects: [{ x: 20, y: 20, w: 220, h: 180 }], label: { x: 130, y: 110 } },
+    imageAlt: 'The blue, teal and yellow climbing wall rising out of the foam pit',
+    plan: { rects: [{ x: 720, y: 20, w: 260, h: 230 }], label: { x: 850, y: 135 } },
   },
   {
     id: 'bumper-balls',
