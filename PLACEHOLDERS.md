@@ -19,7 +19,7 @@ dashed "Draft —" notes disappear.
       Until then, the booking and contact forms show but don't deliver.
 
 ## About Us: `src/data/about.ts`
-- [ ] The founders' first names (`founders`), currently shown as "[Name] & [Name]"
+- [x] The founders' first names: Anna & Milena
 - [ ] Their real story, in their own words. The current text is a heartfelt placeholder
       draft written as "we"/"us" (two mothers, per the client); then set `aboutIsPlaceholder = false`
 - [ ] A photo of the two founders (it would replace the lockers photo in the story)

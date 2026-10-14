@@ -5,8 +5,8 @@
 
 export const aboutIsPlaceholder = true;
 
-// TODO: the founders' real first names.
-export const founders = ['[Name]', '[Name]'];
+// The founders, as they sign the About Us note.
+export const founders = ['Anna', 'Milena'];
 
 export const story: string[] = [
   'Springtide began with the two of us — two mothers, a kitchen table and one simple wish: that our children — and every child in our town — would have somewhere to be wild, loud and gloriously free, whatever the weather was doing outside.',
