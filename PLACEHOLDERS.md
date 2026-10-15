@@ -29,6 +29,14 @@ dashed "Draft —" notes disappear.
 
 ## Café: `src/data/cafe.ts`
 - [x] Real menu and prices (from the park's Canva menu PDF)
+- [ ] Real food photos. The café page's Favourites row and menu cards use stock photos
+      (`shake-strawberry`, `pizza`, `toastie`, `slushie`, `coffee`, `slushies`, `toastie-plate`,
+      `chicken-strips`, `ice-cream`, `candy-floss`). Phone photos of the real thing are fine:
+      daylight by a window, plain table, shot from slightly above. Most wanted: a milkshake, a
+      slushie, a toastie with chips, a pizza, chicken strips, an ice cream and the counter.
+- [ ] Confirm the four Favourites (milkshakes, pizza, toastie & chips, slushies) are the
+      café's real best sellers (`favourites` in `cafe.ts`)
+- [ ] Milkshake flavour dot colours are our guess at each flavour (`flavours` in `cafe.ts`)
 
 ## Parties: `src/data/parties.ts`
 - [ ] Package names, guest numbers, timings, what's included and prices

@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import TideLine from '../components/TideLine.astro';
 import { hl } from '../utils/text';
-import { menu, menuFootnote, menuIsPlaceholder } from '../data/cafe';
+import { favourites, menu, menuFootnote, menuIsPlaceholder } from '../data/cafe';
 ---
 
 <BaseLayout
@@ -23,7 +23,7 @@ import { menu, menuFootnote, menuIsPlaceholder } from '../data/cafe';
   />
 
   <section class="section cafe-intro">
-    <div class="container container--wide cafe-intro__grid">
+    <div class="container container--wide">
       <div class="cafe-intro__text" data-reveal>
         <p class="eyebrow">Open whenever the park is</p>
         <h2 set:html={hl('Fuel for the next session', 'Fuel')} />
@@ -32,10 +32,24 @@ import { menu, menuFootnote, menuIsPlaceholder } from '../data/cafe';
           shared easily, because nobody wants to sit out for long.
         </p>
       </div>
-      <div class="cafe-intro__photos" aria-hidden="true">
-        <img src="/images/pizza.jpg" alt="" loading="lazy" class="cafe-intro__a" data-reveal />
-        <img src="/images/coffee.jpg" alt="" loading="lazy" class="cafe-intro__b" data-reveal />
-      </div>
+
+      <!-- Favourites: the signature items, big and photographed, before the full menu -->
+      <ul class="faves" aria-label="Café favourites">
+        {
+          favourites.map((f) => (
+            <li class="fave" data-reveal>
+              <div class="fave__photo">
+                <img src={f.image} alt={f.imageAlt} loading="lazy" />
+                <span class="fave__price">{f.price}</span>
+              </div>
+              <div class="fave__text">
+                <h3 set:html={hl(f.title, f.accentWord)} />
+                <p>{f.blurb}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
@@ -51,7 +65,12 @@ import { menu, menuFootnote, menuIsPlaceholder } from '../data/cafe';
       <div class="menu__grid">
         {
           menu.map((section) => (
-            <section class="menu__section" data-reveal aria-labelledby={`menu-${section.id}`}>
+            <section
+              class:list={['menu__section', { 'menu__section--photo': section.image }]}
+              data-reveal
+              aria-labelledby={`menu-${section.id}`}
+            >
+              {section.image && <img class="menu__photo" src={section.image} alt={section.imageAlt} loading="lazy" />}
               <h3 id={`menu-${section.id}`} set:html={hl(section.title, section.accentWord)} />
               {section.note && <p class="menu__note">{section.note}</p>}
               <ul>
@@ -65,6 +84,20 @@ import { menu, menuFootnote, menuIsPlaceholder } from '../data/cafe';
                       </>
                     )}
                     {item.desc && <span class="menu__desc">{item.desc}</span>}
+                    {item.flavours && (
+                      <span class="menu__flavours">
+                        {item.flavours.map((f) => (
+                          <span class="flavour">
+                            <span
+                              class:list={['flavour__dot', { 'flavour__dot--cookies': f.color === 'cookies' }]}
+                              style={f.color === 'cookies' ? undefined : `--dot: ${f.color}`}
+                              aria-hidden="true"
+                            />
+                            {f.name}
+                          </span>
+                        ))}
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -88,49 +121,103 @@ import { menu, menuFootnote, menuIsPlaceholder } from '../data/cafe';
 </BaseLayout>
 
 <style>
-  .cafe-intro__grid {
-    display: grid;
-    gap: var(--space-xl);
-    align-items: center;
-  }
-
-  @media (min-width: 1024px) {
-    .cafe-intro__grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: clamp(3rem, 6vw, 6rem);
-    }
-  }
-
   .cafe-intro__text {
     display: grid;
     gap: var(--space-md);
+    max-width: 44rem;
   }
 
-  .cafe-intro__photos {
-    position: relative;
+  /* FAVOURITES */
+  .faves {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-lg);
+    margin: var(--space-xl) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 600px) {
+    .faves {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .faves {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(1.25rem, 2vw, 2rem);
+    }
+  }
+
+  /* Phones: photo beside the text, so four favourites don't become four
+     full-screen photos in a row. */
+  .fave {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-md);
     align-items: start;
   }
 
-  .cafe-intro__photos img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+  @media (min-width: 600px) {
+    .fave {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .fave__photo {
+    position: relative;
+    overflow: hidden;
     border-radius: var(--radius-md);
+    box-shadow: 0 22px 40px -26px rgba(10, 37, 64, 0.55);
   }
 
-  .cafe-intro__a {
-    grid-column: 1 / span 8;
-    grid-row: 1;
+  .fave__photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    transition: scale 0.6s cubic-bezier(0.2, 0.7, 0.3, 1);
   }
 
-  .cafe-intro__b {
-    grid-column: 6 / span 7;
-    grid-row: 1;
-    margin-top: 32%;
-    border: 6px solid var(--color-bg);
-    box-shadow: 0 20px 50px -20px rgba(10, 37, 64, 0.4);
+  .fave:hover .fave__photo img {
+    scale: 1.05;
+  }
+
+  /* Price as a sticker on the photo's corner. */
+  .fave__price {
+    position: absolute;
+    left: 0.75rem;
+    top: 0.75rem;
+    padding: 0.35em 0.8em;
+    border-radius: var(--radius-pill);
+    font-weight: 800;
+    font-size: var(--fs-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-ink-900);
+    background: var(--color-yellow-400);
+    rotate: -4deg;
+    box-shadow: 0 6px 14px -6px rgba(10, 37, 64, 0.5);
+  }
+
+  .fave__text {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  @media (min-width: 600px) {
+    .fave__text {
+      margin-top: var(--space-md);
+    }
+  }
+
+  .fave h3 {
+    font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.6rem);
+  }
+
+  .fave p {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
   }
 
   .menu {
@@ -161,11 +248,27 @@ import { menu, menuFootnote, menuIsPlaceholder } from '../data/cafe';
     }
   }
 
+  /* Each menu section is a card; sections with a photo show it full-bleed
+     across the card's top. */
   .menu__section {
+    --pad: clamp(1.25rem, 1rem + 1vw, 1.75rem);
     break-inside: avoid;
-    margin-bottom: var(--space-xl);
-    padding-top: var(--space-md);
-    border-top: 2px solid var(--color-ink-900);
+    margin-bottom: clamp(1.25rem, 2vw, 2rem);
+    padding: var(--pad);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    box-shadow: 0 18px 40px -30px rgba(10, 37, 64, 0.45);
+  }
+
+  .menu__photo {
+    display: block;
+    width: calc(100% + 2 * var(--pad));
+    max-width: none;
+    margin: calc(-1 * var(--pad)) calc(-1 * var(--pad)) var(--space-md);
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: center 35%;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
 
   .menu__note {
@@ -214,6 +317,40 @@ import { menu, menuFootnote, menuIsPlaceholder } from '../data/cafe';
     grid-column: 1 / -1;
     font-size: var(--fs-sm);
     color: var(--color-text-muted);
+  }
+
+  /* Milkshake flavours as colour dots. */
+  .menu__flavours {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.9rem;
+    margin-top: 0.3rem;
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  .flavour {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+
+  .flavour__dot {
+    width: 0.95em;
+    height: 0.95em;
+    border-radius: 50%;
+    background: var(--dot);
+    box-shadow: inset 0 0 0 1px rgba(10, 37, 64, 0.2);
+  }
+
+  /* Cookies & cream: cream with cookie crumbs. */
+  .flavour__dot--cookies {
+    background:
+      radial-gradient(circle at 30% 32%, #2b1d16 0 13%, transparent 15%),
+      radial-gradient(circle at 70% 55%, #2b1d16 0 11%, transparent 13%),
+      radial-gradient(circle at 38% 74%, #2b1d16 0 10%, transparent 12%),
+      #f3eee4;
   }
 
   .cafe-cta {
