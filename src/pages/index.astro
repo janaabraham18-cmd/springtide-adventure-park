@@ -40,21 +40,16 @@ const rules = [
 ---
 
 <BaseLayout>
-  <!-- HERO: crossfading park slideshow, a rolling tide line, and a hopping accent word -->
+  <!-- HERO -->
   <section class="hero on-dark section--brand">
-    <!-- A slow crossfading slideshow of the park, each photo easing in (Ken Burns). -->
-    <div class="hero__slides" data-parallax>
-      <img
-        class="hero__slide"
-        src="/images/park-hall.jpg"
-        style="--pos: center 70%; --origin: 50% 70%"
-        alt="Inside Springtide Adventure Park: trampoline courts and the foam pit, with the party rooms and mezzanine behind"
-        fetchpriority="high"
-      />
-      <img class="hero__slide" src="/images/court-main.jpg" style="--pos: center 60%; --origin: 30% 60%" alt="" aria-hidden="true" fetchpriority="low" />
-      <img class="hero__slide" src="/images/battle-beam.jpg" style="--pos: center 55%; --origin: 70% 50%" alt="" aria-hidden="true" fetchpriority="low" />
-      <img class="hero__slide" src="/images/court-wide.jpg" style="--pos: center 65%; --origin: 40% 40%" alt="" aria-hidden="true" fetchpriority="low" />
-    </div>
+    <img
+      class="photo-bg"
+      src="/images/park-hall.jpg"
+      style="object-position: center 70%"
+      alt="Inside Springtide Adventure Park: trampoline courts and the foam pit, with the party rooms and mezzanine behind"
+      data-parallax
+      fetchpriority="high"
+    />
     <div class="hero__scrim" aria-hidden="true"></div>
 
     <div class="container container--wide hero__content">
@@ -75,12 +70,7 @@ const rules = [
 
     <p class="hero__today" data-today hidden></p>
 
-    <!-- The living tide line: three wave layers rolling at different speeds; the front one is the next section's colour. -->
-    <div class="hero__tide" aria-hidden="true">
-      <svg class="hero__wave hero__wave--back" viewBox="0 0 2880 100" preserveAspectRatio="none" focusable="false"><path d="M0 42c80 -30 160 -30 240 0s160 30 240 0c80 -30 160 -30 240 0s160 30 240 0c80 -30 160 -30 240 0s160 30 240 0c80 -30 160 -30 240 0s160 30 240 0c80 -30 160 -30 240 0s160 30 240 0c80 -30 160 -30 240 0s160 30 240 0V100H0Z"></path></svg>
-      <svg class="hero__wave hero__wave--mid" viewBox="0 0 2880 100" preserveAspectRatio="none" focusable="false"><path d="M0 56c80 -22 160 -22 240 0s160 22 240 0c80 -22 160 -22 240 0s160 22 240 0c80 -22 160 -22 240 0s160 22 240 0c80 -22 160 -22 240 0s160 22 240 0c80 -22 160 -22 240 0s160 22 240 0c80 -22 160 -22 240 0s160 22 240 0V100H0Z"></path></svg>
-      <svg class="hero__wave hero__wave--front" viewBox="0 0 2880 100" preserveAspectRatio="none" focusable="false"><path d="M0 72c80 -15 160 -15 240 0s160 15 240 0c80 -15 160 -15 240 0s160 15 240 0c80 -15 160 -15 240 0s160 15 240 0c80 -15 160 -15 240 0s160 15 240 0c80 -15 160 -15 240 0s160 15 240 0c80 -15 160 -15 240 0s160 15 240 0V100H0Z"></path></svg>
-    </div>
+    <TideLine />
   </section>
 
   <!-- WHAT'S INSIDE -->
@@ -290,174 +280,14 @@ const rules = [
     justify-content: center;
     gap: clamp(2rem, 6vh, 4.5rem);
     min-height: 100svh;
-    padding-block: calc(var(--header-h) + clamp(1.5rem, 4vh, 3rem)) clamp(5.5rem, 10vw, 9rem);
+    padding-block: calc(var(--header-h) + clamp(1.5rem, 4vh, 3rem)) clamp(4.5rem, 8vw, 7rem);
     overflow: hidden;
     color: var(--color-on-dark);
     isolation: isolate;
   }
 
-  /* SLIDESHOW: four photos on a 24s loop, 6s each. Each fades in over the one
-     before (later slides stack on top), holds while slowly zooming, then fades
-     out once the next is fully in. The first starts 1s into its cycle so the
-     page never opens on an empty frame. */
-  .hero__slides {
-    position: absolute;
-    inset: 0;
+  .hero .photo-bg {
     z-index: -2;
-    overflow: hidden;
-  }
-
-  .hero__slide {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: var(--pos, center);
-    transform-origin: var(--origin, 50% 50%);
-    opacity: 0;
-    animation: hero-slide 24s linear infinite;
-  }
-
-  .hero__slide:nth-child(1) {
-    animation-delay: -1s;
-  }
-  .hero__slide:nth-child(2) {
-    animation-delay: 5s;
-  }
-  .hero__slide:nth-child(3) {
-    animation-delay: 11s;
-  }
-  .hero__slide:nth-child(4) {
-    animation-delay: 17s;
-  }
-
-  @keyframes hero-slide {
-    0% {
-      opacity: 0;
-      scale: 1.04;
-    }
-    4% {
-      opacity: 1;
-    }
-    29% {
-      opacity: 1;
-    }
-    33% {
-      opacity: 0;
-      scale: 1.14;
-    }
-    100% {
-      opacity: 0;
-      scale: 1.14;
-    }
-  }
-
-  /* THE TIDE: waves rise into place on load, then keep rolling. */
-  .hero__tide {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: clamp(56px, 8vw, 120px);
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 2;
-    animation: tide-rise 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
-  }
-
-  .hero__wave {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 200%;
-    max-width: none;
-    height: 100%;
-    animation: tide-roll linear infinite;
-  }
-
-  .hero__wave--back {
-    fill: var(--color-purple-500);
-    opacity: 0.55;
-    animation-duration: 26s;
-    animation-direction: reverse;
-  }
-
-  .hero__wave--mid {
-    fill: var(--color-blue-300);
-    opacity: 0.6;
-    animation-duration: 17s;
-  }
-
-  .hero__wave--front {
-    fill: var(--color-bg);
-    animation-duration: 11s;
-  }
-
-  @keyframes tide-roll {
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  @keyframes tide-rise {
-    from {
-      transform: translateY(100%);
-    }
-  }
-
-  /* "higher" takes a hop every few seconds once the headline has landed
-     (motion.ts adds .is-landed). Uses the individual translate/scale
-     properties so it never fights the drop-in's transform. */
-  .hero h1:global(.is-landed .bounce-word) {
-    overflow: visible;
-  }
-
-  .hero h1:global(.is-landed .accent-word) {
-    transform-origin: 50% 100%;
-    animation: hop 4.5s 0.8s infinite;
-  }
-
-  @keyframes hop {
-    0%,
-    62% {
-      translate: 0 0;
-      scale: 1;
-      animation-timing-function: ease-in-out;
-    }
-    68% {
-      translate: 0 0;
-      scale: 1.06 0.88;
-      animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
-    }
-    79% {
-      translate: 0 -0.24em;
-      scale: 0.96 1.06;
-      animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4);
-    }
-    88% {
-      translate: 0 0;
-      scale: 1.05 0.92;
-      animation-timing-function: ease-out;
-    }
-    95%,
-    100% {
-      translate: 0 0;
-      scale: 1;
-    }
-  }
-
-  /* Reduced motion: one still photo, a still tide, no hop. */
-  @media (prefers-reduced-motion: reduce) {
-    .hero__slide,
-    .hero__tide,
-    .hero__wave,
-    .hero h1:global(.is-landed .accent-word) {
-      animation-name: none;
-    }
-    .hero__slide:first-child {
-      opacity: 1;
-    }
   }
 
   /* A light brand-blue tint on the photo only. The text sits above it in pure
