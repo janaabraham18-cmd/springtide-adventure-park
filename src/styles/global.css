@@ -374,6 +374,23 @@ button:focus-visible,
   color: var(--color-ink-900);
 }
 
+/* On dark and coloured sections the blue link would vanish: white text with a
+   yellow underline instead. */
+.on-dark .text-link,
+.section--ink .text-link,
+.section--brand .text-link,
+.section--purple .text-link {
+  color: var(--color-on-dark);
+  text-decoration-color: var(--color-yellow-400);
+}
+
+.on-dark .text-link:hover,
+.section--ink .text-link:hover,
+.section--brand .text-link:hover,
+.section--purple .text-link:hover {
+  color: var(--color-yellow-400);
+}
+
 /* Photo + scrim pattern (never a card behind text on a photo — CLAUDE.md). */
 .photo-bg {
   position: absolute;

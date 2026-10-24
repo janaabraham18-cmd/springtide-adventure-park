@@ -72,8 +72,8 @@ import { favourites, menu, menuFootnote, menuIsPlaceholder } from '../data/cafe'
     </div>
   </section>
 
-  <section class="section section--alt menu">
-    <TideLine color="var(--color-bg-alt)" flip />
+  <section class="section section--purple menu">
+    <TideLine color="var(--color-purple-500)" flip />
     <div class="container container--wide">
       <div class="menu__head" data-reveal>
         <p class="eyebrow">Menu</p>
@@ -354,13 +354,18 @@ import { favourites, menu, menuFootnote, menuIsPlaceholder } from '../data/cafe'
   /* Each menu section is a card; sections with a photo show it full-bleed
      across the card's top. */
   .menu__section {
+    /* Light card on the coloured menu section: back to the light-background
+       text and accent tones. */
+    --accent-1: var(--color-purple-500);
+    --accent-2: var(--color-blue-500);
     --pad: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    color: var(--color-text);
     break-inside: avoid;
     margin-bottom: clamp(1.25rem, 2vw, 2rem);
     padding: var(--pad);
     border-radius: var(--radius-md);
     background: var(--color-bg);
-    box-shadow: 0 18px 40px -30px rgba(10, 37, 64, 0.45);
+    box-shadow: 0 24px 50px -28px rgba(10, 37, 64, 0.6);
   }
 
   .menu__photo {
@@ -398,7 +403,7 @@ import { favourites, menu, menuFootnote, menuIsPlaceholder } from '../data/cafe'
   .menu__footnote {
     margin-top: var(--space-sm);
     padding-top: var(--space-md);
-    border-top: 2px solid var(--color-ink-900);
+    border-top: 2px solid rgba(246, 245, 241, 0.4);
     font-weight: 600;
   }
 
