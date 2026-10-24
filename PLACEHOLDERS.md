@@ -55,11 +55,11 @@ dashed "Draft —" notes disappear.
       bit soft on big screens.
 - [ ] Still stock: the party-page hero (`party-candles`, children blowing out candles,
       chosen by the client; swap for a real Springtide party photo when there is one),
-      café/food (`shake-*`, `pizza`, `coffee`) and the Swakopmund shots
+      café food (`shake-strawberry`, `pizza`, `coffee` and the other Favourites/menu photos) and the Swakopmund shots
       (`swakop-*`). We still need a building-front photo.
 - [x] Café photos (Oct 2026): the counter, the mezzanine seating, a table sign and a court
-      view through the netting are on the café page (`cafe-*`, `court-net`). The home page's
-      café panel still uses a stock shake photo.
+      view through the netting are on the café page (`cafe-*`, `court-net`), and the counter
+      photo is on the home page's café panel.
 - [x] Party rooms: boys' room (blue starburst wall) and girls' room (purple jungle wall),
       confirmed.
 - [ ] Interactive Game Zone: we added it from the photos (game screens + Tap Tap Fun cube).
