@@ -33,7 +33,7 @@ dashed "Draft —" notes disappear.
       (`shake-strawberry`, `pizza`, `toastie`, `slushie`, `coffee`, `slushies`, `toastie-plate`,
       `chicken-strips`, `ice-cream`, `candy-floss`). Phone photos of the real thing are fine:
       daylight by a window, plain table, shot from slightly above. Most wanted: a milkshake, a
-      slushie, a toastie with chips, a pizza, chicken strips, an ice cream and the counter.
+      slushie, a toastie with chips, a pizza, chicken strips and an ice cream.
 - [ ] Confirm the four Favourites (milkshakes, pizza, toastie & chips, slushies) are the
       café's real best sellers (`favourites` in `cafe.ts`)
 - [ ] Milkshake flavour dot colours are our guess at each flavour (`flavours` in `cafe.ts`)
@@ -56,7 +56,10 @@ dashed "Draft —" notes disappear.
 - [ ] Still stock: the party-page hero (`party-candles`, children blowing out candles,
       chosen by the client; swap for a real Springtide party photo when there is one),
       café/food (`shake-*`, `pizza`, `coffee`) and the Swakopmund shots
-      (`swakop-*`). We still need café counter/seating and building-front photos.
+      (`swakop-*`). We still need a building-front photo.
+- [x] Café photos (Oct 2026): the counter, the mezzanine seating, a table sign and a court
+      view through the netting are on the café page (`cafe-*`, `court-net`). The home page's
+      café panel still uses a stock shake photo.
 - [x] Party rooms: boys' room (blue starburst wall) and girls' room (purple jungle wall),
       confirmed.
 - [ ] Interactive Game Zone: we added it from the photos (game screens + Tap Tap Fun cube).
