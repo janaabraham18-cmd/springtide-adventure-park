@@ -65,7 +65,16 @@ document.querySelectorAll<HTMLElement>('[data-bounce]').forEach((el) => {
   gsap.fromTo(
     words,
     { yPercent: 115, rotate: 4 },
-    { yPercent: 0, rotate: 0, duration: 1.1, ease: 'back.out(2.2)', stagger: 0.08, delay: 0.15 },
+    {
+      yPercent: 0,
+      rotate: 0,
+      duration: 1.1,
+      ease: 'back.out(2.2)',
+      stagger: 0.08,
+      delay: 0.15,
+      // Lets follow-on motion (the home hero's hopping accent word) start, unclipped.
+      onComplete: () => el.classList.add('is-landed'),
+    },
   );
 });
 
