@@ -51,8 +51,8 @@ dashed "Draft —" notes disappear.
 - [x] Real park photos (Oct 2026, via WhatsApp) are in for the hero, every play zone,
       reception/lockers, both party rooms and the about/booking/404 heroes.
 - [ ] Original-resolution photos. The WhatsApp copies are 1080px, so the full-screen
-      heroes (`park-hall` on the home page, `court-wide`) are upscaled and a
-      bit soft on big screens.
+      heroes (`court-wide`, and `battle-beam` inside the home page's giant JUMP) are upscaled
+      and a bit soft on big screens.
 - [ ] Still stock: the party-page hero (`party-candles`, children blowing out candles,
       chosen by the client; swap for a real Springtide party photo when there is one),
       café food (`shake-strawberry`, `pizza`, `coffee` and the other Favourites/menu photos) and the Swakopmund shots
